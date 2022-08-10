@@ -75,3 +75,14 @@
 body {
   background-color: var(--bg-color-2);
 }
+
+svg {
+  //@include icon(24px, 2px);
+  //width: 24px;
+  //height: 24px;
+  stroke: currentColor;
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}

@@ -26,8 +26,8 @@ const openClass = computed(() => {
         <button class="popup-btn" @click="opened = !opened">
           <!-- todo later -->
           <div class="placeholder"></div>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" :class="openClass">
-            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg height="24" width="24" viewBox="0 0 24 24" :class="openClass">
+            <use href="~/feather-icons/dist/feather-sprite.svg#chevron-down" />
           </svg>
         </button>
         <popup
@@ -39,10 +39,8 @@ const openClass = computed(() => {
       <div class="controls mobile">
         <theme-switcher />
         <button class="popup-btn" @click="opened = !opened">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg height="24" width="24" viewBox="0 0 24 24">
+            <use href="~/feather-icons/dist/feather-sprite.svg#menu" />
           </svg>
         </button>
         <mobile-popup
@@ -132,6 +130,10 @@ header .container {
   cursor: pointer;
   transition: var(--fast);
   padding: 0;
+
+  &:hover {
+    color: var(--color-accent);
+  }
 
   &:focus {
     //outline: 1px solid var(--color-accent);
