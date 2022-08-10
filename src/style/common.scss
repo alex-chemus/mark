@@ -25,12 +25,12 @@
   --size-14: 3.75rem; // 60px
 
   // fonts:
-  --fs-open-sans: 'Open Sans', sans-serif;
-  --fs-roboto: 'Roboto', sans-serif;
-  --fs-montserrat: 'Montserrat', sans-serif;
+  --ff-open-sans: 'Open Sans', sans-serif;
+  --ff-roboto: 'Roboto', sans-serif;
+  --ff-montserrat: 'Montserrat', sans-serif;
 
   --fw-semibold: 600;
-  --fw-medium: 700;
+  --fw-medium: 500;
 
   // shadows:
   --light-section-shadow: 0 0 7px 0 rgba(0 0 0 / .15);
@@ -39,6 +39,10 @@
   --dark-section-shadow: 0 0 7px 0 rgba(0 0 0 / .45);
   --dark-element-shadow: 0 0 4px 0 rgba(0 0 0 / .5);
   --dark-hover-shadow: 0 0 10px 0 rgba(0 0 0 / .5);
+
+  // transitons:
+  --fast: all .2s ease-out;
+  --slow: all .6s ease-out;
 }
 
 :root, // default value
@@ -48,6 +52,7 @@
   --bg-color-3: var(--color-neutral-1);
   --text-color-1: var(--color-primary-1);
   --text-color-2: var(--color-primary-3);
+  --element-color: var(--color-neutral-3);
 
   --section-shadow: var(--light-section-shadow);
   --element-shadow: var(--light-element-shadow);
@@ -60,8 +65,13 @@
   --bg-color-3: var(--color-primary-3);
   --text-color-1: var(--color-neutral-1);
   --text-color-2: var(--color-neutral-3);
+  --element-color: var(--color-primary-3);
 
   --section-shadow: var(--dark-section-shadow);
   --element-shadow: var(--dark-element-shadow);
   --hover-shadow: var(--dark-hover-shadow);
+}
+
+body {
+  background-color: var(--bg-color-2);
 }

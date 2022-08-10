@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from '@/app/App/App.vue'
 import { store, Key } from '@/store'
 import routes from '@/routes'
+import '@/style/style.scss'
 
 // установить тему
 type Theme = 'dark' | 'light'

@@ -28,6 +28,11 @@
     "no-console": "off",
     "arrow-body-style": "off",
     "nonblock-statement-body-position": "off",
-    "curly": "off"
+    "curly": "off",
+    "no-spaced-func": "off",
+    "func-call-spacing": "off",
+    "no-unused-expressions": "off",
+    "no-else-return": "off",
+    "max-len": "off"
   }
 }
