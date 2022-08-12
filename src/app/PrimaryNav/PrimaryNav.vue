@@ -40,12 +40,12 @@ ul {
   margin: 0;
   list-style: none;
   @include flex(flex-start, baseline);
-  @include gap(var(--size-8));
+  @include gap(var(--size-9));
 }
 
 li {
   font-family: var(--ff-open-sans);
-  font-size: var(--size-5);
+  font-size: var(--size-6);
   color: var(--text-color-1);
   transition: var(--fast);
 
@@ -76,7 +76,8 @@ li {
     background-color: var(--color-accent);
     position: absolute;
     //bottom: var(--size-7);
-    top: calc(100% + var(--size-7));
+    //top: calc(100% + var(--size-8));
+    top: calc(100% + 19px);
 
     @include lg {
       top: calc(100% + 13px);

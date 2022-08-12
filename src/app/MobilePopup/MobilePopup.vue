@@ -23,13 +23,6 @@ const navItems = [
   { route: '/announcements', title: 'Объявления' }
 ]
 
-const account = [
-  { route: '/profile', title: 'Профиль' },
-  { route: '/friends', title: 'Друзья' },
-  { route: '/support', title: 'Поддержка' },
-  { route: '/settings', title: 'Настройки' }
-]
-
 const openClass = computed(() => {
   return props.opened ? 'opened' : ''
 })
@@ -47,7 +40,7 @@ const openClass = computed(() => {
       <li :class="selectRoutes('/profile')">
         <router-link to="/profile">
           <span>Профиль</span>
-          <svg width="22" height="22" viewBox="0 0 22 22">
+          <svg width="19" height="19" viewBox="0 0 19 19">
             <use href="~/feather-icons/dist/feather-sprite.svg#user" />
           </svg>
         </router-link>
@@ -55,7 +48,7 @@ const openClass = computed(() => {
       <li :class="selectRoutes('/friends')">
         <router-link to="/friends">
           <span>Друзья</span>
-          <svg width="22" height="22" viewBox="0 0 22 22">
+          <svg width="19" height="19" viewBox="0 0 19 19">
             <use href="~/feather-icons/dist/feather-sprite.svg#users" />
           </svg>
         </router-link>
@@ -63,7 +56,7 @@ const openClass = computed(() => {
       <li :class="selectRoutes('/support')">
         <router-link to="/support">
           <span>Поддержка</span>
-          <svg width="22" height="22" viewBox="0 0 22 22">
+          <svg width="19" height="19" viewBox="0 0 19 19">
             <use href="~/feather-icons/dist/feather-sprite.svg#alert-circle" />
           </svg>
         </router-link>
@@ -71,14 +64,14 @@ const openClass = computed(() => {
       <li :class="selectRoutes('/settings')">
         <router-link to="/settings">
           <span>Настройки</span>
-          <svg width="22" height="22" viewBox="0 0 22 22">
+          <svg width="19" height="19" viewBox="0 0 19 19">
             <use href="~/feather-icons/dist/feather-sprite.svg#settings" />
           </svg>
         </router-link>
       </li>
     </ul>
     <button class="logout-btn">
-      <svg width="22" height="22" viewBox="0 0 22 22">
+      <svg width="19" height="19" viewBox="0 0 19 19">
         <use href="~/feather-icons/dist/feather-sprite.svg#log-out" />
       </svg>
       <span>Выйти из аккаунта</span>
@@ -109,12 +102,16 @@ const openClass = computed(() => {
 }
 
 ul {
-  padding: var(--size-9);
+  padding: var(--size-10);
   margin: 0;
   list-style: none;
 
   @include flex(flex-start, flex-start, column);
-  @include gap(var(--size-8), 'column');
+  @include gap(var(--size-7), 'column');
+
+  /*@include md {
+    @include gap(var(--size-7), 'column');
+  }*/
 }
 
 li {
@@ -139,6 +136,10 @@ li {
       color: var(--color-accent);
     }
   }
+
+  /*@include md {
+    font-size: var(--size-5);
+  }*/
 }
 
 li.selected {
@@ -159,7 +160,7 @@ li.selected {
 }
 
 .separator {
-  margin: 0 var(--size-9);
+  margin: 0 var(--size-10);
   height: 1px;
   background-color: var(--element-color);
 }
@@ -185,7 +186,7 @@ li.selected {
   background-color: var(--text-color-2);
   @include flex;
   @include gap(var(--size-2));
-  padding: var(--size-1) var(--size-9);
+  padding: var(--size-1) var(--size-10);
   color: var(--bg-color-1);
   background-color: var(--text-color-2);
   font-family: var(--ff-open-sans);
@@ -197,5 +198,9 @@ li.selected {
   &:focus {
     background-color: var(--color-accent);
   }
+
+  /*@include md {
+    font-size: var(--size-5);
+  }*/
 }
 </style>

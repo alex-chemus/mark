@@ -99,14 +99,14 @@ const openClass = computed(() => {
   padding: 0;
   margin: 0;
   list-style: none;
-  padding: var(--size-9);
+  padding: var(--size-10);
   @include flex(flex-start, flex-start, column);
-  @include gap(var(--size-8), 'column');
+  @include gap(var(--size-9), 'column');
 }
 
 li {
   font-family: var(--ff-open-sans);
-  font-size: var(--size-5);
+  font-size: var(--size-6);
   color: var(--text-color-1);
   //transition: var(--fast);
   outline: none;
@@ -136,11 +136,11 @@ li {
   background-color: var(--text-color-2);
   @include flex;
   @include gap(var(--size-2));
-  padding: var(--size-1) var(--size-9);
+  padding: var(--size-1) var(--size-10);
   color: var(--bg-color-1);
   background-color: var(--text-color-2);
   font-family: var(--ff-open-sans);
-  font-size: var(--size-5);
+  font-size: var(--size-6);
   transition: var(--fast);
   cursor: pointer;
 

@@ -98,12 +98,13 @@ $sm: 480px;
 
 @mixin small-container {
   max-width: 995px;
-  width: 100%;
+  //width: 100%;
+  width: calc(100% -  4rem);
   margin: 0 auto;
 
-  @include xl {
+  /*@include xl {
     max-width: calc(100% - 6rem);
-  }
+  }*/
 
   @include lg {
     max-width: calc(100% - 4rem);

@@ -63,7 +63,7 @@ header .container {
   @include container;
   display: grid;
   grid-template-columns: 1fr 4fr max-content;
-  grid-gap: var(--size-9);
+  grid-gap: var(--size-10);
   padding: var(--size-1) 0;
   position: relative;
 
@@ -95,7 +95,7 @@ header .container {
   }
 
   @include md {
-    font-size: var(--size-8);
+    font-size: var(--size-9);
   }
 }
 
@@ -105,7 +105,7 @@ header .container {
 
 .controls {
   @include flex(flex-start, center);
-  @include gap(var(--size-8));
+  @include gap(var(--size-9));
 
   &.mobile {
     display: none;
@@ -116,7 +116,7 @@ header .container {
   }
 
   @include md {
-    @include gap(var(--size-5));
+    @include gap(var(--size-6));
   }
 }
 
