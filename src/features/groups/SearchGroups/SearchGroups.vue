@@ -51,5 +51,9 @@ input {
   outline: none;
   width: 100%;
   background-color: transparent;
+
+  @include md {
+    font-size: var(--size-5);
+  }
 }
 </style>

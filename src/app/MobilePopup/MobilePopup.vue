@@ -95,7 +95,7 @@ const openClass = computed(() => {
   right: 0;
   top: 0;
   width: 70vw;
-  min-width: 270px;
+  min-width: 250px;
   height: 100%;
   z-index: 2;
   background-color: var(--bg-color-1);

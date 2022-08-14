@@ -67,6 +67,11 @@ const toggle = () => {
 }
 
 svg {
+  @include lg {
+    width: 28px;
+    height: 28px;
+  }
+
   @include md {
     height: 24px;
     width: 24px;

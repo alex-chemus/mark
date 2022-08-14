@@ -3,9 +3,10 @@ import { defineProps, defineEmits, ref } from 'vue'
 import LeaveWarning from '../LeaveWarning/LeaveWarning.vue'
 
 defineProps<{
-  userCanLeave: boolean,
+  userCanLeave?: boolean,
+  userCanShare?: boolean,
   opened: boolean,
-  groupName: string
+  groupName: string,
 }>()
 
 const emit = defineEmits<{
@@ -24,6 +25,11 @@ const leaving = ref(false)
   <section v-show="opened" class="group-popup">
     <div class="mobile-group">
       <h6>{{ groupName }}</h6>
+      <button v-if="userCanShare" class="share-button">
+        <svg width="22" height="22" viewBox="0 0 22 22">
+          <use href="~/feather-icons/dist/feather-sprite.svg#share-2" />
+        </svg>
+      </button>
     </div>
 
     <dl class="list">
@@ -82,15 +88,16 @@ const leaving = ref(false)
     right: 0;
     height: 100vh;
     width: 70vw;
-    min-width: 270px;
+    min-width: 250px;
     background-color: var(--bg-color-1);
-    @include flex(flex-start, flex-start, column);
+    @include flex(flex-start, stretch, column);
     border-radius: 0;
     border: 0;
   }
 }
 
 .mobile-group {
+  //width: 100%;
   display: none;
   margin-left: var(--size-10);
   margin-right: var(--size-10);
@@ -98,7 +105,7 @@ const leaving = ref(false)
   border-bottom: 1px solid var(--element-color);
 
   @include md {
-    display: block;
+    @include flex(space-between, center);
   }
 
   h6 {
@@ -107,6 +114,22 @@ const leaving = ref(false)
     font-family: var(--ff-open-sans);
     font-size: var(--size-6);
     color: var(--text-color-1);
+  }
+}
+
+.share-button {
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: var(--transparent);
+  @include flex;
+  transition: var(--fast);
+  color: var(--text-color-2);
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: var(--color-accent);
   }
 }
 

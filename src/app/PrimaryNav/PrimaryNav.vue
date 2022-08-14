@@ -80,7 +80,7 @@ li {
     top: calc(100% + 19px);
 
     @include lg {
-      top: calc(100% + 13px);
+      top: calc(100% + 16px);
     }
 
     @include md {

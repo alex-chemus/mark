@@ -43,13 +43,12 @@ const students = ref<IGroupUser[]>([
         </button>
 
         <group-popup
-          :user-can-leave="false"
           :opened="popupOpened"
           :group-name="groupName"
           @toggle="popupOpened = !popupOpened"
         />
 
-        <div v-show="sidebarOpened"  class="sidebar-popup">
+        <div v-show="sidebarOpened" class="sidebar-popup">
           <groups-sidebar />
         </div>
         <!-- eslint-disable -->
@@ -61,9 +60,7 @@ const students = ref<IGroupUser[]>([
         <!-- eslint-disable -->
       </div>
 
-      <users-list
-        :users="students"
-      />
+      <users-list :users="students" />
     </section>
   </main>
 </template>
@@ -79,6 +76,10 @@ const students = ref<IGroupUser[]>([
 
   @include container;
   margin-top: var(--size-15);
+
+  @include lg {
+    grid-template-columns: 200px 1fr;
+  }
 
   @include md {
     display: block;
@@ -101,7 +102,7 @@ const students = ref<IGroupUser[]>([
   left: 0;
   height: 100vh;
   width: 70vw;
-  min-width: 270px;
+  min-width: 250px;
   background-color: var(--bg-color-1);
   @include flex(flex-start, stretch, column);
   padding: var(--size-10);

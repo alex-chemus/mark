@@ -67,7 +67,7 @@ header .container {
   padding: var(--size-1) 0;
   position: relative;
 
-  @include lg {
+  @include md {
     padding: 0;
   }
 
@@ -94,6 +94,10 @@ header .container {
     color: var(--color-accent);
   }
 
+  @include lg {
+    font-size: 28px;
+  }
+
   @include md {
     font-size: var(--size-9);
   }
@@ -113,6 +117,10 @@ header .container {
     @include md {
       display: flex;
     }
+  }
+
+  @include lg {
+    @include gap(var(--size-8));
   }
 
   @include md {
@@ -146,6 +154,10 @@ header .container {
   background-color: var(--element-color);
   width: 40px;
   aspect-ratio: 1;
+
+  @include lg {
+    width: var(--size-11);
+  }
 }
 
 svg.opened {
