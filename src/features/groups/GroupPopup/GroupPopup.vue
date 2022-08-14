@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref } from 'vue'
+import LeaveWarning from '../LeaveWarning/LeaveWarning.vue'
 
 defineProps<{
   userCanLeave: boolean,
@@ -15,6 +16,8 @@ const emit = defineEmits<{
 const institution = ref('*учебное заведение*')
 const specialty = ref('*специальность*')
 const faculty = ref('*факультет*')
+
+const leaving = ref(false)
 </script>
 
 <template>
@@ -34,7 +37,7 @@ const faculty = ref('*факультет*')
       <dd>Факультет</dd>
     </dl>
 
-    <button v-if="userCanLeave" class="logout-btn">
+    <button v-if="userCanLeave" class="logout-btn" @click="leaving = true">
       <svg width="22" height="22" viewBox="0 0 22 22">
         <use href="~/feather-icons/dist/feather-sprite.svg#log-out" />
       </svg>
@@ -49,6 +52,11 @@ const faculty = ref('*факультет*')
       @click="emit('toggle')"
     />
     <!-- eslint-enable -->
+
+    <leave-warning
+      :is-open="leaving"
+      @cancel="leaving = false"
+    />
 </template>
 
 <style lang="scss" scoped>

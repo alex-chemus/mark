@@ -39,6 +39,10 @@ const title = computed(() => {
   font-size: var(--size-8);
   font-weight: var(--fs-semibold);
   color: var(--text-color-1);
+
+  @include md {
+    font-size: var(--size-6);
+  }
 }
 
 .add-button {
@@ -46,6 +50,7 @@ const title = computed(() => {
   color: var(--text-color-2);
   transition: var(--fast);
   border: none;
+  padding: 0;
   background-color: transparent;
   outline: none;
   cursor: pointer;
@@ -53,6 +58,11 @@ const title = computed(() => {
   &:hover,
   &:focus {
     color: var(--color-accent);
+  }
+
+  @include md {
+    width: 22px;
+    height: 22px;
   }
 }
 </style>
