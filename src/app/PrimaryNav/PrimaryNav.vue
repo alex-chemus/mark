@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const selectRoutes = (...routes: string[]) => {
-  console.log(routes, route.path)
+  //console.log(routes, route.path)
   return routes.includes(route.path) ? 'selected' : ''
 }
 </script>

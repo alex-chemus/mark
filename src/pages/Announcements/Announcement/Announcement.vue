@@ -33,7 +33,7 @@ article {
 .placeholder {
   width: var(--size-13);
   aspect-ratio: 1;
-  background-color: var(--color-neutral-3);
+  background-color: var(--element-color);
   border-radius: 100vmax;
 }
 

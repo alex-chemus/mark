@@ -19,13 +19,13 @@ const setSelection = (cls: NavItem) => {
   <nav class="secondary-nav">
     <ul>
       <li :class="setSelection('Портал')">
-        <button @click="emit('toggle', 'Портал')">Портал</button>
+        <button @click="emit('toggle', 'Портал')" tabindex="">Портал</button>
       </li>
       <li :class="setSelection('Преподаватели')">
-        <button @click="emit('toggle', 'Преподаватели')">Преподаватели</button>
+        <button @click="emit('toggle', 'Преподаватели')" tabindex="">Преподаватели</button>
       </li>
       <li :class="setSelection('Группа')">
-        <button @click="emit('toggle', 'Группа')">Группа</button>
+        <button @click="emit('toggle', 'Группа')" tabindex="">Группа</button>
       </li>
     </ul>
   </nav>
@@ -73,7 +73,8 @@ button {
   cursor: pointer;
   transition: var(--fast);
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--color-accent);
   }
 

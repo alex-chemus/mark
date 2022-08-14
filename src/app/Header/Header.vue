@@ -143,7 +143,7 @@ header .container {
 
 .placeholder {
   border-radius: 100vmax;
-  background-color: var(--color-neutral-3);
+  background-color: var(--element-color);
   width: 40px;
   aspect-ratio: 1;
 }

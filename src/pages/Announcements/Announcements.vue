@@ -14,9 +14,23 @@ const text = ref(`КТ проходит в форме теста в шаблон
     :item="section"
     @toggle="value => section = value"
   />
-  <announcement
-    teacher="Сарычев Алексей Васильевич"
-    date="08.07.2022 23:56"
-    :text="text"
-  />
+  <main class="announcements">
+    <announcement
+      teacher="Сарычев Алексей Васильевич"
+      date="08.07.2022 23:56"
+      :text="text"
+    />
+  </main>
 </template>
+
+<style lang="scss" scoped>
+@import '@/style/style.scss';
+
+.announcements {
+  margin-bottom: var(--size-15);
+
+  @include md {
+    margin-bottom: var(--size-11);
+  }
+}
+</style>
