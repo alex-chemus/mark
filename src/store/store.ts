@@ -18,5 +18,14 @@ export const store = createStore<IState>({
     setInfoLoaded(state, value: boolean) {
       state.infoLoaded = value
     }
+  },
+
+  getters: {
+    roles(state) {
+      if (state.userInfo)
+        return state.userInfo.additionalData.roles
+      else
+        return null
+    }
   }
 })

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 import { Badge } from '@/shared'
+//import { IGroupUser } from '../types'
 
 defineProps<{
   img?: string,
@@ -37,7 +38,8 @@ defineProps<{
   font-size: var(--size-4);
   color: var(--text-color-2);
   margin-top: var(--size-3);
-  text-align: right;
+  //text-align: right;
+  padding-top: var(--size-1);
 
   @include sm {
     display: block;

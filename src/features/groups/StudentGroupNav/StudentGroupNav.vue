@@ -155,6 +155,7 @@ li {
   @include flex;
   cursor: pointer;
   transition: var(--fast);
+  color: var(--text-color-2);
 
   &:hover,
   &:focus {
