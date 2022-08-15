@@ -6,6 +6,10 @@ module.exports = defineConfig({
 
 const path = require('path')
 
+const publicPath = process.env.NODE_ENV === 'production'
+  ? 'https://alex-chemus.github.io/mark/'
+  : '/'
+
 module.exports = {
   configureWebpack: {
     resolve: {
@@ -14,5 +18,7 @@ module.exports = {
         '~': path.resolve(__dirname, 'node_modules/'),
       }
     }
-  }
+  },
+
+  publicPath
 }
