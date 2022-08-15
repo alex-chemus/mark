@@ -114,3 +114,48 @@ $sm: 480px;
     max-width: calc(100% - 2rem);
   }
 }
+
+@mixin card {
+  border-radius: 12px;
+  box-shadow: var(--element-shadow);
+  padding: var(--size-10);
+  @include flex(flex-start, center, column);
+  @include gap(var(--size-9), 'column');
+  background-color: var(--bg-color-3);
+  color: var(--text-color-2);
+  font-size: var(--size-6);
+  font-family: var(--ff-open-sans);
+  cursor: pointer;
+
+  img {
+    height: 85px;
+  }
+
+  &:hover {
+    box-shadow: var(--hover-shadow);
+  }
+
+  @include md {
+    flex-direction: row;
+    @include gap(0, 'column');
+    @include gap(var(--size-6));
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    //padding-bottom: var(--size-2);
+    //border-bottom: 1px solid var(--element-color);
+    transition: var(--fast);
+
+    &:hover {
+      box-shadow: none;
+      //border-bottom-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    img {
+      height: auto;
+      width: var(--size-10);
+    }
+  }
+}
