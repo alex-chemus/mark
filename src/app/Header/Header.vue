@@ -129,15 +129,9 @@ header .container {
 }
 
 .popup-btn {
-  color: var(--text-color-2);
   @include flex(flex-start, center);
   @include gap(4px);
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  transition: var(--fast);
-  padding: 0;
+  @include button(var(--text-color-2));
 
   &:hover {
     color: var(--color-accent);

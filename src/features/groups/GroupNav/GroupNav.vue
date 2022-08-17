@@ -112,14 +112,7 @@ li {
   position: relative;
 
   &.selected::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: var(--color-accent);
-    position: absolute;
-    top: 100%;
-    left: 0;
+    @include underline;
   }
 
   &.selected button {

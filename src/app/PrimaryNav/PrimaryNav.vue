@@ -69,14 +69,7 @@ li {
   position: relative;
 
   &::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: var(--color-accent);
-    position: absolute;
-    //bottom: var(--size-7);
-    //top: calc(100% + var(--size-8));
+    @include underline;
     top: calc(100% + 19px);
 
     @include lg {

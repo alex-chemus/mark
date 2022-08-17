@@ -58,18 +58,6 @@ button {
 }
 
 li.selected {
-  padding-left: var(--size-2);
-  position: relative;
-
-  &::before {
-    content: '';
-    display: block;
-    height: 100%;
-    width: 1px;
-    background-color: var(--color-accent);
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+  @include sideline;
 }
 </style>

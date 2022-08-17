@@ -49,21 +49,7 @@ const toggle = () => {
 @import '@/style/style.scss';
 
 .btn {
-  @include flex;
-  color: var(--text-color-2);
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-  width: fit-content;
-  border: none;
-  outline: none;
-  transition: var(--fast);
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    color: var(--color-accent);
-  }
+  @include button-icon;
 }
 
 svg {

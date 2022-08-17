@@ -91,14 +91,7 @@ const openClass = computed(() => {
 @import '@/style/style.scss';
 
 .mobile-popup {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 70vw;
-  min-width: 250px;
-  height: 100%;
-  z-index: 2;
-  background-color: var(--bg-color-1);
+  @include popup('right');
 }
 
 ul {
@@ -144,19 +137,7 @@ li {
 
 li.selected {
   //color: var(--color-accent);
-  padding-left: var(--size-2);
-  position: relative;
-
-  &::before {
-    content: '';
-    display: block;
-    width: 1px;
-    height: 100%;
-    background-color: var(--color-accent);
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+  @include sideline;
 }
 
 .separator {
@@ -166,14 +147,8 @@ li.selected {
 }
 
 .backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  background-color: rgba(0 0 0 / .15);
-  cursor: pointer;
+
+  @include backdrop('left');
 }
 
 .logout-btn {
@@ -199,8 +174,8 @@ li.selected {
     background-color: var(--color-accent);
   }
 
-  /*@include md {
+  @include md {
     font-size: var(--size-5);
-  }*/
+  }
 }
 </style>

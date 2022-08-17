@@ -91,14 +91,7 @@ li {
   position: relative;
 
   &.selected::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: var(--color-accent);
-    position: absolute;
-    top: 100%;
-    left: 0;
+    @include underline;
   }
 
   &.selected button {
@@ -107,17 +100,7 @@ li {
 }
 
 .nav-button {
-  background-color: transparent;
-  outline: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-
-  font-family: var(--ff-open-sans);
-  font-size: var(--size-6);
-  color: var(--text-color-1);
-  cursor: pointer;
-  transition: var(--fast);
+  @include button;
 
   &:hover,
   &:focus {
@@ -147,15 +130,7 @@ li {
 }
 
 .popup-button {
-  background-color: transparent;
-  outline: none;
-  border: none;
-  padding: 0;
-  //margin: 0;
-  @include flex;
-  cursor: pointer;
-  transition: var(--fast);
-  color: var(--text-color-2);
+  @include button(var(--text-color-2));
 
   &:hover,
   &:focus {

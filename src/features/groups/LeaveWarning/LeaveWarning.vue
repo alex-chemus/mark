@@ -19,8 +19,8 @@ const emit = defineEmits<{
     <p>Вы уверены, что хотите покинуть гурппу?</p>
 
     <div class="button-wrapper">
-      <button class="button">Покинуть</button>
-      <button class="button primary" @click="emit('cancel')">Остаться</button>
+      <button class="button-hollow">Покинуть</button>
+      <button class="button-fill" @click="emit('cancel')">Остаться</button>
     </div>
   </section>
   <!-- eslint-disable -->
@@ -77,32 +77,11 @@ p {
   width: 100%;
 }
 
-.button {
-  padding: var(--size-2) var(--size-6);
-  border-radius: 100vmax;
-  border: none;
-  background-color: var(--text-color-2);
-  color: var(--bg-color-1);
-  outline: none;
-  font-family: var(--ff-open-sans);
-  font-size: var(--size-6);
-  cursor: pointer;
-  transition: var(--fast);
+.button.hollow {
+  @include button-hollow;
+}
 
-  &:hover,
-  &:focus {
-    background-color: var(--color-accent);
-  }
-
-  &.primary {
-    background-color: var(--color-accent);
-
-    &:hover,
-    &:focus {
-      background-color: transparent;
-      color: var(--color-accent);
-      box-shadow: inset 0 0 0 1px var(--color-accent);
-    }
-  }
+.button.fill {
+  @include button-fill;
 }
 </style>

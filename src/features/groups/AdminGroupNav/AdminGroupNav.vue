@@ -106,14 +106,7 @@ li {
   position: relative;
 
   &.selected::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: var(--color-accent);
-    position: absolute;
-    top: 100%;
-    left: 0;
+    @include underline;
   }
 
   &.selected button {
@@ -122,17 +115,7 @@ li {
 }
 
 .nav-button {
-  background-color: transparent;
-  outline: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-
-  font-family: var(--ff-open-sans);
-  font-size: var(--size-6);
-  color: var(--text-color-1);
-  cursor: pointer;
-  transition: var(--fast);
+  @include button;
 
   &:hover,
   &:focus {
@@ -151,45 +134,19 @@ li {
 }
 
 .sidebar-popup {
-  display: none;
-  min-width: 300px;
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 70vw;
-  min-width: 250px;
-  background-color: var(--bg-color-1);
-  @include flex(flex-start, stretch, column);
-  padding: var(--size-10);
-  z-index: 2;
-
   @include md {
-    display: flex;
+    @include flex(flex-start, stretch, column);
+    @include popup('right', 2);
+    padding: var(--size-10);
   }
 }
 
 .sidebar-backdrop {
-  position: fixed;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-  background-color: rgba(0 0 0 / .15);
+  @include backdrop;
 }
 
 .button {
-  background-color: transparent;
-  outline: none;
-  border: none;
-  padding: 0;
-  //margin: 0;
-  @include flex;
-  cursor: pointer;
-  transition: var(--fast);
-  color: var(--text-color-2);
+  @include button(var(--text-color-2));
 
   &:hover,
   &:focus {

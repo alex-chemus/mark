@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 // eslint-disable-next-line
-import { computed, defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   opened: boolean
 }>()
 
@@ -11,14 +11,10 @@ const emit = defineEmits<{
 }>()
 
 const logout = () => {} // eslint-disable-line
-
-const openClass = computed(() => {
-  return props.opened ? 'opened' : ''
-})
 </script>
 
 <template>
-    <section v-show="opened" class="popup" :class="openClass">
+    <section v-show="opened" class="popup">
       <ul class="list">
         <li>
           <router-link to="/group">
@@ -66,7 +62,6 @@ const openClass = computed(() => {
     <div 
       v-show="opened"
       class="backdrop" 
-      :class="openClass"
       @click="emit('toggle')"
     />
     <!-- eslint-enable -->
@@ -76,8 +71,6 @@ const openClass = computed(() => {
 @import '@/style/style.scss';
 
 .popup {
-  display: none;
-  //width: max(300px, fit-content);
   min-width: 300px;
   width: fit-content;
   position: absolute;
@@ -89,10 +82,6 @@ const openClass = computed(() => {
   overflow: hidden;
   //box-shadow: var(--element-shadow);
   border: 1px solid var(--element-color);
-
-  &.opened {
-    display: block
-  }
 }
 
 .list {
@@ -151,18 +140,6 @@ li {
 }
 
 .backdrop {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-  //background-color: rgba(0 0 0 / .15);
-
-  &.opened {
-    display: block;
-  }
+  @include backdrop;
 }
 </style>

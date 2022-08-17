@@ -47,19 +47,18 @@ const students = ref<IGroupUser[]>([
           :group-name="groupName"
           @toggle="popupOpened = !popupOpened"
         />
-
-        <div v-show="sidebarOpened" class="sidebar-popup">
-          <groups-sidebar />
-        </div>
-        <!-- eslint-disable -->
-        <div
-          v-show="sidebarOpened"
-          class="sidebar-backdrop"
-          @click="sidebarOpened = !sidebarOpened"
-        />
-        <!-- eslint-disable -->
       </div>
 
+      <div v-show="sidebarOpened" class="sidebar-popup">
+        <groups-sidebar />
+      </div>
+      <!-- eslint-disable -->
+      <div
+        v-show="sidebarOpened"
+        class="sidebar-backdrop"
+        @click="sidebarOpened = !sidebarOpened"
+      />
+      <!-- eslint-disable -->
       <users-list :users="students" />
     </section>
   </main>
@@ -96,32 +95,16 @@ const students = ref<IGroupUser[]>([
 
 .sidebar-popup {
   display: none;
-  min-width: 300px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 70vw;
-  min-width: 250px;
-  background-color: var(--bg-color-1);
-  @include flex(flex-start, stretch, column);
-  padding: var(--size-10);
-  z-index: 2;
 
   @include md {
-    display: flex;
+    @include flex(flex-start, stretch, column);
+    @include popup('left');
+    padding: var(--size-10);
   }
 }
 
 .sidebar-backdrop {
-  position: fixed;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-  background-color: rgba(0 0 0 / .15);
+  @include backdrop(1);
 }
 
 .title-group {
@@ -157,28 +140,14 @@ const students = ref<IGroupUser[]>([
   display: none;
   //margin: 0;
   margin-right: auto;
-  padding: 0;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: var(--text-color-2);
 
   @include md {
-    display: flex;
+    @include button(var(--text-color-2));
   }
 }
 
 .info-button {
-  //margin: 0;
-  padding: 0;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  @include flex;
-  color: var(--text-color-2);
-  transition: var(--fast);
-  cursor: pointer;
+  @include button(var(--text-color-2));
 
   &:hover,
   &:focus {

@@ -14,9 +14,10 @@ const setCurrentGroup = inject(setCurrentGroupKey, (value) => {})
 const opened = ref(false)
 
 const currentGroupName = computed(() => {
+  console.log(groupsList.value)
   return groupsList.value
     .find(group => group.id === currentGroup.value)
-    .name
+    ?.name
 })
 </script>
 
@@ -58,7 +59,7 @@ const currentGroupName = computed(() => {
 @import '@/style/style.scss';
 
 .popup-button {
-  padding: 0;
+  /*padding: 0;
   border: none;
   outline: none;
   background-color: transparent;
@@ -67,7 +68,9 @@ const currentGroupName = computed(() => {
   padding-bottom: var(--size-3);
   font-family: var(--ff-open-sans);
   font-size: var(--size-6);
-  color: var(--text-color-1);
+  color: var(--text-color-1);*/
+  @include button;
+  padding-bottom: var(--size-3);
 
   @include flex;
   @include gap(var(--size-3));
@@ -116,13 +119,14 @@ const currentGroupName = computed(() => {
   @include gap(var(--size-6), 'column');
 
   @include md {
-    width: 70vw;
+    /*width: 70vw;
     min-width: 250px;
     min-height: 100vh;
     border-radius: 0;
     position: fixed;
     top: 0;
-    right: 0;
+    right: 0;*/
+    @include popup('right')
   }
 }
 
@@ -132,14 +136,7 @@ li.selected {
     position: relative;
 
     &::after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 100%;
-      background-color: var(--color-accent);
-      position: absolute;
-      top: 0;
-      left: 0;
+      @include underline;
     }
   }
 }
@@ -170,16 +167,6 @@ li button {
 }
 
 .backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-  cursor: pointer;
-
-  @include md {
-    background-color: rgb(0 0 0 / .15);
-  }
+  @include backdrop;
 }
 </style>

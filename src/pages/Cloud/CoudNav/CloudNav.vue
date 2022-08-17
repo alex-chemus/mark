@@ -77,15 +77,7 @@ const setSelection = (item: NavItem) => {
 }
 
 .nav-link button {
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  font-family: var(--ff-open-sans);
-  font-size: var(--size-6);
-  transition: var(--fast);
-  color: var(--text-color-1);
-  cursor: pointer;
+  @include button;
 
   @include md {
     font-size: var(--size-5);
@@ -108,14 +100,7 @@ const setSelection = (item: NavItem) => {
   }
 
   &::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-color: var(--color-accent);
-    position: absolute;
-    bottom: -1px;
-    left: 0;
+    @include underline;
   }
 }
 

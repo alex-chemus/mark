@@ -159,3 +159,164 @@ $sm: 480px;
     }
   }
 }
+
+@mixin popup($dir: 'left', $z: 2) {
+  width: 70vw;
+  min-width: 250px;
+  min-height: 100vh;
+  border-radius: 0;
+  position: fixed;
+  top: 0;
+  border-radius: 0;
+  border: 0;
+  background-color: var(--bg-color-1);
+  z-index: $z;
+
+  @if $dir == 'left' {
+    left: 0;
+  }
+  @if $dir == 'right' {
+    right: 0;
+  }
+}
+
+@mixin backdrop($z: 1) {
+  position: fixed;
+  z-index: $z;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
+
+  @include md {
+    background-color: rgb(0 0 0 / .3);
+  }
+}
+
+@mixin button($tc: var(--text-color-1)) {
+  display: flex;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: var(--ff-open-sans);
+  font-size: var(--size-6);
+  color: $tc;
+  transition: var(--fast);
+
+  @include md {
+    font-size: var(--size-5);
+  }
+}
+
+@mixin button-hollow {
+  display: flex;
+  padding: var(--size-2) var(--size-6);
+  border-radius: 100vmax;
+  box-shadow: inset 0 0 0 1px var(--element-color);
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: var(--text-color-2);
+  font-family: var(--ff-open-sans);
+  font-size: var(--size-6);
+  cursor: pointer;
+  transition: var(--fast);
+
+  &:hover,
+  &:focus {
+    color: var(--color-accent);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+  }
+
+  @include md {
+    font-size: var(--size-5);
+  }
+}
+
+@mixin button-fill {
+  display: flex;
+  padding: var(--size-2) var(--size-6);
+  border-radius: 100vmax;
+  border: none;
+  outline: none;
+  background-color: var(--text-color-2);
+  color: var(--bg-color-1);
+  font-family: var(--ff-open-sans);
+  font-size: var(--size-6);
+  cursor: pointer;
+  transition: var(--fast);
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-accent);
+  }
+
+  @include md {
+    font-size: var(--size-5);
+  }
+}
+
+@mixin button-icon {
+  display: flex;
+  color: var(--text-color-2);
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+  border: none;
+  outline: none;
+  transition: var(--fast);
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: var(--color-accent);
+  }
+}
+
+@mixin input {
+  font-family: var(--ff-open-sans);
+  font-size: var(--size-6);
+  color: var(--text-color-2);
+  padding: var(--size-2) var(--size-6);
+  border-radius: 100vmax;
+  border: 1px solid var(--element-color);
+  outline: none;
+  background-color: transparent;
+  width: 100%; 
+
+  @include md {
+    font-size: var(--size-5);
+  }
+}
+
+@mixin underline {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-accent);
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+@mixin sideline {
+  padding-left: var(--size-2);
+  position: relative;
+  
+  &::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 100%;
+    background-color: var(--color-accent);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

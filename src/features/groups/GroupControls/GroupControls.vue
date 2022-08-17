@@ -46,14 +46,7 @@ const title = computed(() => {
 }
 
 .add-button {
-  @include flex;
-  color: var(--text-color-2);
-  transition: var(--fast);
-  border: none;
-  padding: 0;
-  background-color: transparent;
-  outline: none;
-  cursor: pointer;
+  @include button(var(--text-color-2));
 
   &:hover,
   &:focus {

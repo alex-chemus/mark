@@ -28,6 +28,7 @@ const groupsList = ref<IGroupName[]>([
 const currentGroup = ref(1)
 const setCurrentGroup = (value: number) => {
   currentGroup.value = value
+  console.log(currentGroup.value)
 }
 
 provide(currentNavKey, currentNav)
@@ -40,7 +41,7 @@ const getGroup = computed(() => {
   //if (currentNav.value === 'Мое облако') return group.value
   //else return groupsList.value[currentGroup.value].name
   if (getters.roles.includes('teacher'))
-    return groupsList.value[currentGroup.value].name
+    return groupsList.value[currentGroup.value - 1].name
   else
     return group.value // fetch later
 })

@@ -52,24 +52,23 @@ const leaving = ref(false)
   </section>
 
   <!-- eslint-disable -->
-    <div 
-      v-show="opened"
-      class="backdrop" 
-      @click="emit('toggle')"
-    />
-    <!-- eslint-enable -->
+  <div 
+    v-show="opened"
+    class="backdrop" 
+    @click="emit('toggle')"
+  />
+  <!-- eslint-enable -->
 
-    <leave-warning
-      :is-open="leaving"
-      @cancel="leaving = false"
-    />
+  <leave-warning
+    :is-open="leaving"
+    @cancel="leaving = false"
+  />
 </template>
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
 
 .group-popup {
-  //width: max(300px, fit-content);
   min-width: 300px;
   width: fit-content;
   position: absolute;
@@ -83,16 +82,8 @@ const leaving = ref(false)
   border: 1px solid var(--element-color);
 
   @include md {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 70vw;
-    min-width: 250px;
-    background-color: var(--bg-color-1);
     @include flex(flex-start, stretch, column);
-    border-radius: 0;
-    border: 0;
+    @include popup('right');
   }
 }
 
@@ -118,14 +109,7 @@ const leaving = ref(false)
 }
 
 .share-button {
-  padding: 0;
-  border: none;
-  outline: none;
-  background-color: var(--transparent);
-  @include flex;
-  transition: var(--fast);
-  color: var(--text-color-2);
-  cursor: pointer;
+  @include button(var(--text-color-2));
 
   &:hover,
   &:focus {
@@ -186,21 +170,6 @@ dd {
 }
 
 .backdrop {
-  position: fixed;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-  //background-color: rgba(0 0 0 / .15);
-
-  &.opened {
-    display: block;
-  }
-
-  @include md {
-    background-color: rgba(0 0 0 / .15);
-  }
+  @include backdrop(1);
 }
 </style>

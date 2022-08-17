@@ -42,18 +42,6 @@ const search = (e: Event) => {
 }
 
 input {
-  font-family: var(--ff-open-sans);
-  font-size: var(--size-6);
-  color: var(--text-color-2);
-  padding: var(--size-2) var(--size-6);
-  border-radius: 100vmax;
-  border: 1px solid var(--element-color);
-  outline: none;
-  width: 100%;
-  background-color: transparent;
-
-  @include md {
-    font-size: var(--size-5);
-  }
+  @include input;
 }
 </style>
