@@ -341,3 +341,23 @@ $sm: 480px;
   z-index: 4;
   padding: var(--size-13);
 }
+
+@mixin modal-label {
+  font-size: var(--size-6);
+  font-family: var(--ff-open-sans);
+  color: var(--text-color-2);
+  @include flex(flex-start, flex-start, column);
+
+  @include md {
+    font-size: var(--size-5);
+  }
+
+  span {
+    margin-left: var(--size-6);
+    margin-bottom: var(--size-2);
+  }
+
+  input {
+    @include input;
+  }
+}

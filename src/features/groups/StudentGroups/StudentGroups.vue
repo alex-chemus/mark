@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { GroupNavItem, IGroupUser } from '../types';
-import UsersList from '../UsersList/UsersList.vue'
+import { IGroupUser, UsersList } from '@/shared'
+import { GroupNavItem } from '../types'
 import StudentGroupNav from '../StudentGroupNav/StudentGroupNav.vue'
 
 const currentNav = ref<GroupNavItem>('Студенты')

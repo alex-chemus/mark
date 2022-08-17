@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { UsersList, IGroupUser } from '@/shared'
 import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
 import GroupPopup from '../GroupPopup/GroupPopup.vue'
-import UsersList from '../UsersList/UsersList.vue'
-import { IGroupUser } from '../types'
 
 const groupName = ref('Название группы')
 const popupOpened = ref(false)

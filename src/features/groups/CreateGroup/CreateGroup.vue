@@ -61,7 +61,7 @@ const emit = defineEmits<{
 }
 
 label {
-  font-size: var(--size-6);
+  /*font-size: var(--size-6);
   font-family: var(--ff-open-sans);
   color: var(--text-color-2);
   @include flex(flex-start, flex-start, column);
@@ -69,12 +69,13 @@ label {
   span {
     margin-left: var(--size-6);
     margin-bottom: var(--size-2);
-  }
+  }*/
+  @include modal-label;
 }
 
-input[type="text"] {
+/*input[type="text"] {
   @include input;
-}
+}*/
 
 .button-wrapper {
   @include flex(space-between, center);
