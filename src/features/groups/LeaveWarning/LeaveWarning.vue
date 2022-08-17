@@ -36,18 +36,7 @@ const emit = defineEmits<{
 @import '@/style/style.scss';
 
 .leave-warning {
-  width: calc(100vw - 2rem);
-  max-width: 473px;
-  border-radius: 12px;
-  background-color: var(--bg-color-1);
-  @include gap(var(--size-9), 'column');
-  @include flex(flex-start, center, column);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 4;
-  padding: var(--size-13);
+  @include modal(4);
 
   svg {
     color: var(--color-accent);
@@ -55,14 +44,8 @@ const emit = defineEmits<{
 }
 
 .backdrop {
-  position: fixed;
-  z-index: 3;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-  background-color: rgba(0 0 0 / .15);
+  @include backdrop(3);
+  background-color: rgb(0 0 0 / .3);
 }
 
 p {
@@ -77,11 +60,11 @@ p {
   width: 100%;
 }
 
-.button.hollow {
+.button-hollow {
   @include button-hollow;
 }
 
-.button.fill {
+.button-fill {
   @include button-fill;
 }
 </style>

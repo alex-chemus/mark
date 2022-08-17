@@ -1,13 +1,16 @@
 <script lang="ts" setup>
-import { inject, computed } from 'vue'
+import { inject, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
+import CreateGroup from '../CreateGroup/CreateGroup.vue'
 
 const key = inject<Key>('key')
 const { getters } = useStore(key)
 
 // todo: add mark method
 const addGroup = () => {} // eslint-disable-line
+
+const opened = ref(false)
 
 const title = computed(() => {
   return getters.roles.includes('administrator_of_institution')
@@ -19,11 +22,15 @@ const title = computed(() => {
 <template>
   <div class="wrapper">
     <h2 class="group-name">{{ title }}</h2>
-    <button class="add-button">
+    <button class="add-button" @click="opened = true">
       <svg width="24" height="24" viewBox="0 0 24 24">
         <use href="~/feather-icons/dist/feather-sprite.svg#plus" />
       </svg>
     </button>
+    <create-group
+      v-if="opened"
+      @toggle="opened = !opened"
+    />
   </div>
 </template>
 

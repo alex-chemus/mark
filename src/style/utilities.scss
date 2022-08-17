@@ -288,9 +288,15 @@ $sm: 480px;
   outline: none;
   background-color: transparent;
   width: 100%; 
+  transition: var(--fast);
 
   @include md {
     font-size: var(--size-5);
+  }
+
+  &:hover, 
+  &:focus {
+    border: 1px solid var(--text-color-2);
   }
 }
 
@@ -319,4 +325,19 @@ $sm: 480px;
     top: 0;
     left: 0;
   }
+}
+
+@mixin modal($z: 2) {
+  width: calc(100vw - 2rem);
+  max-width: 500px;
+  border-radius: 12px;
+  background-color: var(--bg-color-1);
+  @include gap(var(--size-9), 'column');
+  @include flex(flex-start, stretch, column);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  padding: var(--size-13);
 }
