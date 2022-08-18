@@ -22,14 +22,14 @@ defineProps<{
       </svg>
     </button>
 
-    <div v-if="info.departments" v-show="opened" class="departments">
+    <div v-show="opened" class="departments">
       <ul class="deps-list">
-        <li v-for="dep in info.departments" :key="dep.id">
-          {{ dep.name }}
+        <li v-for="dep in info.departments" :key="dep.departmentID">
+          {{ dep.departmentName }}
         </li>
       </ul>
 
-      <add-department :faculty="info.facultyName" />
+      <add-department :facultyID="info.facultyID" />
     </div>
   </section>
 </template>

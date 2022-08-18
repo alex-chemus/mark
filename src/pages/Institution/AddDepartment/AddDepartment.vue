@@ -1,17 +1,37 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from 'vue'
+import {
+  defineProps, ref, inject
+} from 'vue'
+import { useStore } from 'vuex'
+import { Key } from '@/store'
+import { useFetch } from '@/shared'
+import { reloadKey } from '../keys'
 
-defineProps<{
-  faculty: string
+const key = inject<Key>('key')
+const { state, getters } = useStore(key)
+
+const props = defineProps<{
+  facultyID: number
 }>()
-
-defineEmits<{
-  (e: 'add'): void
-}>()
-
-const create = () => {} // eslint-disable-line
 
 const opened = ref(false)
+const departmentName = ref('')
+
+// eslint-disable-next-line
+const reload = inject(reloadKey, () => {})
+const create = async () => {
+  if (!state.userInfo || departmentName.value === '') return
+  await useFetch({
+    path: 'markMethods/institution.addDepartment',
+    data: {
+      institutionID: getters.IID,
+      facultyID: props.facultyID,
+      departments: departmentName.value
+    }
+  })
+  reload()
+  opened.value = false
+}
 </script>
 
 <template>
@@ -31,7 +51,7 @@ const opened = ref(false)
     </button>
 
     <!-- eslint-disable-next-line -->
-    <input type="text" placeholder="Название" />
+    <input type="text" placeholder="Название" v-model="departmentName" />
 
     <button class="create-button desktop" @click="create">Добавить</button>
     <button class="create-button mobile" @click="create">

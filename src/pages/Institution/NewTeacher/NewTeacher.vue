@@ -1,82 +1,69 @@
 <script lang="ts" setup>
-import { defineEmits, ref } from 'vue'
+import { defineEmits, ref, inject } from 'vue'
+import { useStore } from 'vuex'
+import { Key } from '@/store'
+import { useFetch } from '@/shared'
+import { reloadKey } from '../keys'
+
+const key = inject<Key>('key')
+const { state, getters } = useStore(key)
 
 const firstName = ref('')
-const onFirstNameInput = (e: Event) => {
-  const { value } = e.target as HTMLInputElement
-  firstName.value = value
-}
-
 const lastName = ref('')
-const onLastNameInput = (e: Event) => {
-  const { value } = e.target as HTMLInputElement
-  lastName.value = value
-}
-
 const patronymic = ref('')
-const onPatronymicInput = (e: Event) => {
-  const { value } = e.target as HTMLInputElement
-  patronymic.value = value
-}
-
 const password = ref('')
-const onPasswordInput = (e: Event) => {
-  const { value } = e.target as HTMLInputElement
-  password.value = value
-}
 
 const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
+
+// eslint-disable-next-line
+const reload = inject(reloadKey, () => {})
+const create = async () => {
+  const notValid = firstName.value === '' || lastName.value === '' || password.value === ''
+  if (!state.userInfo || notValid) return
+  await useFetch({
+    path: 'markMethods/institution.registerTeacher',
+    data: {
+      institutionID: getters.IID,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      patronymic: patronymic.value,
+      password: password.value
+    }
+  })
+  reload()
+  emit('toggle')
+}
 </script>
 
 <template>
   <form class="teacher-registration">
     <label for="firstName">
       <span>Имя</span>
-      <input
-        type="text"
-        :value="firstName"
-        @input="onFirstNameInput"
-        id="firstName"
-      />
+      <input type="text" v-model="firstName" id="firstName" required />
     </label>
 
     <label for="lastName">
       <span>Фамилия</span>
-      <input
-        type="text"
-        :value="lastName"
-        @input="onLastNameInput"
-        id="lastName"
-      />
+      <input type="text" v-model="lastName" id="lastName" required />
     </label>
 
     <label for="patronymic">
       <span>Отчество</span>
-      <input
-        type="text"
-        :value="patronymic"
-        @input="onPatronymicInput"
-        id="patronymic"
-      />
+      <input type="text" v-model="patronymic" id="patronymic" />
     </label>
 
     <label for="patronymic">
       <span>Пароль</span>
-      <input
-        type="password"
-        :value="password"
-        @input="onPasswordInput"
-        id="password"
-      />
+      <input type="password" v-model="password" id="password" required />
     </label>
 
     <p class="note">Если оставить пустым, то автоматически сгенерируется надежный пароль</p>
 
     <div class="button-wrapper">
-      <button class="cancel-button">Отмена</button>
-      <button class="create-button">Создать</button>
+      <button class="cancel-button" @click.prevent="emit('toggle')">Отмена</button>
+      <button class="create-button" @click.prevent="create">Создать</button>
     </div>
   </form>
 

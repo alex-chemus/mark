@@ -5,3 +5,9 @@ export interface IGroupUser {
   fullName: string,
   badgeText?: string
 }
+
+export interface IUserItem {
+  uid: number,
+  fullName: string,
+  avatar: string
+}

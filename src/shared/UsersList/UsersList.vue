@@ -1,20 +1,52 @@
 <script lang="ts" setup>
-import { defineProps } from 'vue'
-import { IGroupUser } from '../types'
+import {
+  defineProps, inject, onMounted, ref
+} from 'vue'
+import { useStore } from 'vuex'
+import { Key } from '@/store'
+import { useFetch } from '@/shared'
+import { IGroupUser, IUserItem } from '../types'
 import GroupUser from '../GroupUser/GroupUser.vue'
 
-const props = defineProps<{
+const key = inject<Key>('key')
+const { state, getters } = useStore(key)
+
+/*const props = defineProps<{
   users: IGroupUser[] // todo: типизировать
+}>()*/
+
+const props = defineProps<{
+  users?: number[], // UIDs
 }>()
+
+const userItems = ref<IUserItem[]>([])
+
+const loadUsers = async () => {
+  if (!props.users || props.users.length === 0) return
+  const data = await useFetch({
+    path: 'methods/users.getInfo',
+    data: {
+      userIds: props.users.join(', ')
+    }
+  })
+  userItems.value = data.response.map((user: any) => ({
+    uid: user.id,
+    fullName: `${user.firstName} ${user.lastName} ${user.patronymic}`,
+    avatar: user.additionalData.avatarData.avatarCompressed
+  } as IUserItem))
+  console.log('new data', userItems.value)
+}
+
+onMounted(loadUsers)
 </script>
 
 <template>
-  <ul class="users-list">
-    <li v-for="(user, i) in users" :key="i" class="user">
+  <ul v-if="userItems.length > 0" class="users-list">
+    <li v-for="user in userItems" :key="user.uid" class="user">
       <group-user
+        :avatar="user.avatar"
         :full-name="user.fullName"
-        :badge-text="user.badgeText"
-        :img="user.img"
+        :uid="user.uid"
       />
     </li>
   </ul>

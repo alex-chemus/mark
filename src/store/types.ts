@@ -1,7 +1,7 @@
 import { Role } from "@/shared"
 
 export interface IUserInfo {
-  id: number,
+  /*id: number,
   firstName: string,
   lastName: string,
   patronymic: string,
@@ -24,10 +24,28 @@ export interface IUserInfo {
       avatarScale: number
     },
     sex: number,
+  },*/
+  id: number,
+  additionalData: {
+    roles: Role[],
+    inGroups: number[],
+    ownGroups: number[],
+    teacherSubscriptionExpirationDate: string,
+    teacherSubscriptionIsActive: boolean
   },
+  institutionData: {
+    institutionID: number,
+    groupID: number,
+    inGroup: boolean,
+    groupRole: string // todo: сделать отдельно роли в группе
+  },
+  portfolio: {
+    works: any[],
+    awards: any[]
+  }
 }
 
 export interface IState {
   userInfo: IUserInfo | null,
-  infoLoaded: boolean
+  token: string | null
 }

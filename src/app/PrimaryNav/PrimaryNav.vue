@@ -1,5 +1,11 @@
 <script lang="ts" setup>
+import { Key } from '@/store';
+import { inject, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+
+const key = inject<Key>('key')
+const { getters } = useStore(key)
 
 const route = useRoute()
 
@@ -7,6 +13,10 @@ const selectRoutes = (...routes: string[]) => {
   //console.log(routes, route.path)
   return routes.includes(route.path) ? 'selected' : ''
 }
+
+const isAdmin = computed(() => {
+  return getters.roles?.includes('administrator_of_institution')
+})
 </script>
 
 <template>
@@ -22,6 +32,10 @@ const selectRoutes = (...routes: string[]) => {
 
       <li :class="selectRoutes('/announcements')">
         <router-link to="/announcements">Объявления</router-link>
+      </li>
+
+      <li v-if="isAdmin" :class="selectRoutes('/institution')">
+        <router-link to="/institution">Учреждение</router-link>
       </li>
     </ul>
   </nav>

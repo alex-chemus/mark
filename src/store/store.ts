@@ -6,8 +6,8 @@ export type Key = InjectionKey<Store<IState>>
 
 export const store = createStore<IState>({
   state: {
-    infoLoaded: false,
-    userInfo: null
+    userInfo: null,
+    token: null
   },
 
   mutations: {
@@ -15,8 +15,8 @@ export const store = createStore<IState>({
       state.userInfo = value
     },
 
-    setInfoLoaded(state, value: boolean) {
-      state.infoLoaded = value
+    setToken(state, value: string) {
+      state.token = value
     }
   },
 
@@ -24,6 +24,13 @@ export const store = createStore<IState>({
     roles(state) {
       if (state.userInfo)
         return state.userInfo.additionalData.roles
+      else
+        return null
+    },
+
+    IID(state) {
+      if (state.userInfo)
+        return state.userInfo.institutionData.institutionID
       else
         return null
     }

@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, defineProps } from 'vue'
 import Faculty from '../Faculty/Faculty.vue'
 import AddFaculty from '../AddFaculty/AddFaculty.vue'
 import { IFaculty } from '../types'
-// will fetch info
 
-const faculties = ref<IFaculty[]>([
+const props = defineProps<{
+  faculties?: IFaculty[]
+}>()
+
+/*const faculties = ref<IFaculty[]>([
   {
     facultyName: 'Биологический факультет',
     departments: [
@@ -14,7 +17,7 @@ const faculties = ref<IFaculty[]>([
     ]
   },
   { facultyName: 'Химический факультет' }
-])
+])*/
 </script>
 
 <template>

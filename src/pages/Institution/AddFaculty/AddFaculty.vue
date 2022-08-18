@@ -1,9 +1,33 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+import { useStore } from 'vuex'
+import { Key } from '@/store'
+import { useFetch } from '@/shared'
+import { reloadKey } from '../keys'
+
+const key = inject<Key>('key')
+const { state, getters } = useStore(key)
 
 const opened = ref(false)
+const facultyName = ref('')
+/*watch(facultyName, () => {
+  console.log(facultyName.value)
+})*/
 
-const create = () => {} // eslint-disable-line
+// eslint-disable-next-line
+const reload = inject(reloadKey, () => {})
+const create = async () => {
+  if (!state.userInfo || facultyName.value === '') return
+  await useFetch({
+    path: 'markMethods/institution.addFaculty',
+    data: {
+      institutionID: getters.IID,
+      faculties: facultyName.value
+    }
+  })
+  reload()
+  opened.value = false
+}
 </script>
 
 <template>
@@ -21,7 +45,7 @@ const create = () => {} // eslint-disable-line
     </button>
 
     <!-- eslint-disable-next-line -->
-    <input type="text" placeholder="Название" />
+    <input type="text" placeholder="Название" v-model="facultyName" />
 
     <button class="create-button desktop" @click="create">Добавить</button>
     <button class="create-button mobile" @click="create">

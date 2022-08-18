@@ -3,16 +3,23 @@ import { defineProps } from 'vue'
 import { Badge } from '@/shared'
 //import { IGroupUser } from '../types'
 
-defineProps<{
+/*defineProps<{
   img?: string,
   fullName: string,
+  badgeText?: string
+}>()*/
+
+const props = defineProps<{
+  avatar: string,
+  fullName: string,
+  uid: number
   badgeText?: string
 }>()
 </script>
 
 <template>
   <div class="group-user">
-    <div v-if="!img" class="placeholder" />
+    <div v-if="avatar !== ''" class="placeholder" />
     <div class="wrapper">
       <p class="name">{{ fullName }}</p>
       <div class="badge">

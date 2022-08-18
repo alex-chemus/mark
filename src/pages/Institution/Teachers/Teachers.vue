@@ -1,30 +1,43 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+// eslint-disable-next-line
+import { ref, defineProps, computed, onMounted } from 'vue'
 import { UsersList, IGroupUser } from '@/shared';
+import { IStaff } from '../types';
 import NewTeacher from '../NewTeacher/NewTeacher.vue'
+
+const props = defineProps<{
+  teachers?: IStaff[]
+}>()
+
+onMounted(() => {
+  console.log(props.teachers)
+})
 
 const showAuth = ref(false)
 
 // will fetch data about teachers
-const teachers = ref<IGroupUser[]>([
+/*const teachers = ref<IGroupUser[]>([
   { fullName: 'Сарычев Алексей ВАсильевич' },
   { fullName: 'Сарычев Алексей ВАсильевич' },
   { fullName: 'Сарычев Алексей ВАсильевич' },
   { fullName: 'Сарычев Алексей ВАсильевич' },
   { fullName: 'Сарычев Алексей ВАсильевич' },
   { fullName: 'Сарычев Алексей ВАсильевич' },
-])
+])*/
+
+const getTeachersUIDs = computed(() => {
+  return props.teachers?.map(teacher => teacher.userID)
+}) // eslint-disable-line
 </script>
 
 <template>
   <main class="teachers">
     <div class="list-wrapper">
-      <users-list :users="teachers" />
+      <users-list v-if="teachers" :users="getTeachersUIDs" />
     </div>
     <button class="add-button" @click="showAuth = true">Добавить</button>
+    <new-teacher v-if="showAuth" @toggle="showAuth = !showAuth" />
   </main>
-
-  <new-teacher v-if="showAuth" @toggle="showAuth = !showAuth" />
 </template>
 
 <style lang="scss" scoped>
