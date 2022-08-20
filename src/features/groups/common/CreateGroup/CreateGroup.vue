@@ -1,27 +1,24 @@
 <script lang="ts" setup>
-import { defineEmits, ref } from 'vue'
+import { defineEmits } from 'vue'
 import { Checkbox } from '@/shared'
-
-const name = ref('')
-const hasRoles = ref(false)
-
-const send = () => {} // eslint-disable-line
-
-const onNameInput = (e: Event) => {
-  const target = e.target as HTMLInputElement
-  name.value = target.value
-}
+import useCreateGroup from '@/features/groups/hooks/useCreateGroup'
 
 const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
+
+/*const name = ref('')
+const hasRoles = ref(false)*/
+//const send = () => {} // eslint-disable-line
+
+const { name, hasRoles, createGroup } = useCreateGroup()
 </script>
 
 <template>
   <form class="create-section">
     <label for="name">
       <span>Название группы</span>
-      <input type="text" @input="onNameInput" id="name" />
+      <input type="text" v-model="name" id="name" />
     </label>
 
     <div>
@@ -39,7 +36,7 @@ const emit = defineEmits<{
       >Отмена</button>
       <button
         class="create-button"
-        @click.prevent="send"
+        @click.prevent="createGroup"
       >Создать</button>
     </div>
   </form>

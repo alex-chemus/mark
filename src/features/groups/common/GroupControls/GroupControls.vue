@@ -7,9 +7,6 @@ import CreateGroup from '../CreateGroup/CreateGroup.vue'
 const key = inject<Key>('key')
 const { getters } = useStore(key)
 
-// todo: add mark method
-const addGroup = () => {} // eslint-disable-line
-
 const opened = ref(false)
 
 const title = computed(() => {

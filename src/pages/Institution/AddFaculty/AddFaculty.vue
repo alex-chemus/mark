@@ -1,22 +1,22 @@
 <script lang="ts" setup>
 import { ref, inject } from 'vue'
-import { useStore } from 'vuex'
-import { Key } from '@/store'
-import { useFetch } from '@/shared'
 import { reloadKey } from '../keys'
-
-const key = inject<Key>('key')
-const { state, getters } = useStore(key)
+import useAddFaculty from '../hooks/useAddFaculty'
 
 const opened = ref(false)
-const facultyName = ref('')
-/*watch(facultyName, () => {
-  console.log(facultyName.value)
-})*/
+//const facultyName = ref('')
 
 // eslint-disable-next-line
 const reload = inject(reloadKey, () => {})
+
+const { facultyName, addFaculty } = useAddFaculty()
+
 const create = async () => {
+  await addFaculty()
+  reload()
+  opened.value = false
+}
+/*const create = async () => {
   if (!state.userInfo || facultyName.value === '') return
   await useFetch({
     path: 'markMethods/institution.addFaculty',
@@ -27,7 +27,7 @@ const create = async () => {
   })
   reload()
   opened.value = false
-}
+}*/
 </script>
 
 <template>

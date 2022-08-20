@@ -1,26 +1,29 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits } from 'vue'
-import { IGroupButton } from '../types';
+import { IGroupButton } from '@/features/groups/types'
 
 const props = defineProps<{
   groups: IGroupButton[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'search', value: number[] | null): void, // ids[] of groups in result
+  (e: 'search', value: number[]): void, // ids[] of groups in result
 }>()
 
 const search = (e: Event) => {
   const { value } = e.target as HTMLInputElement
 
-  if (value === '') emit('search', null)
+  if (value === '') emit('search', [])
 
   const result = props.groups
     .filter(group => {
       const pattern = new RegExp(value.toLowerCase().trim())
-      return pattern.test(group.name.toLowerCase().trim())
+      return pattern.test(group.groupName.toLowerCase().trim())
     })
-    .map(group => group.id)
+    .map(group => group.groupID)
+
+  console.log('groups', props.groups)
+  console.log('result', result)
 
   emit('search', result)
 }

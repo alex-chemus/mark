@@ -2,7 +2,7 @@
 import { defineProps, defineEmits } from 'vue'
 
 const props = defineProps<{
-  title: string,
+  title?: string,
   state: boolean
 }>()
 
@@ -18,7 +18,7 @@ const emit = defineEmits<{
         <use href="~/feather-icons/dist/feather-sprite.svg#check" />
       </svg>
     </div>
-    <p>{{ title }}</p>
+    <p v-if="title">{{ title }}</p>
   </button>
 </template>
 

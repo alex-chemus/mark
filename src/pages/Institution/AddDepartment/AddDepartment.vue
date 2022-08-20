@@ -2,24 +2,29 @@
 import {
   defineProps, ref, inject
 } from 'vue'
-import { useStore } from 'vuex'
-import { Key } from '@/store'
-import { useFetch } from '@/shared'
 import { reloadKey } from '../keys'
-
-const key = inject<Key>('key')
-const { state, getters } = useStore(key)
+import useAddDepartment from '../hooks/useAddDepartment';
 
 const props = defineProps<{
   facultyID: number
 }>()
 
 const opened = ref(false)
-const departmentName = ref('')
+//const departmentName = ref('')
 
 // eslint-disable-next-line
 const reload = inject(reloadKey, () => {})
+
+const { departmentName, addDepartment } = useAddDepartment()
+
 const create = async () => {
+  await addDepartment({
+    facultyID: props.facultyID
+  })
+  reload()
+  opened.value
+}
+/*const create = async () => {
   if (!state.userInfo || departmentName.value === '') return
   await useFetch({
     path: 'markMethods/institution.addDepartment',
@@ -31,7 +36,7 @@ const create = async () => {
   })
   reload()
   opened.value = false
-}
+}*/
 </script>
 
 <template>

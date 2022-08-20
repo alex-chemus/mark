@@ -1,3 +1,5 @@
-export { default as AdminGroups } from './AdminGroups/AdminGroups.vue'
+//export { default as AdminGroups } from './AdminGroups/AdminGroups.vue'
+export { default as AdminGroups } from './admin/AdminGroups/AdminGroups.vue'
 export { default as TeacherGroups } from './TeacherGroups/TeacherGroups.vue'
-export { default as StudentGroups } from './StudentGroups/StudentGroups.vue'
+//export { default as StudentGroups } from './StudentGroups/StudentGroups.vue'
+export { default as SturentGroups } from './student/StudentGroups/StudentGroups.vue'

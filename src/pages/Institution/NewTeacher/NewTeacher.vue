@@ -1,17 +1,12 @@
 <script lang="ts" setup>
-import { defineEmits, ref, inject } from 'vue'
-import { useStore } from 'vuex'
-import { Key } from '@/store'
-import { useFetch } from '@/shared'
+import { defineEmits, inject } from 'vue'
 import { reloadKey } from '../keys'
+import useAddTeacher from '../hooks/useAddTeacher'
 
-const key = inject<Key>('key')
-const { state, getters } = useStore(key)
-
-const firstName = ref('')
+/*const firstName = ref('')
 const lastName = ref('')
 const patronymic = ref('')
-const password = ref('')
+const password = ref('')*/
 
 const emit = defineEmits<{
   (e: 'toggle'): void
@@ -19,7 +14,16 @@ const emit = defineEmits<{
 
 // eslint-disable-next-line
 const reload = inject(reloadKey, () => {})
+const {
+  firstName, lastName, patronymic, password, addTeacher
+} = useAddTeacher()
+
 const create = async () => {
+  await addTeacher()
+  reload()
+  emit('toggle')
+}
+/*const create = async () => {
   const notValid = firstName.value === '' || lastName.value === '' || password.value === ''
   if (!state.userInfo || notValid) return
   await useFetch({
@@ -34,7 +38,7 @@ const create = async () => {
   })
   reload()
   emit('toggle')
-}
+}*/
 </script>
 
 <template>

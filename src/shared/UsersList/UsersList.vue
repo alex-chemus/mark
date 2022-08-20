@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import {
-  defineProps, inject, onMounted, ref
+  defineProps, inject, onMounted, ref, watch
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
-import { useFetch } from '@/shared'
+//import { useFetch, useFetchUsers } from '../hooks'
+import { useFetchUsers } from '@/shared'
 import { IGroupUser, IUserItem } from '../types'
 import GroupUser from '../GroupUser/GroupUser.vue'
 
@@ -19,7 +20,12 @@ const props = defineProps<{
   users?: number[], // UIDs
 }>()
 
-const userItems = ref<IUserItem[]>([])
+watch(
+  () => props.users,
+  () => console.log(props.users)
+)
+
+/*const userItems = ref<IUserItem[]>([])
 
 const loadUsers = async () => {
   if (!props.users || props.users.length === 0) return
@@ -34,15 +40,28 @@ const loadUsers = async () => {
     fullName: `${user.firstName} ${user.lastName} ${user.patronymic}`,
     avatar: user.additionalData.avatarData.avatarCompressed
   } as IUserItem))
-  console.log('new data', userItems.value)
-}
+  //console.log('new data', userItems.value)
+}*/
 
-onMounted(loadUsers)
+const { users, fetchUsers } = useFetchUsers()
+
+onMounted(async () => {
+  if (!props.users || props.users.length === 0) return
+  fetchUsers({ userIds: props.users.join(', ') })
+})
+
+watch(
+  () => props.users,
+  () => {
+    if (!props.users || props.users.length === 0) return
+    fetchUsers({ userIds: props.users.join(', ') })
+  }
+)
 </script>
 
 <template>
-  <ul v-if="userItems.length > 0" class="users-list">
-    <li v-for="user in userItems" :key="user.uid" class="user">
+  <ul v-if="users?.length > 0" class="users-list">
+    <li v-for="user in users" :key="user.uid" class="user">
       <group-user
         :avatar="user.avatar"
         :full-name="user.fullName"

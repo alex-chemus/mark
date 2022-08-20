@@ -1,30 +1,70 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from 'vue'
+import {
+  defineProps, defineEmits, ref, computed, inject, onMounted
+} from 'vue'
+import { useStore } from 'vuex'
+import { Key } from '@/store'
+import { useFetchInstitution } from '@/shared'
+import { IGroupInfo } from '@/features/groups/types'
 import LeaveWarning from '../LeaveWarning/LeaveWarning.vue'
 
-defineProps<{
-  userCanLeave?: boolean,
-  userCanShare?: boolean,
+const key = inject<Key>('key')
+const { getters } = useStore(key)
+
+const props = defineProps<{
   opened: boolean,
-  groupName: string,
+  groupInfo: IGroupInfo
 }>()
 
 const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
 
+const { institutionInfo, fetchInfo } = useFetchInstitution()
+onMounted(fetchInfo)
+
+const getName = computed(() => {
+  return institutionInfo.value?.shortName
+})
+
+const getFaculty = computed(() => {
+  const id = props.groupInfo.additionalData.facultyID
+  return institutionInfo.value
+    ? institutionInfo.value.additionalData.faculties
+      .find(f => f.facultyID === id)
+    : null
+})
+
+const getDepartment = computed(() => {
+  const id = props.groupInfo.additionalData.departmentID
+  return getFaculty.value
+    ? getFaculty.value.departments
+      .find(d => d.departmentID === id)
+    : null
+})
+
 // will fetch data later
-const institution = ref('*учебное заведение*')
+/*const institution = ref('*учебное заведение*')
 const specialty = ref('*специальность*')
-const faculty = ref('*факультет*')
+const faculty = ref('*факультет*')*/
 
 const leaving = ref(false)
+
+const userCanShare = computed(() => {
+  return getters.roles.includes('teacher')
+    || getters.roles.includes('administrator_of_institution')
+})
+
+const userCanLeave = computed(() => {
+  return !getters.roles.includes('teacher')
+    && !getters.roles.includes('administrator_of_institution')
+})
 </script>
 
 <template>
   <section v-show="opened" class="group-popup">
     <div class="mobile-group">
-      <h6>{{ groupName }}</h6>
+      <h6>{{ groupInfo.groupName }}</h6>
       <button v-if="userCanShare" class="share-button">
         <svg width="22" height="22" viewBox="0 0 22 22">
           <use href="~/feather-icons/dist/feather-sprite.svg#share-2" />
@@ -33,14 +73,14 @@ const leaving = ref(false)
     </div>
 
     <dl class="list">
-      <dt>{{ institution }}</dt>
-      <dd>Учебное учреждение</dd>
+      <dt v-if="getName">{{ getName }}</dt>
+      <dd v-if="getName">Учебное учреждение</dd>
 
-      <dt>{{ specialty }}</dt>
-      <dd>Специальность</dd>
+      <dt v-if="getFaculty">{{ getFaculty }}</dt>
+      <dd v-if="getFaculty">Специальность</dd>
 
-      <dt>{{ faculty }}</dt>
-      <dd>Факультет</dd>
+      <dt v-if="getDepartment">{{ getDepartment }}</dt>
+      <dd v-if="getDepartment">Факультет</dd>
     </dl>
 
     <button v-if="userCanLeave" class="logout-btn" @click="leaving = true">

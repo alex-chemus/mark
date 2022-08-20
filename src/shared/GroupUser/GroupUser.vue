@@ -12,7 +12,7 @@ import { Badge } from '@/shared'
 const props = defineProps<{
   avatar: string,
   fullName: string,
-  uid: number
+  uid?: number
   badgeText?: string
 }>()
 </script>

@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { UsersList, IGroupUser } from '@/shared'
-import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
-import GroupPopup from '../GroupPopup/GroupPopup.vue'
+import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
+//import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
+//import GroupPopup from '../GroupPopup/GroupPopup.vue'
 
 const groupName = ref('Название группы')
 const popupOpened = ref(false)
 const sidebarOpened = ref(false)
 
-const students = ref<IGroupUser[]>([
+/*const students = ref<IGroupUser[]>([
   { fullName: 'Имя Фамилия', badgeText: 'Староста' },
   { fullName: 'Имя Фамилия', badgeText: 'Зам. старосты' },
   { fullName: 'Имя Фамилия' },
@@ -16,7 +17,7 @@ const students = ref<IGroupUser[]>([
   { fullName: 'Имя Фамилия' },
   { fullName: 'Имя Фамилия' },
   { fullName: 'Имя Фамилия' },
-])
+])*/
 </script>
 
 <template>

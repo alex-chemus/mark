@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits } from 'vue'
-import { IGroupButton } from '../types';
+import { IGroupButton } from '@/features/groups/types'
 
 const props = defineProps<{
   groups: IGroupButton[],
@@ -20,11 +20,11 @@ const setSelection = (id: number) => {
   <ul class="groups-list">
     <li
       v-for="group in groups"
-      :key="group.id"
-      :class="setSelection(group.id)"
+      :key="group.groupID"
+      :class="setSelection(group.groupID)"
     >
-      <button @click="emit('switch', group.id)">
-        {{ group.name }}
+      <button @click="emit('switch', group.groupID)">
+        {{ group.groupName }}
       </button>
     </li>
   </ul>

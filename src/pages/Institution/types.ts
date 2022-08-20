@@ -24,26 +24,3 @@ export interface IStaff {
   password: string,
   passwordIsInvalid: boolean
 }
-
-export interface IInstitution {
-  id: number,
-  shortName: string,
-  fullName: string,
-  additionalData: {
-    avatar: string,
-    faculties: IFaculty[],
-    staff: {
-      teachers: IStaff[],
-      // eslint-disable-next-line
-      administrators_of_institution: IStaff[],
-      news_makers: any[]
-    },
-    registrationDate: string,
-    subscriptionExpirationDate: string,
-    subscriptionIsActive: boolean
-  },
-  groups: any[],
-  countryCode: string,
-  subdivisionCode: number,
-  cityCode: number
-}

@@ -9,9 +9,9 @@ const props = defineProps<{
   teachers?: IStaff[]
 }>()
 
-onMounted(() => {
+/*onMounted(() => {
   console.log(props.teachers)
-})
+})*/
 
 const showAuth = ref(false)
 
@@ -26,6 +26,7 @@ const showAuth = ref(false)
 ])*/
 
 const getTeachersUIDs = computed(() => {
+  console.log(props.teachers)
   return props.teachers?.map(teacher => teacher.userID)
 }) // eslint-disable-line
 </script>

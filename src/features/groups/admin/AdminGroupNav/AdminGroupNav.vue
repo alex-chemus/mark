@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref } from 'vue'
-import { GroupNavItem } from '../types'
-import GroupPopup from '../GroupPopup/GroupPopup.vue'
-import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
+import { GroupNavItem, IGroupInfo } from '@/features/groups/types'
+import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
+//import GroupPopup from '../GroupPopup/GroupPopup.vue'
+//import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
 
 const props = defineProps<{
   groupNavItem: GroupNavItem,
-  groupName: string
+  groupInfo: IGroupInfo,
+  groupsList: number[] | null
 }>()
 
 const emit = defineEmits<{
@@ -59,14 +61,16 @@ const setSelection = (item: GroupNavItem) => {
 
       <group-popup
         :opened="opened"
-        :group-name="groupName"
-        :user-can-share="true"
+        :group-info="groupInfo"
         @toggle="opened = !opened"
       />
     </div>
 
     <div v-show="sidebarOpened" class="sidebar-popup">
-      <groups-sidebar />
+      <groups-sidebar
+        v-if="groupsList"
+        :groupsIDs="groupsList"
+      />
     </div>
     <!-- eslint-disable -->
     <div

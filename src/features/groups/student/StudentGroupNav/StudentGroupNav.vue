@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref } from 'vue'
-import { GroupNavItem } from '../types'
-import GroupPopup from '../GroupPopup/GroupPopup.vue'
+import { GroupNavItem } from '@/features/groups/types'
+import { GroupPopup } from '@/features/groups/common'
 
 const props = defineProps<{
   groupNavItem: GroupNavItem,
