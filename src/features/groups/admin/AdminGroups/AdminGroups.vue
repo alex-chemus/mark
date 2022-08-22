@@ -8,9 +8,6 @@ import { GroupNavItem } from '@/features/groups/types'
 import AdminGroupNav from '../AdminGroupNav/AdminGroupNav.vue'
 import AddTeacher from '../AddTeacher/AddTeacher.vue'
 
-//const groupName = ref('Название группы')
-const popupOpened = ref(false)
-const sidebarOpened = ref(false)
 const navItem = ref<GroupNavItem>('Студенты')
 
 const { groupsList, fetchGroupsList } = useFetchGroupsList()

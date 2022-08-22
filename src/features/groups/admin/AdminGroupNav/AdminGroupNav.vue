@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref } from 'vue'
+import { Alert } from '@/shared'
 import { GroupNavItem, IGroupInfo } from '@/features/groups/types'
 import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
 
@@ -63,6 +64,8 @@ const setSelection = (item: GroupNavItem) => {
         :group-info="groupInfo"
         @toggle="opened = !opened"
       />
+
+      <alert :text="'test'" />
     </div>
 
     <div v-show="sidebarOpened" class="sidebar-popup">

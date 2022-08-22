@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { inject, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { IInstitution, useFetch } from '@/shared'
+import { IInstitution, useFetch, Alert } from '@/shared'
 import { IUserInfo, Key } from '@/store'
 
 import { Loader } from '@/features/loader'
@@ -36,14 +36,6 @@ onMounted(async () => {
 
     await fetchUserInfo()
     await fetchInstitution()
-    /*.then(info => {
-        commit('setUserInfo', {
-          id: info.response.findcreekID,
-          additionalData: info.response.additionalData,
-          institutionData: info.response.institutionData,
-          portfolio: info.response.portfolio
-        } as IUserInfo)
-      })*/
   } else {
     // todo: reidrect to auth page
   }
