@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { defineEmits } from 'vue'
+import { defineEmits, inject } from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
 import { Checkbox } from '@/shared'
 import useCreateGroup from '@/features/groups/hooks/useCreateGroup'
 
@@ -7,11 +9,12 @@ const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
 
-/*const name = ref('')
-const hasRoles = ref(false)*/
-//const send = () => {} // eslint-disable-line
+const key = inject<Key>('key')
+const { getters } = useStore(key)
 
-const { name, hasRoles, createGroup } = useCreateGroup()
+const {
+  name, hasRoles, createGroup, shouldAttach
+} = useCreateGroup()
 </script>
 
 <template>
@@ -26,6 +29,14 @@ const { name, hasRoles, createGroup } = useCreateGroup()
         title="Роли в группе"
         :state="hasRoles"
         @toggle="hasRoles = !hasRoles"
+      />
+    </div>
+
+    <div v-if="getters.roles.includes('teacher')">
+      <checkbox
+        title="Привязать к учреждению"
+        :state="shouldAttach"
+        @toggle="shouldAttach = !shouldAttach"
       />
     </div>
 

@@ -16,7 +16,6 @@ const navItem = ref<GroupNavItem>('Студенты')
 
 const { groupsList, fetchGroupsList } = useFetchGroupsList()
 watch(groupsList, () => {
-  console.log()
   // eslint-disable-next-line
   if (groupsList.value) currentGroup.value = groupsList.value[0]
 })

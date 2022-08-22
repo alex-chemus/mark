@@ -35,6 +35,8 @@ const currentGroup = ref(props.groupsIDs[0])
 
 watch(currentGroup, () => emit('change-group', currentGroup.value))
 
+//watch(groups, () => console.log(groups.value))
+
 /*const fetchGroups = async () => {
   const { response } = await useFetch({
     path: 'markMethods/group.getInfo',
@@ -56,6 +58,11 @@ const getGroups = computed(() => {
     })
   } else return groups.value
 })
+
+watch(
+  () => getGroups.value,
+  () => console.log(getGroups.value)
+)
 
 /*const getGroups = computed(() => {
   if (searchedGroups.value) {

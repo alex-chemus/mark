@@ -1,11 +1,44 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {
+  ref, inject, onBeforeMount, watch
+} from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
 import { UsersList, IGroupUser } from '@/shared'
 import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
+import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 //import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
 //import GroupPopup from '../GroupPopup/GroupPopup.vue'
 
-const groupName = ref('Название группы')
+const key = inject<Key>('key')
+const { state } = useStore(key)
+
+const groupsIDs = ref<number[]>([])
+const currentGroup = ref<number>(0)
+
+const getGroups = () => {
+  if (!state.userInfo) return
+  groupsIDs.value = [
+    ...state.userInfo.additionalData.inGroups,
+    ...state.userInfo.additionalData.ownGroups
+  ]
+  currentGroup.value = groupsIDs.value[0] // eslint-disable-line
+  console.log(groupsIDs.value)
+}
+watch(() => state.userInfo, getGroups)
+onBeforeMount(getGroups)
+
+const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
+const reload = () => {
+  if (currentGroup.value) {
+    fetchGroupInfo({
+      currentGroup: currentGroup.value
+    })
+  }
+}
+watch(currentGroup, reload)
+
+//const groupName = ref('Название группы')
 const popupOpened = ref(false)
 const sidebarOpened = ref(false)
 
@@ -23,10 +56,13 @@ const sidebarOpened = ref(false)
 <template>
   <main class="teacher-groups">
     <div class="desktop-sidebar">
-      <groups-sidebar />
+      <groups-sidebar
+        :groupsIDs="groupsIDs"
+        @change-group="value => currentGroup = value"
+      />
     </div>
 
-    <section class="main">
+    <section v-if="groupInfo" class="main">
       <div class="title-group">
         <button class="sidebar-button" @click="sidebarOpened = !sidebarOpened">
           <svg width="22" height="22" viewBox="0 0 22 22">
@@ -34,7 +70,7 @@ const sidebarOpened = ref(false)
           </svg>
         </button>
 
-        <h1 class="group-title">{{ groupName }}</h1>
+        <h1 class="group-title">{{ groupInfo.groupName }}</h1>
 
         <button class="info-button" @click="popupOpened = !popupOpened">
           <svg width="24" height="24" viewBox="0 0 24 24">
@@ -44,13 +80,16 @@ const sidebarOpened = ref(false)
 
         <group-popup
           :opened="popupOpened"
-          :group-name="groupName"
+          :group-info="groupInfo"
           @toggle="popupOpened = !popupOpened"
         />
       </div>
 
       <div v-show="sidebarOpened" class="sidebar-popup">
-        <groups-sidebar />
+        <groups-sidebar
+          :groupsIDs="groupsIDs"
+          @change-group="value => currentGroup = value"
+        />
       </div>
       <!-- eslint-disable -->
       <div
@@ -59,7 +98,7 @@ const sidebarOpened = ref(false)
         @click="sidebarOpened = !sidebarOpened"
       />
       <!-- eslint-disable -->
-      <users-list :users="students" />
+      <users-list :users="groupInfo.users.students" />
     </section>
   </main>
 </template>
