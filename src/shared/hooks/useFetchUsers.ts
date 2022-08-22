@@ -26,9 +26,6 @@ const useFetchUsers = () => {
         ? !excludeIds.includes(u.uid)
         : true
       )
-
-    console.log(users.value)
-    console.log(excludeIds)
       /* eslint-enable */
     return users.value
   }

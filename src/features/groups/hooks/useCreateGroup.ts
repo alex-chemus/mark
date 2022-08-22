@@ -18,7 +18,7 @@ const useCreateGroup = () => {
     })
 
     if (shouldAttach.value && store.getters.roles.includes('teacher')) {
-      useFetch({
+      await useFetch({
         path: 'markMethods/group.transferToInstitution',
         data: {
           groupID: response,

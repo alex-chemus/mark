@@ -28,6 +28,11 @@ const emit = defineEmits<{
 .checkbox {
   @include button;
   @include gap(var(--size-3));
+
+  &:hover .field,
+  &:focus .field {
+    box-shadow: 0 0 0 1px var(--text-color-2);
+  }
 }
 
 .field {
@@ -38,11 +43,6 @@ const emit = defineEmits<{
   color: var(--color-accent);
   border-radius: 3px;
   transition: var(--fast);
-
-  &:hover,
-  &:focus {
-    box-shadow: 0 0 0 1px var(--text-color-2);
-  }
 }
 
 p {

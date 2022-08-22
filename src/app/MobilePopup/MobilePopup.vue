@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-// eslint-disable-next-line
-import { ref, defineEmits, defineProps, computed } from 'vue'
+import {
+  defineEmits, defineProps, computed, inject
+} from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
 const props = defineProps<{
@@ -11,17 +14,27 @@ const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
 
+const key = inject<Key>('key')
+const { getters } = useStore(key)
+
 const route = useRoute()
 
 const selectRoutes = (...routes: string[]) => {
   return routes.includes(route.path) ? 'selected' : ''
 }
 
-const navItems = [
-  { route: '/', title: 'Группы' },
-  { route: '/cloud', title: 'Облако' },
-  { route: '/announcements', title: 'Объявления' }
-]
+const navItems = computed(() => {
+  const arr = [
+    { route: '/', title: 'Группы' },
+    { route: '/cloud', title: 'Облако' },
+    { route: '/announcements', title: 'Объявления' },
+  ]
+
+  if (getters.roles?.includes('administrator_of_institution'))
+    arr.push({ route: '/institution', title: 'Учреждение' })
+
+  return arr
+})
 
 const openClass = computed(() => {
   return props.opened ? 'opened' : ''

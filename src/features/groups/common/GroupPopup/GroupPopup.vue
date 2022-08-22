@@ -5,6 +5,8 @@ import {
 import { useStore } from 'vuex'
 import { Key } from '@/store'
 import { IGroupInfo } from '@/features/groups/types'
+import useShareGroup from '@/features/groups/hooks/useShareGroup'
+import { Alert } from '@/shared'
 import LeaveWarning from '../LeaveWarning/LeaveWarning.vue'
 
 const key = inject<Key>('key')
@@ -18,6 +20,9 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
+
+const { message, shareGroup } = useShareGroup()
+const share = () => shareGroup({ groupID: props.groupInfo.groupID })
 
 const getName = computed(() => {
   return state.institution?.shortName
@@ -56,11 +61,12 @@ const userCanLeave = computed(() => {
   <section v-show="opened" class="group-popup">
     <div class="mobile-group">
       <h6>{{ groupInfo.groupName }}</h6>
-      <button v-if="userCanShare" class="share-button">
+      <button v-if="userCanShare" class="share-button" @click="share">
         <svg width="22" height="22" viewBox="0 0 22 22">
           <use href="~/feather-icons/dist/feather-sprite.svg#share-2" />
         </svg>
       </button>
+      <alert :text="message" />
     </div>
 
     <dl class="list">

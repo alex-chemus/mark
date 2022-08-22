@@ -3,17 +3,21 @@ import { defineProps, defineEmits, ref } from 'vue'
 import { Alert } from '@/shared'
 import { GroupNavItem, IGroupInfo } from '@/features/groups/types'
 import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
+import useShareGroup from '@/features/groups/hooks/useShareGroup'
 
 const props = defineProps<{
   groupNavItem: GroupNavItem,
   groupInfo: IGroupInfo,
-  groupsList: number[] | null
+  groupsList: number[] | null | undefined
 }>()
 
 const emit = defineEmits<{
   (e: 'switch', value: GroupNavItem): void,
   (e: 'change-group', value: number): void
 }>()
+
+const { message, shareGroup } = useShareGroup()
+const share = () => shareGroup({ groupID: props.groupInfo.groupID })
 
 const opened = ref(false)
 const sidebarOpened = ref(false)
@@ -47,7 +51,7 @@ const setSelection = (item: GroupNavItem) => {
         </svg>
       </button>
 
-      <button class="share-button button">
+      <button class="share-button button" @click="share">
         <svg width="22" height="22" viewBox="0 0 22 22">
           <use href="~/feather-icons/dist/feather-sprite.svg#share-2" />
         </svg>
@@ -65,7 +69,7 @@ const setSelection = (item: GroupNavItem) => {
         @toggle="opened = !opened"
       />
 
-      <alert :text="'test'" />
+      <alert :text="message" />
     </div>
 
     <div v-show="sidebarOpened" class="sidebar-popup">

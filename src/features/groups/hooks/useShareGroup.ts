@@ -11,11 +11,12 @@ const useShareGroup = () => {
 
   const shareGroup = async ({ groupID }: IParams) => {
     const { response } = await useFetch({
-      path: 'markMethods/createInvitation',
+      path: 'markMethods/group.createInvitation',
       data: { groupID }
     })
-    invitationID.value = response
-    message.value = ''
+    invitationID.value = response as string
+    navigator.clipboard.writeText(invitationID.value)
+    message.value = `InvitationID скопировано! ${invitationID.value}`
     return invitationID.value
   }
 

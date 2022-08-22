@@ -50,6 +50,16 @@ export const store = createStore<IState>({
         data: { institutionID: getters.IID }
       })
       commit('setInstitution', response as IInstitution)
+    },
+
+    async fetchUserInfo({ commit }) {
+      const { response } = await useFetch({ path: 'markMethods/account.getInfo' })
+      commit('setUserInfo', {
+        id: response.findcreekID,
+        additionalData: response.additionalData,
+        institutionData: response.institutionData,
+        portfolio: response.portfolio
+      } as IUserInfo)
     }
   }
 })

@@ -31,7 +31,7 @@ export interface IInstitution {
     subscriptionExpirationDate: string,
     subscriptionIsActive: boolean
   },
-  groups: any[],
+  groups: number[],
   countryCode: string,
   subdivisionCode: number,
   cityCode: number

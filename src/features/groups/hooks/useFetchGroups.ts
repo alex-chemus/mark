@@ -7,10 +7,10 @@ interface IParams {
   groupsIDs: number[]
 }
 
-const useFetchGroups = ({ groupsIDs }: IParams) => {
+const useFetchGroups = () => {
   const groups = ref<IGroupButton[]>([])
 
-  const fetchGroups = async () => {
+  const fetchGroups = async ({ groupsIDs }: IParams) => {
     if (!store.state.userInfo) return
     const { response } = await useFetch({
       path: 'markMethods/group.getInfo',

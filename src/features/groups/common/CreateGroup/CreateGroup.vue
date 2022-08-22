@@ -10,15 +10,20 @@ const emit = defineEmits<{
 }>()
 
 const key = inject<Key>('key')
-const { getters } = useStore(key)
+const { getters, dispatch } = useStore(key)
 
 const {
   name, hasRoles, createGroup, shouldAttach
 } = useCreateGroup()
+
+const create = async () => {
+  await createGroup()
+  dispatch('fetchUserInfo')
+}
 </script>
 
 <template>
-  <form class="create-section">
+  <form class="create-section" @submit.prevent>
     <label for="name">
       <span>Название группы</span>
       <input type="text" v-model="name" id="name" />
@@ -47,7 +52,7 @@ const {
       >Отмена</button>
       <button
         class="create-button"
-        @click.prevent="createGroup"
+        @click.prevent="create"
       >Создать</button>
     </div>
   </form>

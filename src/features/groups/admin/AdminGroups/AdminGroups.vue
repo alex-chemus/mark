@@ -1,20 +1,26 @@
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch, inject } from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
 import { UsersList } from '@/shared'
-import useFetchGroupsList from '@/features/groups/hooks/useFetchGroupsList'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import { GroupsSidebar } from '@/features/groups/common'
 import { GroupNavItem } from '@/features/groups/types'
 import AdminGroupNav from '../AdminGroupNav/AdminGroupNav.vue'
 import AddTeacher from '../AddTeacher/AddTeacher.vue'
 
+const key = inject<Key>('key')
+const { state } = useStore(key)
+
 const navItem = ref<GroupNavItem>('Студенты')
 
-const { groupsList, fetchGroupsList } = useFetchGroupsList()
-watch(groupsList, () => {
-  // eslint-disable-next-line
-  if (groupsList.value) currentGroup.value = groupsList.value[0]
-})
+watch(
+  () => state.institution?.groups,
+  () => {
+    // eslint-disable-next-line
+    if (state.institution?.groups) currentGroup.value = state.institution.groups[0]
+  }
+)
 
 const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 const currentGroup = ref<number | null>(null)
@@ -27,18 +33,14 @@ const reload = () => {
   }
 }
 watch(currentGroup, reload)
-
-watch(groupInfo, () => console.log(groupInfo.value))
-
-onMounted(fetchGroupsList)
 </script>
 
 <template>
   <main class="admin-groups">
     <div class="desktop-sidebar">
       <groups-sidebar
-        v-if="groupsList"
-        :groupsIDs="groupsList"
+        v-if="state.institution?.groups"
+        :groupsIDs="state.institution.groups"
         @change-group="value => currentGroup = value"
       />
     </div>
@@ -47,7 +49,7 @@ onMounted(fetchGroupsList)
       <admin-group-nav
         :group-info="groupInfo"
         :group-nav-item="navItem"
-        :groups-list="groupsList"
+        :groups-list="state.institution?.groups"
         @switch="value => navItem = value"
         @change-group="value => currentGroup = value"
       />

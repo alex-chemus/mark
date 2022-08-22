@@ -15,15 +15,22 @@ const emit = defineEmits<{
   (e: 'change-group', value: number): void
 }>()
 
-const { groups, fetchGroups } = useFetchGroups({
-  groupsIDs: props.groupsIDs
-})
+const { groups, fetchGroups } = useFetchGroups()
+
 const searchedGroups = ref<number[] | null>(null)
 const currentGroup = ref(props.groupsIDs[0])
 
 watch(currentGroup, () => emit('change-group', currentGroup.value))
 
-onMounted(fetchGroups)
+onMounted(() => fetchGroups({
+  groupsIDs: props.groupsIDs
+}))
+watch(
+  () => props.groupsIDs,
+  () => fetchGroups({
+    groupsIDs: props.groupsIDs
+  })
+)
 
 const getGroups = computed(() => {
   if (searchedGroups.value) {

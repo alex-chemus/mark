@@ -4,11 +4,10 @@ import {
 } from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
-import { UsersList, IGroupUser } from '@/shared'
+import { UsersList, Alert } from '@/shared'
 import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
-//import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
-//import GroupPopup from '../GroupPopup/GroupPopup.vue'
+import useShareGroup from '@/features/groups/hooks/useShareGroup'
 
 const key = inject<Key>('key')
 const { state } = useStore(key)
@@ -23,7 +22,7 @@ const getGroups = () => {
     ...state.userInfo.additionalData.ownGroups
   ]
   currentGroup.value = groupsIDs.value[0] // eslint-disable-line
-  console.log(groupsIDs.value)
+  //console.log(groupsIDs.value)
 }
 watch(() => state.userInfo, getGroups)
 onBeforeMount(getGroups)
@@ -38,19 +37,11 @@ const reload = () => {
 }
 watch(currentGroup, reload)
 
-//const groupName = ref('Название группы')
+const { message, shareGroup } = useShareGroup()
+const share = () => groupInfo.value && shareGroup({ groupID: groupInfo.value.groupID })
+
 const popupOpened = ref(false)
 const sidebarOpened = ref(false)
-
-/*const students = ref<IGroupUser[]>([
-  { fullName: 'Имя Фамилия', badgeText: 'Староста' },
-  { fullName: 'Имя Фамилия', badgeText: 'Зам. старосты' },
-  { fullName: 'Имя Фамилия' },
-  { fullName: 'Имя Фамилия' },
-  { fullName: 'Имя Фамилия' },
-  { fullName: 'Имя Фамилия' },
-  { fullName: 'Имя Фамилия' },
-])*/
 </script>
 
 <template>
@@ -72,6 +63,12 @@ const sidebarOpened = ref(false)
 
         <h1 class="group-title">{{ groupInfo.groupName }}</h1>
 
+        <button class="share-button" @click="share">
+          <svg width="24" height="24" viewBox="0 0 24 24">
+            <use href="~/feather-icons/dist/feather-sprite.svg#share-2" />
+          </svg>
+        </button>
+
         <button class="info-button" @click="popupOpened = !popupOpened">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use href="~/feather-icons/dist/feather-sprite.svg#info" />
@@ -83,6 +80,8 @@ const sidebarOpened = ref(false)
           :group-info="groupInfo"
           @toggle="popupOpened = !popupOpened"
         />
+
+        <alert :text="message" />
       </div>
 
       <div v-show="sidebarOpened" class="sidebar-popup">
@@ -161,7 +160,7 @@ const sidebarOpened = ref(false)
   }
 
   @include md {
-    @include gap(var(--size-3));
+    @include gap(var(--size-4));
   }
 }
 
@@ -185,12 +184,22 @@ const sidebarOpened = ref(false)
   }
 }
 
-.info-button {
+.info-button,
+.share-button {
   @include button(var(--text-color-2));
 
   &:hover,
   &:focus {
     color: var(--color-accent);
+  }
+}
+
+.share-button {
+  margin-left: auto;
+  margin-right: var(--size-4);
+
+  @include md {
+    display: none;
   }
 }
 </style>

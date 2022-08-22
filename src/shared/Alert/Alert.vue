@@ -18,11 +18,8 @@ onUpdated(() => {
 </script>
 
 <template>
-  <button class="alert" ref="button" @click="close">
-    <p class="text">{{ `${text} `.repeat(10) }}</p>
-    <svg width="22" height="22" viewBox="0 0 22 22">
-      <use href="~/feather-icons/dist/feather-sprite.svg#x" />
-    </svg>
+  <button class="alert hidden" ref="button" @click="close">
+    {{ text }}
   </button>
 </template>
 
@@ -44,30 +41,16 @@ onUpdated(() => {
   color: var(--color-neutral-1);
   padding: var(--size-6);
   //@include flex(space-between, center);
-  display: grid;
-  grid-template-columns: 1fr min-content;
-  grid-gap: var(--size-5);
-
-  &.hidden {
-    display: none;
-  }
-}
-
-.text {
   font-family: var(--ff-open-sans);
   font-size: var(--size-6);
+  text-align: left;
 
   @include md {
     font-size: var(--size-5);
   }
-}
 
-svg {
-  color: inherit;
-
-  &:hover,
-  &:focus {
-    color: inherit;
+  &.hidden {
+    display: none;
   }
 }
 </style>
