@@ -63,6 +63,7 @@ const opened = ref(false)
       <group-user
         :avatar="user.avatar"
         :full-name="user.fullName"
+        :hide-on-shrink="true"
       />
       <checkbox
         :state="user.selected"
@@ -96,6 +97,7 @@ const opened = ref(false)
 
 .teacher-wrapper {
   @include flex(space-between, center);
+  @include gap(var(--size-3));
   max-height: 70vh;
 }
 

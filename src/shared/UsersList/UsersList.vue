@@ -1,47 +1,11 @@
 <script lang="ts" setup>
-import {
-  defineProps, inject, onMounted, ref, watch
-} from 'vue'
-import { useStore } from 'vuex'
-import { Key } from '@/store'
-//import { useFetch, useFetchUsers } from '../hooks'
+import { defineProps, onMounted, watch } from 'vue'
 import { useFetchUsers } from '@/shared'
-import { IGroupUser, IUserItem } from '../types'
 import GroupUser from '../GroupUser/GroupUser.vue'
-
-const key = inject<Key>('key')
-const { state, getters } = useStore(key)
-
-/*const props = defineProps<{
-  users: IGroupUser[] // todo: типизировать
-}>()*/
 
 const props = defineProps<{
   users?: number[] // UIDs
 }>()
-
-watch(
-  () => props.users,
-  () => console.log(props.users)
-)
-
-/*const userItems = ref<IUserItem[]>([])
-
-const loadUsers = async () => {
-  if (!props.users || props.users.length === 0) return
-  const data = await useFetch({
-    path: 'methods/users.getInfo',
-    data: {
-      userIds: props.users.join(', ')
-    }
-  })
-  userItems.value = data.response.map((user: any) => ({
-    uid: user.id,
-    fullName: `${user.firstName} ${user.lastName} ${user.patronymic}`,
-    avatar: user.additionalData.avatarData.avatarCompressed
-  } as IUserItem))
-  //console.log('new data', userItems.value)
-}*/
 
 const { users, fetchUsers } = useFetchUsers()
 
@@ -54,11 +18,7 @@ watch(
   () => props.users,
   () => {
     if (!props.users || props.users.length === 0) return
-    //fetchUsers({ userIds: props.users.join(', ') })
-    if (Array.isArray(props.users))
-      fetchUsers({ userIds: props.users.join(', ') })
-    else
-      fetchUsers({ userIds: Object.values(props.users).join(', ') })
+    fetchUsers({ userIds: props.users.join(', ') })
   }
 )
 </script>

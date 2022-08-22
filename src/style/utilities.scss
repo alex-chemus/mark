@@ -340,6 +340,10 @@ $sm: 480px;
   transform: translate(-50%, -50%);
   z-index: 4;
   padding: var(--size-13);
+
+  @include sm {
+    padding: var(--size-11);
+  }
 }
 
 @mixin modal-label {

@@ -52,6 +52,7 @@ onMounted(fetchGroupsList)
         :group-nav-item="navItem"
         :groups-list="groupsList"
         @switch="value => navItem = value"
+        @change-group="value => currentGroup = value"
       />
       <users-list
         v-if="navItem === 'Студенты' && currentGroup"

@@ -2,8 +2,6 @@
 import { defineProps, defineEmits, ref } from 'vue'
 import { GroupNavItem, IGroupInfo } from '@/features/groups/types'
 import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
-//import GroupPopup from '../GroupPopup/GroupPopup.vue'
-//import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
 
 const props = defineProps<{
   groupNavItem: GroupNavItem,
@@ -12,7 +10,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'switch', value: GroupNavItem): void
+  (e: 'switch', value: GroupNavItem): void,
+  (e: 'change-group', value: number): void
 }>()
 
 const opened = ref(false)
@@ -70,6 +69,7 @@ const setSelection = (item: GroupNavItem) => {
       <groups-sidebar
         v-if="groupsList"
         :groupsIDs="groupsList"
+        @change-group="value => emit('change-group', value)"
       />
     </div>
     <!-- eslint-disable -->

@@ -9,17 +9,18 @@ import { Badge } from '@/shared'
   badgeText?: string
 }>()*/
 
-const props = defineProps<{
+defineProps<{
   avatar: string,
   fullName: string,
-  uid?: number
-  badgeText?: string
+  uid?: number,
+  badgeText?: string,
+  hideOnShrink?: boolean
 }>()
 </script>
 
 <template>
   <div class="group-user">
-    <div v-if="avatar !== ''" class="placeholder" />
+    <div v-if="avatar !== ''" class="placeholder" :class="hideOnShrink ? 'hide' : ''" />
     <div class="wrapper">
       <p class="name">{{ fullName }}</p>
       <div class="badge">
@@ -64,6 +65,13 @@ const props = defineProps<{
   aspect-ratio: 1;
   border-radius: 100vmax;
   background-color: var(--element-color);
+  flex-shrink: 0;
+
+  &.hide {
+    @include sm {
+      display: none;
+    }
+  }
 }
 
 .name {
