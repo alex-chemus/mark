@@ -1,15 +1,14 @@
 <script lang="ts" setup>
 import {
-  defineProps, defineEmits, ref, computed, inject, onMounted
+  defineProps, defineEmits, ref, computed, inject
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
-import { useFetchInstitution } from '@/shared'
 import { IGroupInfo } from '@/features/groups/types'
 import LeaveWarning from '../LeaveWarning/LeaveWarning.vue'
 
 const key = inject<Key>('key')
-const { getters } = useStore(key)
+const { getters, state } = useStore(key)
 
 const props = defineProps<{
   opened: boolean,
@@ -20,17 +19,14 @@ const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
 
-const { institutionInfo, fetchInfo } = useFetchInstitution()
-onMounted(fetchInfo)
-
 const getName = computed(() => {
-  return institutionInfo.value?.shortName
+  return state.institution?.shortName
 })
 
 const getFaculty = computed(() => {
   const id = props.groupInfo.additionalData.facultyID
-  return institutionInfo.value
-    ? institutionInfo.value.additionalData.faculties
+  return state.institution
+    ? state.institution.additionalData.faculties
       .find(f => f.facultyID === id)
     : null
 })
@@ -42,11 +38,6 @@ const getDepartment = computed(() => {
       .find(d => d.departmentID === id)
     : null
 })
-
-// will fetch data later
-/*const institution = ref('*учебное заведение*')
-const specialty = ref('*специальность*')
-const faculty = ref('*факультет*')*/
 
 const leaving = ref(false)
 

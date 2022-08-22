@@ -5,7 +5,6 @@ import useFetchGroupsList from '@/features/groups/hooks/useFetchGroupsList'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import { GroupsSidebar } from '@/features/groups/common'
 import { GroupNavItem } from '@/features/groups/types'
-//import GroupsSidebar from '../GroupsSidebar/GroupsSidebar.vue'
 import AdminGroupNav from '../AdminGroupNav/AdminGroupNav.vue'
 import AddTeacher from '../AddTeacher/AddTeacher.vue'
 
@@ -32,6 +31,8 @@ const reload = () => {
 }
 watch(currentGroup, reload)
 
+watch(groupInfo, () => console.log(groupInfo.value))
+
 onMounted(fetchGroupsList)
 </script>
 
@@ -53,14 +54,14 @@ onMounted(fetchGroupsList)
         @switch="value => navItem = value"
       />
       <users-list
-        v-if="navItem === 'Студенты'"
+        v-if="navItem === 'Студенты' && currentGroup"
         :users="groupInfo.users.students"
       />
       <div v-else-if="navItem === 'Преподаватели' && currentGroup">
         <users-list :users="groupInfo.users.teachers" />
         <add-teacher
           :group="currentGroup"
-          @reload="reload"
+          :group-info="groupInfo"
         />
       </div>
     </section>

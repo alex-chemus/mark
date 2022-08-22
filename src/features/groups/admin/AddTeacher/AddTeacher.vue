@@ -1,29 +1,37 @@
 <script lang="ts" setup>
 import {
-  defineProps, ref, onMounted, watch, defineEmits
+  defineProps, ref, onMounted, watch, inject
 } from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
 import {
-  useFetchInstitution, useFetchUsers, GroupUser, Checkbox, IUserItem
+  useFetchUsers, GroupUser, Checkbox, IUserItem
 } from '@/shared'
+import { IGroupInfo } from '@/features/groups/types';
 import useAddTeachers from '@/features/groups/hooks/useAddTeachers'
 
 const props = defineProps<{
-  group: number
+  group: number,
+  groupInfo: IGroupInfo
 }>()
 
-const emit = defineEmits<{
-  (e: 'reload'): void
-}>()
+const key = inject<Key>('key')
+const { dispatch, state } = useStore(key)
 
-const { institutionInfo, fetchInfo } = useFetchInstitution()
 const { users, fetchUsers } = useFetchUsers()
-onMounted(async () => {
-  const info = await fetchInfo()
-  if (info) {
-    const uids = info.additionalData.staff.teachers.map(i => i.userID).join(', ')
-    fetchUsers({ userIds: uids })
+
+const loadTeachers = async () => {
+  if (state.institution) {
+    const uids = state.institution.additionalData.staff.teachers.map(i => i.userID).join(', ')
+    fetchUsers({ userIds: uids, excludeIds: props.groupInfo.users.teachers })
   }
-})
+}
+
+onMounted(loadTeachers)
+watch(
+  () => props.groupInfo,
+  loadTeachers
+)
 
 interface IListItem extends IUserItem {
   selected: boolean
@@ -39,14 +47,14 @@ watch(users, () => { // eslint-disable-line
 
 const add = async () => {
   await addTeachers({ group: props.group })
-  emit('reload')
+  dispatch('fetchInstituion')
 }
 
 const opened = ref(false)
 </script>
 
 <template>
-  <div class="button-wrapper">
+  <div v-if="teachersList && teachersList.length" class="button-wrapper">
     <button class="add-button" @click="opened = true">Добавить</button>
   </div>
 

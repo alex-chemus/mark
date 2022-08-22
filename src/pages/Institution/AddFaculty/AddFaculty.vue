@@ -1,33 +1,21 @@
 <script lang="ts" setup>
 import { ref, inject } from 'vue'
-import { reloadKey } from '../keys'
+import { Key } from '@/store'
+import { useStore } from 'vuex';
 import useAddFaculty from '../hooks/useAddFaculty'
 
-const opened = ref(false)
-//const facultyName = ref('')
+const key = inject<Key>('key')
+const { dispatch } = useStore(key)
 
-// eslint-disable-next-line
-const reload = inject(reloadKey, () => {})
+const opened = ref(false)
 
 const { facultyName, addFaculty } = useAddFaculty()
 
 const create = async () => {
   await addFaculty()
-  reload()
+  dispatch('fetchInstituion')
   opened.value = false
 }
-/*const create = async () => {
-  if (!state.userInfo || facultyName.value === '') return
-  await useFetch({
-    path: 'markMethods/institution.addFaculty',
-    data: {
-      institutionID: getters.IID,
-      faculties: facultyName.value
-    }
-  })
-  reload()
-  opened.value = false
-}*/
 </script>
 
 <template>

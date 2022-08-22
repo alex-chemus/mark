@@ -1,4 +1,4 @@
-import { Role } from "@/shared"
+import { Role, IInstitution } from "@/shared"
 
 export interface IUserInfo {
   /*id: number,
@@ -47,5 +47,6 @@ export interface IUserInfo {
 
 export interface IState {
   userInfo: IUserInfo | null,
-  token: string | null
+  token: string | null,
+  institution: IInstitution | null
 }

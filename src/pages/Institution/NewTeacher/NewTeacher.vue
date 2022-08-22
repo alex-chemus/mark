@@ -1,44 +1,25 @@
 <script lang="ts" setup>
 import { defineEmits, inject } from 'vue'
-import { reloadKey } from '../keys'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
 import useAddTeacher from '../hooks/useAddTeacher'
 
-/*const firstName = ref('')
-const lastName = ref('')
-const patronymic = ref('')
-const password = ref('')*/
+const key = inject<Key>('key')
+const { dispatch } = useStore(key)
 
 const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
 
-// eslint-disable-next-line
-const reload = inject(reloadKey, () => {})
 const {
   firstName, lastName, patronymic, password, addTeacher
 } = useAddTeacher()
 
 const create = async () => {
   await addTeacher()
-  reload()
+  dispatch('fetchInstituion')
   emit('toggle')
 }
-/*const create = async () => {
-  const notValid = firstName.value === '' || lastName.value === '' || password.value === ''
-  if (!state.userInfo || notValid) return
-  await useFetch({
-    path: 'markMethods/institution.registerTeacher',
-    data: {
-      institutionID: getters.IID,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      patronymic: patronymic.value,
-      password: password.value
-    }
-  })
-  reload()
-  emit('toggle')
-}*/
 </script>
 
 <template>

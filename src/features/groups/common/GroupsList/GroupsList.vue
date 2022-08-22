@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits, onMounted } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 import { IGroupButton } from '@/features/groups/types'
 
 const props = defineProps<{
   groups: IGroupButton[],
   currentGroup: number
 }>()
-
-onMounted(() => console.log(props.groups, props.currentGroup))
 
 const emit = defineEmits<{
   (e: 'switch', value: number): void

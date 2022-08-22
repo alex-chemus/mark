@@ -1,3 +1,4 @@
+import { IInstitution, useFetch } from "@/shared"
 import { InjectionKey } from "vue"
 import { Store, createStore } from "vuex"
 import { IState, IUserInfo } from "./types"
@@ -7,7 +8,8 @@ export type Key = InjectionKey<Store<IState>>
 export const store = createStore<IState>({
   state: {
     userInfo: null,
-    token: null
+    token: null,
+    institution: null
   },
 
   mutations: {
@@ -17,6 +19,10 @@ export const store = createStore<IState>({
 
     setToken(state, value: string) {
       state.token = value
+    },
+
+    setInstitution(state, value: IInstitution) {
+      state.institution = value
     }
   },
 
@@ -33,6 +39,17 @@ export const store = createStore<IState>({
         return state.userInfo.institutionData.institutionID
       else
         return null
+    }
+  },
+
+  actions: {
+    async fetchInstituion({ commit, getters }) {
+      if (!getters.IID) return
+      const { response } = await useFetch({
+        path: 'markMethods/institution.getInfo',
+        data: { institutionID: getters.IID }
+      })
+      commit('setInstitution', response as IInstitution)
     }
   }
 })

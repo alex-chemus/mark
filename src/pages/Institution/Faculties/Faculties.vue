@@ -1,23 +1,12 @@
 <script lang="ts" setup>
-import { ref, defineProps } from 'vue'
+import { defineProps } from 'vue'
 import Faculty from '../Faculty/Faculty.vue'
 import AddFaculty from '../AddFaculty/AddFaculty.vue'
 import { IFaculty } from '../types'
 
-const props = defineProps<{
+defineProps<{
   faculties?: IFaculty[]
 }>()
-
-/*const faculties = ref<IFaculty[]>([
-  {
-    facultyName: 'Биологический факультет',
-    departments: [
-      { id: 1, name: 'Кафедра растений' },
-      { id: 2, name: 'Кафедра соединений' }
-    ]
-  },
-  { facultyName: 'Химический факультет' }
-])*/
 </script>
 
 <template>

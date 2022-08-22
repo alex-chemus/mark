@@ -17,7 +17,7 @@ const { state, getters } = useStore(key)
 }>()*/
 
 const props = defineProps<{
-  users?: number[], // UIDs
+  users?: number[] // UIDs
 }>()
 
 watch(
@@ -45,7 +45,7 @@ const loadUsers = async () => {
 
 const { users, fetchUsers } = useFetchUsers()
 
-onMounted(async () => {
+onMounted(() => {
   if (!props.users || props.users.length === 0) return
   fetchUsers({ userIds: props.users.join(', ') })
 })
@@ -54,7 +54,11 @@ watch(
   () => props.users,
   () => {
     if (!props.users || props.users.length === 0) return
-    fetchUsers({ userIds: props.users.join(', ') })
+    //fetchUsers({ userIds: props.users.join(', ') })
+    if (Array.isArray(props.users))
+      fetchUsers({ userIds: props.users.join(', ') })
+    else
+      fetchUsers({ userIds: Object.values(props.users).join(', ') })
   }
 )
 </script>

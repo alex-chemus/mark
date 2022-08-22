@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-// eslint-disable-next-line
-import { ref, defineProps, computed, onMounted } from 'vue'
-import { UsersList, IGroupUser } from '@/shared';
+import { ref, defineProps, computed } from 'vue'
+import { UsersList } from '@/shared';
 import { IStaff } from '../types';
 import NewTeacher from '../NewTeacher/NewTeacher.vue'
 
@@ -9,26 +8,12 @@ const props = defineProps<{
   teachers?: IStaff[]
 }>()
 
-/*onMounted(() => {
-  console.log(props.teachers)
-})*/
-
 const showAuth = ref(false)
-
-// will fetch data about teachers
-/*const teachers = ref<IGroupUser[]>([
-  { fullName: 'Сарычев Алексей ВАсильевич' },
-  { fullName: 'Сарычев Алексей ВАсильевич' },
-  { fullName: 'Сарычев Алексей ВАсильевич' },
-  { fullName: 'Сарычев Алексей ВАсильевич' },
-  { fullName: 'Сарычев Алексей ВАсильевич' },
-  { fullName: 'Сарычев Алексей ВАсильевич' },
-])*/
 
 const getTeachersUIDs = computed(() => {
   console.log(props.teachers)
   return props.teachers?.map(teacher => teacher.userID)
-}) // eslint-disable-line
+})
 </script>
 
 <template>
