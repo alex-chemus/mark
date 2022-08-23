@@ -31,11 +31,8 @@ watch(
 const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 const currentGroup = ref<number | null>(null)
 
-watch(groupInfo, () => console.log(groupInfo.value))
-
 const reload = () => {
   if (currentGroup.value) {
-    console.log('current group', currentGroup.value)
     fetchGroupInfo({
       currentGroup: currentGroup.value
     })

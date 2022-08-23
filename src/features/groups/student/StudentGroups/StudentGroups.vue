@@ -14,7 +14,6 @@ const key = inject<Key>('key')
 const { state } = useStore(key)
 
 const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
-watch(groupInfo, () => console.log(groupInfo.value))
 
 const groupID = ref<number | null>(null) // todo type
 
@@ -25,7 +24,6 @@ const setGroupID = () => {
       groupID.value = state.userInfo.additionalData.inGroups[0]
     else groupID.value = 0
   }
-  console.log(groupID.value)
 }
 
 onBeforeMount(setGroupID)
