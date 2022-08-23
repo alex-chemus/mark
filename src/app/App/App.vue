@@ -5,6 +5,7 @@ import { Key } from '@/store'
 
 import { Loader } from '@/features/loader'
 import Header from '../Header/Header.vue'
+import MobileNav from '../MobileNav/MobileNav.vue'
 
 const key = inject<Key>('key')
 const { dispatch, state, commit } = useStore(key)
@@ -32,4 +33,5 @@ const loaded = computed(() => {
     <router-view />
   </div>
   <loader v-else />
+  <mobile-nav />
 </template>

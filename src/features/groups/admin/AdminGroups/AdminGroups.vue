@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { ref, watch, inject } from 'vue'
+import {
+  ref, watch, inject, onMounted
+} from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
 import { UsersList } from '@/shared'
@@ -14,19 +16,26 @@ const { state } = useStore(key)
 
 const navItem = ref<GroupNavItem>('Студенты')
 
+const setCurrentGroup = () => {
+  if (state.institution?.groups)
+    // eslint-disable-next-line
+    currentGroup.value = state.institution.groups[0]
+}
+
+onMounted(setCurrentGroup)
 watch(
   () => state.institution?.groups,
-  () => {
-    // eslint-disable-next-line
-    if (state.institution?.groups) currentGroup.value = state.institution.groups[0]
-  }
+  setCurrentGroup
 )
 
 const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 const currentGroup = ref<number | null>(null)
 
+watch(groupInfo, () => console.log(groupInfo.value))
+
 const reload = () => {
   if (currentGroup.value) {
+    console.log('current group', currentGroup.value)
     fetchGroupInfo({
       currentGroup: currentGroup.value
     })
@@ -65,6 +74,8 @@ watch(currentGroup, reload)
         />
       </div>
     </section>
+
+    <!--<div v-else>something went wrong</div>-->
   </main>
 </template>
 

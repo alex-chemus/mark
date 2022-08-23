@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-import {
-  defineEmits, defineProps, computed, inject
-} from 'vue'
-import { Key } from '@/store'
-import { useStore } from 'vuex'
+import { defineEmits, defineProps, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const props = defineProps<{
@@ -14,27 +10,11 @@ const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
 
-const key = inject<Key>('key')
-const { getters } = useStore(key)
-
 const route = useRoute()
 
 const selectRoutes = (...routes: string[]) => {
   return routes.includes(route.path) ? 'selected' : ''
 }
-
-const navItems = computed(() => {
-  const arr = [
-    { route: '/', title: 'Группы' },
-    { route: '/cloud', title: 'Облако' },
-    { route: '/announcements', title: 'Объявления' },
-  ]
-
-  if (getters.roles?.includes('administrator_of_institution'))
-    arr.push({ route: '/institution', title: 'Учреждение' })
-
-  return arr
-})
 
 const openClass = computed(() => {
   return props.opened ? 'opened' : ''
@@ -44,42 +24,36 @@ const openClass = computed(() => {
 <template>
   <section v-show="opened" class="mobile-popup" :class="openClass">
     <ul>
-      <li v-for="(item, i) in navItems" :key="i" :class="selectRoutes(item.route)">
-        <router-link :to="item.route">{{ item.title }}</router-link>
-      </li>
-    </ul>
-    <div class="separator" />
-    <ul>
       <li :class="selectRoutes('/profile')">
         <router-link to="/profile">
           <span>Профиль</span>
-          <svg width="19" height="19" viewBox="0 0 19 19">
+          <!--<svg width="19" height="19" viewBox="0 0 19 19">
             <use href="~/feather-icons/dist/feather-sprite.svg#user" />
-          </svg>
+          </svg>-->
         </router-link>
       </li>
       <li :class="selectRoutes('/friends')">
         <router-link to="/friends">
           <span>Друзья</span>
-          <svg width="19" height="19" viewBox="0 0 19 19">
+          <!--<svg width="19" height="19" viewBox="0 0 19 19">
             <use href="~/feather-icons/dist/feather-sprite.svg#users" />
-          </svg>
+          </svg>-->
         </router-link>
       </li>
       <li :class="selectRoutes('/support')">
         <router-link to="/support">
           <span>Поддержка</span>
-          <svg width="19" height="19" viewBox="0 0 19 19">
+          <!--<svg width="19" height="19" viewBox="0 0 19 19">
             <use href="~/feather-icons/dist/feather-sprite.svg#alert-circle" />
-          </svg>
+          </svg>-->
         </router-link>
       </li>
       <li :class="selectRoutes('/settings')">
         <router-link to="/settings">
           <span>Настройки</span>
-          <svg width="19" height="19" viewBox="0 0 19 19">
+          <!--<svg width="19" height="19" viewBox="0 0 19 19">
             <use href="~/feather-icons/dist/feather-sprite.svg#settings" />
-          </svg>
+          </svg>-->
         </router-link>
       </li>
     </ul>
