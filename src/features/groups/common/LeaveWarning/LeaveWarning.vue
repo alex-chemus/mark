@@ -1,13 +1,31 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, inject } from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
+import { useFetch } from '@/shared'
 
 defineProps<{
   isOpen: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'cancel'): void
+  (e: 'close'): void
 }>()
+
+const key = inject<Key>('key')
+const { dispatch, state } = useStore(key)
+
+const leave = async () => {
+  if (!state.userInfo || !state.userInfo.additionalData.inGroups.length) return
+  await useFetch({
+    path: 'markMethods/group.leave',
+    data: {
+      groupID: state.userInfo.additionalData.inGroups[0]
+    }
+  })
+  await dispatch('fetchUserInfo')
+  emit('close')
+}
 </script>
 
 <template>
@@ -19,15 +37,15 @@ const emit = defineEmits<{
     <p>Вы уверены, что хотите покинуть гурппу?</p>
 
     <div class="button-wrapper">
-      <button class="button-hollow">Покинуть</button>
-      <button class="button-fill" @click="emit('cancel')">Остаться</button>
+      <button class="button-hollow" @click="leave">Покинуть</button>
+      <button class="button-fill" @click="emit('close')">Остаться</button>
     </div>
   </section>
   <!-- eslint-disable -->
   <div
     v-if="isOpen"
     class="backdrop"
-    @click="emit('cancel')"
+    @click="emit('close')"
   />
   <!-- eslint-enable -->
 </template>
@@ -37,6 +55,7 @@ const emit = defineEmits<{
 
 .leave-warning {
   @include modal(4);
+  @include flex(flex-start, center, column);
 
   svg {
     color: var(--color-accent);

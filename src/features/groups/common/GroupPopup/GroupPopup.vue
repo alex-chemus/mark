@@ -98,7 +98,7 @@ const userCanLeave = computed(() => {
 
   <leave-warning
     :is-open="leaving"
-    @cancel="leaving = false"
+    @close="leaving = false"
   />
 </template>
 

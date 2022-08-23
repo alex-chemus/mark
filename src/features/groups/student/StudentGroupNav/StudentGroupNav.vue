@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref } from 'vue'
-import { GroupNavItem } from '@/features/groups/types'
+import { GroupNavItem, IGroupInfo } from '@/features/groups/types'
 import { GroupPopup } from '@/features/groups/common'
 
 const props = defineProps<{
   groupNavItem: GroupNavItem,
-  groupName: string
+  groupInfo: IGroupInfo | null
 }>()
 
 const emit = defineEmits<{
@@ -20,7 +20,7 @@ const setSelection = (item: GroupNavItem) => {
 </script>
 
 <template>
-  <nav class="student-group-nav">
+  <nav v-if="groupInfo" class="student-group-nav">
     <ul>
       <li :class="setSelection('Студенты')">
         <button
@@ -37,7 +37,7 @@ const setSelection = (item: GroupNavItem) => {
     </ul>
 
     <div class="control-group">
-      <p class="group-name">{{ groupName }}</p>
+      <p class="group-name">{{ groupInfo.groupName }}</p>
 
       <button class="popup-button" @click="opened = !opened">
         <svg width="22" height="22" viewBox="0 0 22 22">
@@ -47,8 +47,7 @@ const setSelection = (item: GroupNavItem) => {
 
       <group-popup
         :opened="opened"
-        :user-can-leave="true"
-        :group-name="groupName"
+        :group-info="groupInfo"
         @toggle="opened = !opened"
       />
     </div>
