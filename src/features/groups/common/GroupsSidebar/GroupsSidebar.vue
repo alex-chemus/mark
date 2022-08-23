@@ -61,10 +61,6 @@ const getGroups = computed(() => {
 <style lang="scss" scoped>
 @import '@/style/style.scss';
 
-.groups-sidebar {
-  //width: 256px;
-}
-
 .controls-wrapper {
   margin-top: var(--size-9);
   margin-bottom: var(--size-8);

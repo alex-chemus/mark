@@ -126,6 +126,9 @@ const sidebarOpened = ref(false)
 }
 
 .desktop-sidebar {
+  @include sticky;
+  align-self: start;
+  @include scrollbar;
   @include md {
     display: none;
   }
@@ -133,6 +136,8 @@ const sidebarOpened = ref(false)
 
 .sidebar-popup {
   display: none;
+  @include scrollbar;
+  max-height: calc(100vh - var(--size-10)*2);
 
   @include md {
     @include flex(flex-start, stretch, column);

@@ -37,7 +37,7 @@ const clickButton = () => {
 
 <template>
   <section class="cloud-controls">
-    <form v-if="userCanUpload">
+    <form v-if="userCanUpload" @submit.prevent>
       <!-- eslint-disable -->
       <input type="file" ref="input" @change="uploadFiles" />
       <button class="button" @click.prevent="clickButton">Добавить</button>

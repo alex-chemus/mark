@@ -75,10 +75,10 @@ watch(currentGroup, reload)
   display: grid;
   grid-template-columns: 256px 1fr;
   grid-gap: var(--size-14);
-  margin-bottom: var(--size-15);
 
   @include container;
   margin-top: var(--size-15);
+  margin-bottom: var(--size-15);
 
   @include lg {
     grid-template-columns: 200px 1fr;
@@ -92,6 +92,9 @@ watch(currentGroup, reload)
 }
 
 .desktop-sidebar {
+  @include sticky;
+  @include scrollbar;
+  align-self: start;
   @include md {
     display: none;
   }

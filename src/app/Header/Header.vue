@@ -57,6 +57,10 @@ const openClass = computed(() => {
 
 header {
   box-shadow: var(--section-shadow);
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-color-1);
+  z-index: 1;
 }
 
 header .container {
@@ -68,7 +72,7 @@ header .container {
   position: relative;
 
   @include md {
-    padding: 0;
+    padding: 3px 0;
   }
 
   @include md {

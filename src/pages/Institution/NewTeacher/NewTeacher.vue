@@ -23,7 +23,7 @@ const create = async () => {
 </script>
 
 <template>
-  <form class="teacher-registration">
+  <form class="teacher-registration" @submit.prevent>
     <label for="firstName">
       <span>Имя</span>
       <input type="text" v-model="firstName" id="firstName" required />

@@ -365,3 +365,40 @@ $sm: 480px;
     @include input;
   }
 }
+
+@mixin scrollbar {
+  padding-right: var(--size-2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  &::-webkit-scrollbar {
+    width: var(--size-1);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border: 1px solid var(--element-color);
+    border-radius: 100vmax;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--element-color);
+    border-radius: 100vmax;
+    cursor: pointer;
+  }
+}
+
+@mixin sticky($m-top: 60px) {
+  position: sticky;
+  top: calc(58px + $m-top);
+  max-height: calc(100vh - $m-top*2 - 58px);
+
+  @include lg {
+    top: calc(52px + $m-top);
+    max-height: calc(100vh - $m-top*2 - 52px);
+  }
+
+  @include md {
+    position: static;
+  }
+}

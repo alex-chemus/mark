@@ -150,6 +150,10 @@ li {
     @include popup('right', 2);
     padding: var(--size-10);
   }
+  //overflow-y: scroll;
+  max-height: calc(100vh - var(--size-10)*2);
+  //overscroll-behavior: contain;
+  @include scrollbar;
 }
 
 .sidebar-backdrop {
