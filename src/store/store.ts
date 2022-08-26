@@ -1,4 +1,4 @@
-import { IInstitution, useFetch } from "@/shared"
+import { IError, IInstitution, useFetch } from "@/shared"
 import { InjectionKey } from "vue"
 import { Store, createStore } from "vuex"
 import { IState, IUserInfo } from "./types"
@@ -9,7 +9,11 @@ export const store = createStore<IState>({
   state: {
     userInfo: null,
     token: null,
-    institution: null
+    institution: null,
+    error: {
+      error_code: 0,
+      error_msg: ''
+    }
   },
 
   mutations: {
@@ -23,6 +27,10 @@ export const store = createStore<IState>({
 
     setInstitution(state, value: IInstitution) {
       state.institution = value
+    },
+
+    setError(state, value: IError) {
+      state.error = value
     }
   },
 
@@ -45,21 +53,36 @@ export const store = createStore<IState>({
   actions: {
     async fetchInstituion({ commit, getters }) {
       if (!getters.IID) return
-      const { response } = await useFetch({
+      const { response, error } = await useFetch({
         path: 'markMethods/institution.getInfo',
         data: { institutionID: getters.IID }
       })
-      commit('setInstitution', response as IInstitution)
+      if (error) {
+        commit('setError', {
+          error_code: error.error_code,
+          error_msg: error.error_msg
+        } as IError)
+      } else {
+        commit('setInstitution', response as IInstitution)
+      }
     },
 
     async fetchUserInfo({ commit }) {
-      const { response } = await useFetch({ path: 'markMethods/account.getInfo' })
-      commit('setUserInfo', {
-        id: response.findcreekID,
-        additionalData: response.additionalData,
-        institutionData: response.institutionData,
-        portfolio: response.portfolio
-      } as IUserInfo)
+      const { response, error } = await useFetch({ path: 'markMethods/account.getInfo' })
+      console.log('error', error)
+      if (error) {
+        commit('setError', {
+          error_code: error.error_code,
+          error_msg: error.error_msg
+        } as IError)
+      } else {
+        commit('setUserInfo', {
+          id: response.findcreekID,
+          additionalData: response.additionalData,
+          institutionData: response.institutionData,
+          portfolio: response.portfolio
+        } as IUserInfo)
+      }
     }
   }
 })

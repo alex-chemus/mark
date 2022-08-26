@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { useFetch } from '@/shared'
+import { useFetch, IError } from '@/shared'
 import { store } from '@/store'
 import { IGroupButton } from '../types'
 
@@ -12,14 +12,18 @@ const useFetchGroups = () => {
 
   const fetchGroups = async ({ groupsIDs }: IParams) => {
     if (!store.state.userInfo) return
-    const { response } = await useFetch({
+    const { response, error } = await useFetch({
       path: 'markMethods/group.getInfo',
       data: { groupsIDs }
     })
-    groups.value = response.map((group: any) => ({
-      groupName: group.groupName,
-      groupID: group.groupID
-    } as IGroupButton))
+    if (error) {
+      store.commit('setError', error as IError)
+    } else {
+      groups.value = response.map((group: any) => ({
+        groupName: group.groupName,
+        groupID: group.groupID
+      } as IGroupButton))
+    }
   }
 
   return { groups, fetchGroups }

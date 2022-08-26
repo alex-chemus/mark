@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { useFetch } from '@/shared'
+import { useFetch, IError } from '@/shared'
 import { store } from '@/store'
 
 const useCreateGroup = () => {
@@ -18,7 +18,7 @@ const useCreateGroup = () => {
     })
 
     if (shouldAttach.value && store.getters.roles.includes('teacher')) {
-      await useFetch({
+      const { error } = await useFetch({
         path: 'markMethods/group.transferToInstitution',
         data: {
           groupID: response,
@@ -26,6 +26,8 @@ const useCreateGroup = () => {
           leaveGroup: 0
         }
       })
+      if (error)
+        store.commit('setError', error as IError)
     }
   }
 

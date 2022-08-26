@@ -48,13 +48,22 @@ const useFetch = async ({ path, data }: IParams) => {
   }
   /* eslint-enable */
 
-  const res = await fetch(`${url}/${path}/`, {
-    method: 'POST',
-    body: form
-  })
+  try {
+    const res = await fetch(`${url}/${path}/`, {
+      method: 'POST',
+      body: form
+    })
 
-  const result = await res.json()
-  return result
+    const result = await res.json()
+    return result
+  } catch (error) {
+    return {
+      error: {
+        error_code: '6',
+        error_msg: 'Ошибка загрузки данных'
+      }
+    }
+  }
 }
 
 export default useFetch

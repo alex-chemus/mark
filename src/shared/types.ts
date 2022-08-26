@@ -36,3 +36,8 @@ export interface IInstitution {
   subdivisionCode: number,
   cityCode: number
 }
+
+export interface IError {
+  error_code: number,
+  error_msg: string
+}

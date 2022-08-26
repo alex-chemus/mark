@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { store } from '@/store'
-import { useFetch } from '@/shared'
+import { useFetch, IError } from '@/shared'
 
 interface IParams {
   facultyID: number
@@ -11,7 +11,7 @@ const useAddDepartment = () => {
 
   const addDepartment = async ({ facultyID }: IParams) => {
     if (!store.state.userInfo || departmentName.value === '') return
-    await useFetch({
+    const { error } = await useFetch({
       path: 'markMethods/institution.addDepartment',
       data: {
         institutionID: store.getters.IID,
@@ -19,6 +19,8 @@ const useAddDepartment = () => {
         departments: departmentName.value
       }
     })
+    if (error)
+      store.dispatch('setError', error as IError)
   }
 
   return { departmentName, addDepartment }

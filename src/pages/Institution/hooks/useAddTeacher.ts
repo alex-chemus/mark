@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { store } from '@/store'
-import { useFetch } from '@/shared'
+import { useFetch, IError } from '@/shared'
 
 const useAddTeacher = () => {
   const firstName = ref('')
@@ -11,7 +11,7 @@ const useAddTeacher = () => {
   const addTeacher = async () => {
     const notValid = firstName.value === '' || lastName.value === '' || password.value === ''
     if (!store.state.userInfo || notValid) return
-    await useFetch({
+    const { error } = await useFetch({
       path: 'markMethods/institution.registerTeacher',
       data: {
         institutionID: store.getters.IID,
@@ -21,6 +21,9 @@ const useAddTeacher = () => {
         password: password.value
       }
     })
+
+    if (error)
+      store.commit('setError', error as IError)
   }
 
   return {

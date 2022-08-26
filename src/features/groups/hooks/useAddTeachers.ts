@@ -1,5 +1,6 @@
 import { ref } from 'vue'
-import { IUserItem, useFetch } from '@/shared'
+import { store } from '@/store'
+import { IUserItem, useFetch, IError } from '@/shared'
 
 interface IListItem extends IUserItem {
   selected: boolean
@@ -18,7 +19,7 @@ const useAddTeachers = () => {
       .filter(teacher => teacher.selected)
       .map(teacher => teacher.uid).join(', ')
 
-    const { response } = await useFetch({
+    const { response, error } = await useFetch({
       path: 'markMethods/group.addTeachers',
       data: {
         teachersIDs,
@@ -26,7 +27,12 @@ const useAddTeachers = () => {
       }
     })
 
-    return response // eslint-disable-line
+    if (error) {
+      store.commit('setError', error as IError)
+      return null // eslint-disable-line
+    } else {
+      return response // eslint-disable-line
+    }
   }
 
   return { teachersList, addTeachers }
