@@ -20,7 +20,8 @@ defineProps<{
 
 <template>
   <div class="group-user">
-    <div v-if="avatar !== ''" class="placeholder" :class="hideOnShrink ? 'hide' : ''" />
+    <div v-if="avatar === ''" class="avatar" :class="hideOnShrink ? 'hide' : ''" />
+    <img v-else :src="avatar" alt="Avatar" class="avatar" :class="hideOnShrink ? 'hide' : ''" >
     <div class="wrapper">
       <p class="name">{{ fullName }}</p>
       <div class="badge">
@@ -60,7 +61,7 @@ defineProps<{
   @include gap(var(--size-3));
 }
 
-.placeholder {
+.avatar {
   width: var(--size-13);
   aspect-ratio: 1;
   border-radius: 100vmax;

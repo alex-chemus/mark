@@ -1,9 +1,23 @@
 <script lang="ts" setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, onMounted, ref } from 'vue'
 import { IFaculty } from '../types'
 import AddDepartment from '../AddDepartment/AddDepartment.vue';
 
 const opened = ref(false)
+const button = ref<HTMLButtonElement | null>(null)
+
+onMounted(() => {
+  if (!button.value) return
+  button.value.addEventListener('click', () => {
+    const panel = button.value?.nextElementSibling as HTMLElement
+    if (!panel) return
+
+    if (panel.style.maxHeight)
+      panel.style.maxHeight = ''
+    else
+      panel.style.maxHeight = `${panel.scrollHeight}px`
+  })
+})
 
 defineProps<{
   info: IFaculty
@@ -12,7 +26,7 @@ defineProps<{
 
 <template>
   <section class="faculty">
-    <button class="title-group" @click="opened = !opened">
+    <button class="title-group" @click="opened = !opened" ref="button">
       <h6 class="title">{{ info.facultyName }}</h6>
       <svg
         width="24" height="24" viewBox="0 0 24 24"
@@ -22,7 +36,7 @@ defineProps<{
       </svg>
     </button>
 
-    <div v-show="opened" class="departments">
+    <div class="departments">
       <ul class="deps-list">
         <li v-for="dep in info.departments" :key="dep.departmentID">
           {{ dep.departmentName }}
@@ -70,6 +84,12 @@ defineProps<{
     font-size: var(--size-6);
     margin-right: var(--size-3);
   }
+}
+
+.departments {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .2s ease-out;
 }
 
 .deps-list {
