@@ -22,7 +22,10 @@ const emit = defineEmits<{
 }>()
 
 const { message, shareGroup } = useShareGroup()
-const share = () => shareGroup({ groupID: props.groupInfo.groupID })
+const share = () => shareGroup({
+  groupID: props.groupInfo.groupID,
+  url: location.origin // eslint-disable-line
+})
 
 const getName = computed(() => {
   return state.institution?.shortName

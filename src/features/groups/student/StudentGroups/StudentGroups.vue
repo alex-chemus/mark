@@ -30,7 +30,7 @@ onBeforeMount(setGroupID)
 watch(() => state.userInfo, setGroupID)
 
 watch(groupID, () => {
-  if (typeof groupID.value === 'number')
+  if (typeof groupID.value === 'number' && groupID.value !== 0)
     fetchGroupInfo({
       currentGroup: groupID.value
     })

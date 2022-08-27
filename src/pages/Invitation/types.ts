@@ -1,12 +1,12 @@
-export type GroupNavItem = 'Студенты' | 'Преподаватели'
-
-export interface IGroupButton {
-  groupID: number, //id: number,
-  groupName: string //name: string
-}
-
-export type IGroupUsers = number[] | {
-  [key: string]: number
+export interface IInvitationInfo {
+  id: number,
+  groupID: number,
+  inviterID: number,
+  textID: number,
+  expoirationDate: string,
+  maxNumberOfUses: number,
+  totalUses: number,
+  status: string
 }
 
 export interface IGroupInfo {
@@ -14,9 +14,9 @@ export interface IGroupInfo {
   groupName: string,
   institutionID: number,
   users: {
-    students: IGroupUsers,
-    robotos: IGroupUsers,
-    teachers: IGroupUsers,
+    students: number[],
+    robotos: number[],
+    teachers: number[]
   },
   headStudentID: number,
   deputyHeadStudentID: number,

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { inject } from 'vue'
+import { inject, onBeforeMount } from 'vue'
 import { Key } from '@/store'
 import { Role } from '@/shared'
 import { useStore } from 'vuex'
@@ -10,6 +10,9 @@ const { state } = useStore(key)
 
 const hasRole = (role: Role) =>
   state.userInfo?.additionalData.roles.includes(role)
+
+// eslint-disable-next-line
+onBeforeMount(() => document.title = 'Группы')
 </script>
 
 <template>

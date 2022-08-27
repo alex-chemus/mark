@@ -18,8 +18,11 @@ const useFetchGroupInfo = () => {
     //groupInfo.value = response[0] as IGroupInfo
     if (error) {
       store.commit('setError', error as IError)
+      console.log(error)
     } else {
+      //console.log(response[0])
       groupInfo.value = response[0] as IGroupInfo
+      //console.log(groupInfo.value)
     }
   }
 

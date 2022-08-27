@@ -18,6 +18,7 @@ const useFetchGroups = () => {
     })
     if (error) {
       store.commit('setError', error as IError)
+      console.log(error)
     } else {
       groups.value = response.map((group: any) => ({
         groupName: group.groupName,

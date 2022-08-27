@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { onBeforeMount } from 'vue'
+
+onBeforeMount(() => document.title = '404')
 </script>
 
 <template>

@@ -17,7 +17,7 @@ const logout = () => {} // eslint-disable-line
     <section v-show="opened" class="popup">
       <ul class="list">
         <li>
-          <router-link to="/group">
+          <router-link to="/profile">
             <svg width="22" height="22" viewBox="0 0 22 22">
               <use href="~/feather-icons/dist/feather-sprite.svg#user" />
             </svg>
@@ -25,7 +25,7 @@ const logout = () => {} // eslint-disable-line
           </router-link>
         </li>
         <li>
-          <router-link to="/group">
+          <router-link to="/friends">
             <svg width="22" height="22" viewBox="0 0 22 22">
               <use href="~/feather-icons/dist/feather-sprite.svg#users" />
             </svg>
@@ -33,7 +33,7 @@ const logout = () => {} // eslint-disable-line
           </router-link>
         </li>
         <li>
-          <router-link to="/group">
+          <router-link to="/support">
             <svg width="22" height="22" viewBox="0 0 22 22">
               <use href="~/feather-icons/dist/feather-sprite.svg#alert-circle" />
             </svg>
@@ -41,7 +41,7 @@ const logout = () => {} // eslint-disable-line
           </router-link>
         </li>
         <li>
-          <router-link to="/group">
+          <router-link to="/settings">
             <svg width="22" height="22" viewBox="0 0 22 22">
               <use href="~/feather-icons/dist/feather-sprite.svg#settings" />
             </svg>
@@ -88,7 +88,7 @@ const logout = () => {} // eslint-disable-line
   padding: 0;
   margin: 0;
   list-style: none;
-  padding: var(--size-10);
+  padding: var(--size-8);
   @include flex(flex-start, flex-start, column);
   @include gap(var(--size-9), 'column');
 }

@@ -38,7 +38,10 @@ const reload = () => {
 watch(currentGroup, reload)
 
 const { message, shareGroup } = useShareGroup()
-const share = () => groupInfo.value && shareGroup({ groupID: groupInfo.value.groupID })
+const share = () => groupInfo.value && shareGroup({
+  groupID: groupInfo.value.groupID,
+  url: location.origin // eslint-disable-line
+})
 
 const popupOpened = ref(false)
 const sidebarOpened = ref(false)

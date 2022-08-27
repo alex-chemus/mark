@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { ref, inject, computed } from 'vue'
+import {
+  ref, inject, computed, onBeforeMount
+} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { Key } from '@/store'
@@ -12,6 +14,8 @@ const key = inject<Key>('key')
 const { getters, state } = useStore(key)
 
 const router = useRouter()
+
+onBeforeMount(() => document.title = 'Учреждение')
 
 if (!getters.roles?.includes('administrator_of_institution')) {
   router.push({ path: '/notfound' })

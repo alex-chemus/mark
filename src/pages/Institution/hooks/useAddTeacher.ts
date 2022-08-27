@@ -22,8 +22,10 @@ const useAddTeacher = () => {
       }
     })
 
-    if (error)
+    if (error) {
       store.commit('setError', error as IError)
+      console.log(error)
+    }
   }
 
   return {

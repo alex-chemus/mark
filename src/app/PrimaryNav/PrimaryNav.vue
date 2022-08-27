@@ -30,9 +30,9 @@ const isAdmin = computed(() => {
         <router-link to="/cloud">Облако</router-link>
       </li>
 
-      <li :class="selectRoutes('/announcements')">
+      <!--<li :class="selectRoutes('/announcements')">
         <router-link to="/announcements">Объявления</router-link>
-      </li>
+      </li>-->
 
       <li v-if="isAdmin" :class="selectRoutes('/institution')">
         <router-link to="/institution">Учреждение</router-link>
@@ -46,15 +46,14 @@ const isAdmin = computed(() => {
 
 nav {
   color: var(--text-color-1);
-  @include flex(flex-start, center);
+  @include flex(flex-start, stretch);
 }
 
 ul {
   padding: 0;
   margin: 0;
   list-style: none;
-  @include flex(flex-start, baseline);
-  @include gap(var(--size-9));
+  @include flex(flex-start, stretch);
 }
 
 li {
@@ -62,6 +61,7 @@ li {
   font-size: var(--size-6);
   color: var(--text-color-1);
   transition: var(--fast);
+  @include flex(stretch, stretch);
 
   &:hover {
     color: var(--color-accent);
@@ -71,6 +71,8 @@ li {
     color: inherit;
     text-decoration: inherit;
     outline: none;
+    padding: 0 var(--size-4);
+    @include flex(center, center);
 
     &:focus {
       color: var(--color-accent);
@@ -84,15 +86,9 @@ li {
 
   &::after {
     @include underline;
-    top: calc(100% + 19px);
-
-    @include lg {
-      top: calc(100% + 16px);
-    }
-
-    @include md {
-      top: calc(100% + 9px);
-    }
+    width: calc(100% - var(--size-4)*2);
+    top: calc(var(--size-1) + 100%);
+    left: var(--size-4);
   }
 }
 </style>

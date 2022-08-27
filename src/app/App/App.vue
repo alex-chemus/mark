@@ -64,12 +64,7 @@ const easterEgg = () => {
 }
 
 // пасхалочка, видна только студентам
-//onMounted(easterEgg)
 watch(() => getters.roles, easterEgg)
-watch(
-  () => state.error,
-  () => console.log(state.error)
-)
 </script>
 
 <template>

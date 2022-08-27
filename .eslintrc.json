@@ -36,6 +36,7 @@
     "max-len": "off",
     "arrow-parens": "off",
     "no-plusplus": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-return-assign": "off"
   }
 }

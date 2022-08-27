@@ -19,8 +19,10 @@ const useAddDepartment = () => {
         departments: departmentName.value
       }
     })
-    if (error)
-      store.dispatch('setError', error as IError)
+    if (error) {
+      store.commit('setError', error as IError)
+      console.log(error)
+    }
   }
 
   return { departmentName, addDepartment }

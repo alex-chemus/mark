@@ -18,6 +18,7 @@ const useFetchUsers = () => {
     })
     if (error) {
       store.commit('setError', error as IError)
+      console.log(error)
       return null
     } else {
       users.value = response

@@ -30,6 +30,7 @@ watch(
 
 const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 const currentGroup = ref<number | null>(null)
+//watch(groupInfo, () => console.log(groupInfo.value))
 
 const reload = () => {
   if (currentGroup.value) {
@@ -51,7 +52,7 @@ watch(currentGroup, reload)
       />
     </div>
 
-    <section class="main" v-if="groupInfo">
+    <section v-if="groupInfo" class="main">
       <admin-group-nav
         :group-info="groupInfo"
         :group-nav-item="navItem"

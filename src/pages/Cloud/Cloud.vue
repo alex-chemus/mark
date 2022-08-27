@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-  ref, provide, computed, inject
+  ref, provide, computed, inject, onMounted, onBeforeMount
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
@@ -45,6 +45,9 @@ const getGroup = computed(() => {
   else
     return group.value // fetch later
 })
+
+// eslint-disable-next-line
+onBeforeMount(() => document.title = 'Облако')
 </script>
 
 <template>
