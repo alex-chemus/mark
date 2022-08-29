@@ -3,6 +3,7 @@ import {
   ref, inject, onBeforeMount, watch
 } from 'vue'
 import { Key } from '@/store'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { UsersList, Alert } from '@/shared'
 import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
@@ -11,6 +12,9 @@ import useShareGroup from '@/features/groups/hooks/useShareGroup'
 
 const key = inject<Key>('key')
 const { state } = useStore(key)
+
+const route = useRoute()
+const router = useRouter()
 
 const groupsIDs = ref<number[]>([])
 const currentGroup = ref<number>(0)
@@ -21,10 +25,18 @@ const getGroups = () => {
     ...state.userInfo.additionalData.inGroups,
     ...state.userInfo.additionalData.ownGroups
   ]
-  currentGroup.value = groupsIDs.value[0] // eslint-disable-line
-  //console.log(groupsIDs.value)
+
+  const groupID = +(route.params.groupID as string)
+  if (route.params.groupID && groupsIDs.value.includes(groupID)) {
+    currentGroup.value = +(route.params.groupID as string)
+  } else {
+    router.push({ path: `/groupID/${groupsIDs.value[0]}` })
+  }
 }
-watch(() => state.userInfo, getGroups)
+watch([
+  () => state.userInfo,
+  () => route.params.groupID
+], getGroups)
 onBeforeMount(getGroups)
 
 const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
@@ -52,7 +64,7 @@ const sidebarOpened = ref(false)
     <div class="desktop-sidebar">
       <groups-sidebar
         :groupsIDs="groupsIDs"
-        @change-group="value => currentGroup = value"
+        @change-group="value => router.push({ path: `/groupID/${value}` })"
       />
     </div>
 
@@ -90,7 +102,7 @@ const sidebarOpened = ref(false)
       <div v-show="sidebarOpened" class="sidebar-popup">
         <groups-sidebar
           :groupsIDs="groupsIDs"
-          @change-group="value => currentGroup = value"
+          @change-group="value => router.push({ path: `/groupID/${value}` })"
         />
       </div>
       <!-- eslint-disable -->

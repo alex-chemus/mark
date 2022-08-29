@@ -9,6 +9,7 @@ const Invitation = () => import('@/pages/Invitation/Invitation.vue')
 
 const routes = [
   { path: '/', component: Groups },
+  { path: '/groupID/:groupID', component: Groups },
   { path: '/cloud', component: Cloud },
   { path: '/cloud/groups/:groupID/:folderID', component: OurCloud },
   { path: '/cloud/groups/:groupID', component: OurCloud },

@@ -4,6 +4,7 @@ import {
 } from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 import { UsersList } from '@/shared'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import { GroupsSidebar } from '@/features/groups/common'
@@ -14,25 +15,32 @@ import AddTeacher from '../AddTeacher/AddTeacher.vue'
 const key = inject<Key>('key')
 const { state } = useStore(key)
 
+const route = useRoute()
+const router = useRouter()
+
 const navItem = ref<GroupNavItem>('Студенты')
 
-const setCurrentGroup = () => {
-  if (state.institution?.groups)
-    // eslint-disable-next-line
-    currentGroup.value = state.institution.groups[0]
-}
-
-onMounted(setCurrentGroup)
-watch(
-  () => state.institution?.groups,
-  setCurrentGroup
-)
-
 const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
+
 const currentGroup = ref<number | null>(null)
-//watch(groupInfo, () => console.log(groupInfo.value))
+const setCurrentGroup = () => {
+  if (state.institution?.groups) {
+    const groupID = +(route.params.groupID as string)
+    if (route.params.groupID && state.institution.groups.includes(groupID)) {
+      currentGroup.value = groupID
+    } else {
+      router.push({ path: `/groupID/${state.institution.groups[0]}` })
+    }
+  }
+}
+onMounted(setCurrentGroup)
+watch([
+  () => state.institution?.groups,
+  () => route.params.groupID
+], setCurrentGroup)
 
 const reload = () => {
+  console.log(currentGroup.value)
   if (currentGroup.value) {
     fetchGroupInfo({
       currentGroup: currentGroup.value
@@ -48,7 +56,7 @@ watch(currentGroup, reload)
       <groups-sidebar
         v-if="state.institution?.groups"
         :groupsIDs="state.institution.groups"
-        @change-group="value => currentGroup = value"
+        @change-group="value => router.push({ path: `/groupID/${value}` })"
       />
     </div>
 
@@ -58,7 +66,7 @@ watch(currentGroup, reload)
         :group-nav-item="navItem"
         :groups-list="state.institution?.groups"
         @switch="value => navItem = value"
-        @change-group="value => currentGroup = value"
+        @change-group="value => router.push({ path: `/groupID/${value}` })"
       />
       <users-list
         v-if="navItem === 'Студенты' && currentGroup"

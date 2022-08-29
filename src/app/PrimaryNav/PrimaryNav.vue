@@ -10,9 +10,10 @@ const { getters } = useStore(key)
 const route = useRoute()
 
 const selectRoutes = (...routes: string[]) => {
-  if (routes.includes('/'))
-    return route.path === '/' ? 'selected' : ''
-  else
+  if (routes.includes('/')) {
+    return route.path === '/' || route.path.startsWith('/groupID') ? 'selected' : ''
+    //return routes.some(r => route.path.startsWith(r)) ? 'selected' : ''
+  } else
     return routes.some(r => route.path.startsWith(r)) ? 'selected' : ''
 }
 
@@ -24,7 +25,7 @@ const isAdmin = computed(() => {
 <template>
   <nav>
     <ul>
-      <li :class="selectRoutes('/')">
+      <li :class="selectRoutes('/', '/groupID')">
         <router-link to="/">Группы</router-link>
       </li>
 

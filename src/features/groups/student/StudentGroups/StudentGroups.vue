@@ -4,6 +4,7 @@ import {
 } from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 import { UsersList } from '@/shared'
 import { GroupNavItem } from '@/features/groups/types'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
@@ -12,6 +13,14 @@ import JoinGroup from '../JoinGroup/JoinGroup.vue'
 
 const key = inject<Key>('key')
 const { state } = useStore(key)
+
+const route = useRoute()
+const router = useRouter()
+
+onBeforeMount(() => {
+  if (route.params.groupID)
+    router.push({ path: '/' })
+})
 
 const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 
