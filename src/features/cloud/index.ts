@@ -1,2 +1,5 @@
-export { default as MyCloud } from './MyCloud/MyCloud.vue'
-export { default as OurCloud } from './OurCloud/OurCloud.vue'
+export { default as CloudNav } from './CloudNav/CloudNav.vue'
+export { default as DirectoryPath } from './DirectoryPath/DirectoryPath.vue'
+export { default as CloudControls } from './CloudControls/CloudControls.vue'
+export { default as Folder } from './Folder/Folder.vue'
+export { default as File } from './File/File.vue'

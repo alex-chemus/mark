@@ -84,22 +84,22 @@ $sm: 480px;
   margin: 0 auto;
 
   @include xl {
-    max-width: calc(100% - 6rem);
+    max-width: calc(100vw - 6rem);
   }
 
   @include lg {
-    max-width: calc(100% - 4rem);
+    max-width: calc(100vw - 4rem);
   }
 
   @include sm {
-    max-width: calc(100% - 2rem);
+    max-width: calc(100vw - 2rem);
   }
 }
 
 @mixin small-container {
   max-width: 995px;
   //width: 100%;
-  width: calc(100% -  4rem);
+  width: calc(100vw -  4rem);
   margin: 0 auto;
 
   /*@include xl {
@@ -107,11 +107,11 @@ $sm: 480px;
   }*/
 
   @include lg {
-    max-width: calc(100% - 4rem);
+    max-width: calc(100vw - 4rem);
   }
 
   @include sm {
-    max-width: calc(100% - 2rem);
+    max-width: calc(100vw - 2rem);
   }
 }
 
@@ -137,12 +137,14 @@ $sm: 480px;
 
   @include md {
     flex-direction: row;
+    //align-items: flex-start;
     @include gap(0, 'column');
     @include gap(var(--size-6));
     padding: 0;
     background-color: transparent;
     box-shadow: none;
     border-radius: 0;
+    font-size: var(--size-5);
     //padding-bottom: var(--size-2);
     //border-bottom: 1px solid var(--element-color);
     transition: var(--fast);
@@ -390,11 +392,11 @@ $sm: 480px;
 
 @mixin sticky($m-top: 60px) {
   position: sticky;
-  top: calc(58px + $m-top);
+  top: calc(52px + $m-top);
   max-height: calc(100vh - $m-top*2 - 58px);
 
   @include lg {
-    top: calc(52px + $m-top);
+    top: calc(48px + $m-top);
     max-height: calc(100vh - $m-top*2 - 52px);
   }
 

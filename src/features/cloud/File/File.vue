@@ -1,14 +1,13 @@
 <script lang="ts" setup>
-import { defineProps, computed } from 'vue'
+import { defineProps } from 'vue'
+import { IFile } from '../types'
+import FileImg from '../FileImg/FileImg.vue'
 
-const props = defineProps<{
-  urlToFile: string,
-  fileName: string,
-  fileType: string,
-  fileExtension: string
+defineProps<{
+  file: IFile
 }>()
 
-const download = async () => {
+/*const download = async () => {
   console.log('download')
   const res = await fetch(props.urlToFile)
   const blob = await res.blob()
@@ -17,18 +16,16 @@ const download = async () => {
   a.href = url
   a.download = `${props.fileName}.${props.fileExtension}`
   a.click()
-} // eslint-disable-line
+}*/ // eslint-disable-line
 
-const getImage = computed(() => {
-  return 'image'
-})
 </script>
 
 <template>
-  <button @click.prevent="download" class="file">
-    <img src="@/assets/image.png" :alt="fileName">
-    <p class="name">{{ fileName }}</p>
-  </button>
+  <a :href="file.urlToFile" target="_blank" class="file" :title="file.fileName">
+    <!--<img src="@/assets/image.png" :alt="file.fileName">-->
+    <file-img :file="file" />
+    <p class="name">{{ file.fileName }}.{{ file.fileExtension }}</p>
+  </a>
 </template>
 
 <style lang="scss" scoped>
@@ -38,5 +35,25 @@ const getImage = computed(() => {
   @include card;
   border: none;
   outline: none;
+  text-decoration: none;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.name {
+  max-width: 100%;
+
+  @media (min-width: $md) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @include md {
+    text-overflow: auto;
+    white-space: wrap;
+    word-break: break-all;
+    text-align: left;
+  }
 }
 </style>

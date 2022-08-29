@@ -1,5 +1,6 @@
 const Groups = () => import('@/pages/Groups/Groups.vue')
 const Cloud = () => import('@/pages/Cloud/Cloud.vue')
+const OurCloud = () => import('@/pages/OurCloud/OurCloud.vue')
 //const Announcements = () => import('@/pages/Announcements/Announcements.vue')
 const Institution = () => import('@/pages/Institution/Institution.vue')
 const NotFound = () => import('@/pages/NotFound/NotFound.vue')
@@ -9,6 +10,10 @@ const Invitation = () => import('@/pages/Invitation/Invitation.vue')
 const routes = [
   { path: '/', component: Groups },
   { path: '/cloud', component: Cloud },
+  { path: '/cloud/groups/:groupID/:folderID', component: OurCloud },
+  { path: '/cloud/groups/:groupID', component: OurCloud },
+  { path: '/cloud/groups', component: OurCloud },
+  { path: '/cloud/private', component: Works },
   { path: '/announcements', component: Works },
   { path: '/institution', component: Institution },
   { path: '/invitation/:id', component: Invitation },

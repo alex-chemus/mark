@@ -10,8 +10,10 @@ const { getters } = useStore(key)
 const route = useRoute()
 
 const selectRoutes = (...routes: string[]) => {
-  //console.log(routes, route.path)
-  return routes.includes(route.path) ? 'selected' : ''
+  if (routes.includes('/'))
+    return route.path === '/' ? 'selected' : ''
+  else
+    return routes.some(r => route.path.startsWith(r)) ? 'selected' : ''
 }
 
 const isAdmin = computed(() => {

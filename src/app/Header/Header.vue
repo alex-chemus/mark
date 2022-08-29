@@ -1,14 +1,36 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import {
+  ref, computed, inject, onMounted
+} from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
+import { IError, useFetch } from '@/shared'
 import PrimaryNav from '../PrimaryNav/PrimaryNav.vue'
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher.vue'
 import Popup from '../Popup/Popup.vue'
 import MobilePopup from '../MobilePopup/MobilePopup.vue'
 
+const key = inject<Key>('key')
+const { commit } = useStore(key)
+
 const opened = ref(false)
 
 const openClass = computed(() => {
   return opened.value ? 'opened' : ''
+})
+
+const avatar = ref<string | null>(null)
+onMounted(async () => {
+  const { response, error } = await useFetch({
+    path: 'methods/account.getInfo'
+  })
+
+  if (error) {
+    console.log(error)
+    commit('setError', error as IError)
+  } else {
+    avatar.value = response.additionalData.avatarData.avatarCompressed
+  }
 })
 </script>
 
@@ -20,7 +42,7 @@ const openClass = computed(() => {
           <g id="Слой_2" data-name="Слой 2" stroke="none">
             <circle class="cls-1" fill="#269dc6" cx="75.74" cy="75.74" r="75.74"/>
             <rect class="cls-2" fill="#085485" y="102.25" width="75.74" height="75.74"/>
-            <rect class="cls-3" fill="#188bc7;" width="75.74" height="75.74"/>
+            <rect class="cls-3" fill="#188bc7" width="75.74" height="75.74"/>
             <rect class="cls-4" fill="#3cbbed" x="75.74" width="75.74" height="75.74"/>
             <rect class="cls-5" fill="#056ca4" y="75.74" width="75.74" height="75.74"/>
             <path fill="currentColor" d="M204.69,155.49v-119h22.78l50.66,84H266.06l49.81-84h22.61l.34,119H313l-.17-79.39h4.76l-39.78,66.81H265.38L224.75,76.1h5.78v79.39Z"/>
@@ -40,7 +62,8 @@ const openClass = computed(() => {
         <theme-switcher />
         <button class="popup-btn" @click="opened = !opened">
           <!-- todo later -->
-          <div class="placeholder"></div>
+          <img v-if="avatar" :src="avatar" alt="Avatar" class="img" />
+          <div v-else class="img"></div>
           <svg height="24" width="24" viewBox="0 0 24 24" :class="openClass">
             <use href="~/feather-icons/dist/feather-sprite.svg#chevron-down" />
           </svg>
@@ -173,7 +196,7 @@ header .container {
   }
 }
 
-.placeholder {
+.img {
   border-radius: 100vmax;
   background-color: var(--element-color);
   width: 40px;

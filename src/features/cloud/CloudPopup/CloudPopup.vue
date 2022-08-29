@@ -1,28 +1,50 @@
 <script lang="ts" setup>
 import {
-  computed, inject, ref
+  inject, ref, computed, onMounted, watch
 } from 'vue'
-import {
-  groupsListKey, currentGroupKey, setCurrentGroupKey
-} from '../keys'
+import { Key } from '@/store'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import useFetchGroupsList from '../hooks/useFetchGroupsList'
 
-const groupsList = inject(groupsListKey, ref([]))
-const currentGroup = inject(currentGroupKey, ref(1))
-// eslint-disable-next-line
-const setCurrentGroup = inject(setCurrentGroupKey, (value) => {})
+const key = inject<Key>('key')
+const { state } = useStore(key)
+
+const route = useRoute()
+const router = useRouter()
 
 const opened = ref(false)
 
+const { groupsList, fetchGroupsList } = useFetchGroupsList()
+
+const updatePath = async () => {
+  await fetchGroupsList()
+  if (groupsList.value) {
+    router.push({ path: `/cloud/groups/${groupsList.value[0].groupID}` })
+  }
+}
+onMounted(updatePath)
+watch(() => state.userInfo, updatePath)
+watch(() => route.path, () => {
+  if (route.path === '/cloud/groups') updatePath()
+})
+
+const groupID = ref<number>(+(route.params.groupID as string))
+watch(
+  () => route.params.groupID,
+  () => groupID.value = +(route.params.groupID as string)
+)
+
 const currentGroupName = computed(() => {
-  console.log(groupsList.value)
+  if (!groupsList.value) return ''
   return groupsList.value
-    .find(group => group.id === currentGroup.value)
-    ?.name
+    .find(group => group.groupID === groupID.value)
+    ?.groupName
 })
 </script>
 
 <template>
-  <div class="popup-wrapper">
+  <div v-if="groupsList" class="popup-wrapper">
     <button class="popup-button desktop" @click="opened = !opened">
       <span>{{ currentGroupName }}</span>
       <svg
@@ -41,11 +63,12 @@ const currentGroupName = computed(() => {
 
     <ul class="popup" v-show="opened">
       <li
-        v-for="group in groupsList" :key="group.id"
-        :class="group.id === currentGroup ? 'selected' : ''"
+        v-for="group in groupsList" :key="group.groupID"
+        :class="group.groupID === groupID ? 'selected' : ''"
       >
-        <button @click="setCurrentGroup(group.id)">
-          {{ group.name }}
+        <!--<button @click="setCurrentGroup(group.groupID)">-->
+        <button @click="router.push({ path: `/cloud/groups/${group.groupID}` })">
+          {{ group.groupName }}
         </button>
       </li>
     </ul>
@@ -59,16 +82,6 @@ const currentGroupName = computed(() => {
 @import '@/style/style.scss';
 
 .popup-button {
-  /*padding: 0;
-  border: none;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-
-  padding-bottom: var(--size-3);
-  font-family: var(--ff-open-sans);
-  font-size: var(--size-6);
-  color: var(--text-color-1);*/
   @include button;
   padding-bottom: var(--size-3);
 
@@ -103,7 +116,7 @@ const currentGroupName = computed(() => {
 
 .popup {
   width: max-content;
-  max-height: 200px;
+  //max-height: 200px;
   position: absolute;
   right: 0;
   top: 100%;
@@ -119,13 +132,6 @@ const currentGroupName = computed(() => {
   @include gap(var(--size-6), 'column');
 
   @include md {
-    /*width: 70vw;
-    min-width: 250px;
-    min-height: 100vh;
-    border-radius: 0;
-    position: fixed;
-    top: 0;
-    right: 0;*/
     @include popup('right')
   }
 }
@@ -134,16 +140,12 @@ li.selected {
   @include md {
     padding-left: var(--size-3);
     position: relative;
-
-    &::after {
-      @include underline;
-    }
+    @include sideline;
   }
 }
 
 li button {
-  //padding: var(--size-3) var(--size-6);
-  //padding: var(--size-9);
+  text-align: left;
   padding: 0;
   width: 100%;
   background-color: transparent;

@@ -1,58 +1,99 @@
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import {
+  ref, inject, defineProps, defineEmits
+} from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
+import { useFetch, IError } from '@/shared'
+import { fetchFolderInfoKey, folderIDKey } from '../keys'
+import CreateFolder from '../CreateFolder/CreateFolder.vue'
 
-defineProps<{
-  userCanUpload: boolean,
-  isRoot: boolean,
-  dirName: string
+const props = defineProps<{
+  groupID: number | string,
+  folderID: string | number | null
 }>()
 
 const emit = defineEmits<{
-  (e: 'up'): void
+  (e: 'created'): void
 }>()
+
+const key = inject<Key>('key')
+const { commit } = useStore(key)
 
 const input = ref<HTMLInputElement | null>(null)
 
-const uploadFiles = () => {
+const attachToGroup = async (filesIDs: number[]) => {
+  const data: any = {
+    filesIDs,
+    groupID: props.groupID
+  }
+
+  if (props.folderID && props.folderID) data.folderID = props.folderID
+  console.log('data to send', data)
+
+  const { error } = await useFetch({
+    path: 'markMethods/groupCloud.addFiles', data
+  })
+
+  if (error) {
+    console.log(error)
+    commit('setError', error as IError)
+  } else {
+    emit('created')
+  }
+}
+
+const uploadFiles = async () => {
   if (input.value && input.value.files?.length) {
     const form = new FormData()
 
     const { files } = input.value
-    for (let i = 0; i < files.length; i++) {
-      form.append(
-        `file ${files[i].name}`,
-        files[i],
-        files[i].name
-      )
+    form.append('files', files[0])
+    const { error, response } = await useFetch({
+      path: 'methods/cloud.uploadFiles',
+      formData: form,
+      url: 'https://cloud.findcreek.com'
+    })
+
+    if (error) {
+      console.log(error)
+      commit('setError', error as IError)
+    } else {
+      attachToGroup(response[0].fileID)
     }
-    console.log(form)
-    // send form
   } else console.log('error')
 }
 
 const clickButton = () => {
   if (input.value) input.value.click()
 }
+
+const modalOpened = ref(false)
 </script>
 
 <template>
   <section class="cloud-controls">
-    <form v-if="userCanUpload" @submit.prevent>
-      <!-- eslint-disable -->
+    <form @submit.prevent>
+      <!-- eslint-disable-next-line -->
       <input type="file" ref="input" @change="uploadFiles" />
-      <button class="button" @click.prevent="clickButton">Добавить</button>
-      <p class="text">Нажмите "Добавить" или перетащите файл</p>
-      <!-- eslint-enable -->
-    </form>
-
-    <div class="nav-group">
-      <p class="dir">{{ dirName }}</p>
-      <button @click="emit('up')" class="up-button" :class="isRoot && 'disabled'">
+      <button class="button" @click="clickButton">
         <svg width="24" height="24" viewBox="0 0 24 24">
-          <use href="~/feather-icons/dist/feather-sprite.svg#corner-right-up" />
+          <use href="~/feather-icons/dist/feather-sprite.svg#file-plus" />
         </svg>
       </button>
-    </div>
+    </form>
+
+    <button class="button" @click="modalOpened = !modalOpened">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <use href="~/feather-icons/dist/feather-sprite.svg#folder-plus" />
+      </svg>
+    </button>
+    <create-folder
+      :opened="modalOpened"
+      :groupID="groupID"
+      @toggle="modalOpened = !modalOpened"
+      @created="emit('created')"
+    />
   </section>
 </template>
 
@@ -60,24 +101,16 @@ const clickButton = () => {
 @import '@/style/style.scss';
 
 .cloud-controls {
-  //@include flex(space-between, center);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  margin-bottom: var(--size-12);
+  @include flex;
+  @include gap(var(--size-9));
 
   @include md {
-    display: block;
-    margin-bottom: var(--size-9);
+    @include gap(var(--size-6));
   }
 }
 
 form {
   @include flex(flex-start, center);
-  //@include gap(var(--size-5));
-
-  @include md {
-    display: none;
-  }
 }
 
 input {
@@ -85,19 +118,11 @@ input {
 }
 
 .button {
-  padding: var(--size-2) var(--size-6);
-  border: none;
-  outline: none;
-  background-color: var(--text-color-2);
-  color: var(--bg-color-1);
-  font-family: var(--ff-open-sans);
-  font-size: var(--size-6);
-  border-radius: 100vmax;
-  cursor: pointer;
-  transition: var(--fast);
+  @include button;
 
-  &:hover {
-    background-color: var(--color-accent);
+  &:hover,
+  &:focus {
+    color: var(--color-accent);
   }
 }
 

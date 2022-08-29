@@ -1,19 +1,27 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps } from 'vue'
+import { useRouter } from 'vue-router'
+import { IFolder } from '../types'
 
-defineProps<{
-  folderName: string
+const props = defineProps<{
+  folder: IFolder,
+  groupID: number | string
 }>()
 
-const emit = defineEmits<{
-  (e: 'click'): void
-}>()
+const { push } = useRouter()
+
+// eslint-disable-next-line
+//const setFolderID = inject(setFolderIDKey, (value: number) => {})
 </script>
 
 <template>
-  <button @click="emit('click')" class="folder">
-    <img src="@/assets/folder.png" :alt="folderName" />
-    <p class="name">{{ folderName }}</p>
+  <button
+    @click="push({ path: `/cloud/groups/${groupID}/${folder.folderID}` })"
+    class="folder"
+    :title="folder.folderName"
+  >
+    <img src="@/assets/folder.png" :alt="folder.folderName" />
+    <p class="name">{{ folder.folderName }}</p>
   </button>
 </template>
 
@@ -24,5 +32,24 @@ const emit = defineEmits<{
   @include card;
   border: none;
   outline: none;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.name {
+  max-width: 100%;
+
+  @media (min-width: $md) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @include md {
+    text-overflow: auto;
+    white-space: wrap;
+    word-break: break-all;
+    text-align: left;
+  }
 }
 </style>

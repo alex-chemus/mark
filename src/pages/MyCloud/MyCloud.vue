@@ -1,14 +1,8 @@
 <script lang="ts" setup>
-import { defineProps } from 'vue'
-import data from '../data'
-
-defineProps<{
-  group: string
-}>()
 </script>
 
 <template>
-  <div>{{ group }}</div>
+  <div></div>
 </template>
 
 <style lang="scss" scoped>

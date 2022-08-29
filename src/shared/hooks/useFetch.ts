@@ -6,61 +6,66 @@ interface IParams {
   data?: {
     [key: string]: any // eslint-disable-line
   }
+  formData?: FormData,
+  url?: string
   //callback: Callback
 }
 
-/*const useFetch = ({ path, form, callback }: IParams) => {
-  const url = 'https://api.findcreek.com'
+const useFetch = async ({
+  path, data, formData, url
+}: IParams) => {
+  //const url = 'https://api.findcreek.com'
+  // eslint-disable-next-line
+  if (typeof url === 'undefined') url = 'https://api.findcreek.com'
 
-  fetch(`${url}/${path}/`, {
-    method: 'POST',
-    body: form
-  })
-    .then(res => res.json())
-    .then(callback)
-}*/
+  if (formData) {
+    if (!store.state.token) return null
+    formData.append('token', `${store.state.token}`)
 
-/*const useFetch = async ({ path, form }: IParams) => {
-  const url = 'https://api.findcreek.com'
+    try {
+      const res = await fetch(`${url}/${path}/`, {
+        method: 'POST',
+        body: formData
+      })
 
-  const res = await fetch(`${url}/${path}/`, {
-    method: 'POST',
-    body: form
-  })
-
-  const data = await res.json()
-
-  return data
-}*/
-
-const useFetch = async ({ path, data }: IParams) => {
-  const form = new FormData()
-  const url = 'https://api.findcreek.com'
-
-  if (!store.state.token) return null
-  form.append('token', `${store.state.token}`)
-
-  /* eslint-disable */
-  if (data) {
-    for (let [key, value] of Object.entries(data)) {
-      form.append(key, value)
+      const result = await res.json()
+      return result
+    } catch (error) {
+      return {
+        error: {
+          error_code: '6',
+          error_msg: 'Ошибка загрузки данных'
+        }
+      }
     }
-  }
-  /* eslint-enable */
+  } else {
+    const form = new FormData()
 
-  try {
-    const res = await fetch(`${url}/${path}/`, {
-      method: 'POST',
-      body: form
-    })
+    if (!store.state.token) return null
+    form.append('token', `${store.state.token}`)
 
-    const result = await res.json()
-    return result
-  } catch (error) {
-    return {
-      error: {
-        error_code: '6',
-        error_msg: 'Ошибка загрузки данных'
+    /* eslint-disable */
+    if (data) {
+      for (let [key, value] of Object.entries(data)) {
+        form.append(key, value)
+      }
+    }
+    /* eslint-enable */
+
+    try {
+      const res = await fetch(`${url}/${path}/`, {
+        method: 'POST',
+        body: form
+      })
+
+      const result = await res.json()
+      return result
+    } catch (error) {
+      return {
+        error: {
+          error_code: '6',
+          error_msg: 'Ошибка загрузки данных'
+        }
       }
     }
   }
