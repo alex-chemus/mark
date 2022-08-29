@@ -45,7 +45,6 @@ const useCloudInfo = () => {
         }
       })
       folderInfo.value = info
-      //console.log(folderInfo.value)
     }
   }
 

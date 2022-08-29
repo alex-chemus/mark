@@ -40,7 +40,6 @@ watch([
 ], setCurrentGroup)
 
 const reload = () => {
-  console.log(currentGroup.value)
   if (currentGroup.value) {
     fetchGroupInfo({
       currentGroup: currentGroup.value

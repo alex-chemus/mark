@@ -7,17 +7,6 @@ defineProps<{
   file: IFile
 }>()
 
-/*const download = async () => {
-  console.log('download')
-  const res = await fetch(props.urlToFile)
-  const blob = await res.blob()
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `${props.fileName}.${props.fileExtension}`
-  a.click()
-}*/ // eslint-disable-line
-
 </script>
 
 <template>

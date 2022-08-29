@@ -58,10 +58,8 @@ export const store = createStore<IState>({
         data: { institutionID: getters.IID }
       })
       if (error) {
-        commit('setError', {
-          error_code: error.error_code,
-          error_msg: error.error_msg
-        } as IError)
+        commit('setError', error as IError)
+        console.log(error)
       } else {
         commit('setInstitution', response as IInstitution)
       }
@@ -69,12 +67,9 @@ export const store = createStore<IState>({
 
     async fetchUserInfo({ commit }) {
       const { response, error } = await useFetch({ path: 'markMethods/account.getInfo' })
-      console.log('error', error)
       if (error) {
-        commit('setError', {
-          error_code: error.error_code,
-          error_msg: error.error_msg
-        } as IError)
+        commit('setError', error as IError)
+        console.log(error)
       } else {
         commit('setUserInfo', {
           id: response.findcreekID,

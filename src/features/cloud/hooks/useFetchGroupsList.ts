@@ -38,7 +38,6 @@ const useFetchGroupsList = () => {
     const groupsIDs = await getGroupsIDs()
     if (!groupsIDs) return
 
-    console.log(groupsIDs)
     const { response, error } = await useFetch({
       path: 'markMethods/group.getInfo',
       data: { groupsIDs }

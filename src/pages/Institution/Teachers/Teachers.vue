@@ -11,7 +11,6 @@ const props = defineProps<{
 const showAuth = ref(false)
 
 const getTeachersUIDs = computed(() => {
-  console.log(props.teachers)
   return props.teachers?.map(teacher => teacher.userID)
 })
 </script>

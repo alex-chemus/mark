@@ -23,15 +23,12 @@ onMounted(() => {
 })
 
 const amogus = () => {
-  console.log(route.path)
   if (!getters.roles.includes('teacher')
     && !getters.roles.includes('administrator_of_institution')
     && state.userInfo?.additionalData.inGroups.length
     && currentNav.value === '/cloud/groups'
     && route.path === '/cloud/groups'
   ) {
-    //setCurrentGroup(state.userInfo.additionalData.inGroups[0])
-    //alert('amogus')
     router.push({ path: `/cloud/groups/${state.userInfo.additionalData.inGroups[0]}` })
   }
 }
@@ -44,7 +41,6 @@ const authorized = computed(() => {
 })
 
 const setSelection = (item: NavItem) => {
-  //console.log(route.path)
   return item === currentNav.value ? 'selected' : ''
 }
 </script>

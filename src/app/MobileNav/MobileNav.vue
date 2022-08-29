@@ -8,8 +8,12 @@ const key = inject<Key>('key')
 const { getters } = useStore(key)
 const route = useRoute()
 
-const setSelection = (r: string) => {
-  return route.path === r ? 'selected' : ''
+const selectRoutes = (...routes: string[]) => {
+  if (routes.includes('/')) {
+    return route.path === '/' || route.path.startsWith('/groupID') ? 'selected' : ''
+    //return routes.some(r => route.path.startsWith(r)) ? 'selected' : ''
+  } else
+    return routes.some(r => route.path.startsWith(r)) ? 'selected' : ''
 }
 </script>
 
@@ -17,7 +21,7 @@ const setSelection = (r: string) => {
   <nav class="mobile-nav">
     <ul class="nav-list">
       <li class="list-item">
-        <router-link to="/" :class="setSelection('/')">
+        <router-link to="/" :class="selectRoutes('/', '/groupID')">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use href="~/feather-icons/dist/feather-sprite.svg#users" />
           </svg>
@@ -25,7 +29,7 @@ const setSelection = (r: string) => {
       </li>
 
       <li class="list-item">
-        <router-link to="/cloud" :class="setSelection('/cloud')">
+        <router-link to="/cloud" :class="selectRoutes('/cloud')">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use href="~/feather-icons/dist/feather-sprite.svg#cloud" />
           </svg>
@@ -41,7 +45,7 @@ const setSelection = (r: string) => {
       </li>-->
 
       <li v-if="getters.roles?.includes('administrator_of_institution')" class="list-item">
-        <router-link to="/institution" :class="setSelection('/institution')">
+        <router-link to="/institution" :class="selectRoutes('/institution')">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use href="~/feather-icons/dist/feather-sprite.svg#edit" />
           </svg>

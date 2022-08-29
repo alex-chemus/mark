@@ -11,7 +11,6 @@ onMounted(() => {
 })
 
 const toggle = () => {
-  console.log('toggle theme')
   if (theme.value === 'dark') { // toggle to light
     root.setAttribute('data-theme', 'light')
     theme.value = 'light'

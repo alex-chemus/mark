@@ -41,7 +41,6 @@ watch(invitationInfo, async () => {
     console.log(error)
   } else groupInfo.value = response[0] // eslint-disable-line
 })
-watch(groupInfo, () => console.log(groupInfo.value))
 
 const join = async () => {
   const { error } = await useFetch({
