@@ -14,9 +14,11 @@ const toggle = () => {
   if (theme.value === 'dark') { // toggle to light
     root.setAttribute('data-theme', 'light')
     theme.value = 'light'
+    localStorage.setItem('theme', 'light')
   } else if (theme.value === 'light') { // toggle to dark
     root.setAttribute('data-theme', 'dark')
     theme.value = 'dark'
+    localStorage.setItem('theme', 'dark')
   } // else undefined
 }
 

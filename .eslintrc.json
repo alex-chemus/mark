@@ -38,6 +38,7 @@
     "no-plusplus": "off",
     "camelcase": "off",
     "no-return-assign": "off",
-    "operator-linebreak": "warn"
+    "operator-linebreak": "warn",
+    "no-restricted-globals": "off"
   }
 }

@@ -4,6 +4,7 @@ import {
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
+import { useRoute } from 'vue-router'
 
 import { Alert, Loader } from '@/shared'
 import Header from '../Header/Header.vue'
@@ -14,7 +15,15 @@ const {
   dispatch, state, commit, getters
 } = useStore(key)
 
+const route = useRoute()
+
 onMounted(async () => {
+  console.log(route.path)
+  //eslint-disable-next-line
+  if (location.pathname.startsWith('/auth')) {
+    return
+  }
+
   if (localStorage.getItem('token')) {
     const token = localStorage.getItem('token') as string
     commit('setToken', token)
@@ -23,7 +32,7 @@ onMounted(async () => {
     await dispatch('fetchInstituion')
   } else {
     // eslint-disable-next-line
-    location.href = `https://id.findcreek.com/auth/?redirectTo=https:/mark.findcreek.com/auth`
+    //location.href = state.redirectUrl
   }
 })
 
@@ -40,7 +49,7 @@ watch(
 
 const loaded = computed(() => {
   //return !!state.userInfo
-  return !!state.token
+  return !!state.token || location.pathname.startsWith('/auth')
 })
 
 const easterEgg = () => {
