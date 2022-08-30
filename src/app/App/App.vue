@@ -15,6 +15,7 @@ const {
 } = useStore(key)
 
 onMounted(async () => {
+  console.log('можешь что-нибудь в консоль написать? я попробую сделать пулл и запущу')
   //eslint-disable-next-line
   if (location.pathname.startsWith('/auth')) {
     return
