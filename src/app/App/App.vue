@@ -15,6 +15,7 @@ const {
 } = useStore(key)
 
 onMounted(async () => {
+  alert('something')
   //eslint-disable-next-line
   if (location.pathname.startsWith('/auth')) {
     return
