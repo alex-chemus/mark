@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-  ref, computed, inject, onMounted
+  ref, computed, inject, onMounted, watch
 } from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
@@ -11,7 +11,7 @@ import Popup from '../Popup/Popup.vue'
 import MobilePopup from '../MobilePopup/MobilePopup.vue'
 
 const key = inject<Key>('key')
-const { commit } = useStore(key)
+const { commit, state } = useStore(key)
 
 const opened = ref(false)
 
@@ -20,7 +20,9 @@ const openClass = computed(() => {
 })
 
 const avatar = ref<string | null>(null)
-onMounted(async () => {
+
+const fetchInfo = async () => {
+  console.log('fetch')
   const { response, error } = await useFetch({
     path: 'methods/account.getInfo'
   })
@@ -31,7 +33,9 @@ onMounted(async () => {
   } else {
     avatar.value = response.additionalData.avatarData.avatarCompressed
   }
-})
+}
+watch(() => state.token, fetchInfo)
+onMounted(fetchInfo)
 </script>
 
 <template>
@@ -61,11 +65,10 @@ onMounted(async () => {
       <div class="controls desktop">
         <theme-switcher />
         <button class="popup-btn" @click="opened = !opened">
-          <!-- todo later -->
           <img v-if="avatar" :src="avatar" alt="Avatar" class="img" />
           <div v-else class="img"></div>
           <svg height="24" width="24" viewBox="0 0 24 24" :class="openClass">
-            <use href="~/feather-icons/dist/feather-sprite.svg#chevron-down" />
+            <use xlink:href="@/assets/tabler-sprite.svg#tabler-chevron-down" />
           </svg>
         </button>
         <popup
@@ -78,7 +81,7 @@ onMounted(async () => {
         <theme-switcher />
         <button class="popup-btn" @click="opened = !opened">
           <svg height="24" width="24" viewBox="0 0 24 24">
-            <use href="~/feather-icons/dist/feather-sprite.svg#menu" />
+            <use href="@/assets/tabler-sprite.svg#tabler-menu-2" />
           </svg>
         </button>
         <mobile-popup

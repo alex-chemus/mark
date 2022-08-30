@@ -28,7 +28,7 @@ const create = async () => {
   <div v-if="!opened" class="add-section">
     <button class="add-button" @click="opened = !opened">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <use href="~/feather-icons/dist/feather-sprite.svg#plus" />
+        <use href="@/assets/tabler-sprite.svg#tabler-plus" />
       </svg>
     </button>
   </div>
@@ -36,7 +36,7 @@ const create = async () => {
   <div v-else class="add-section">
     <button class="add-button" @click="opened = !opened">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <use href="~/feather-icons/dist/feather-sprite.svg#minus" />
+        <use href="@/assets/tabler-sprite.svg#tabler-minus" />
       </svg>
     </button>
 
@@ -46,7 +46,7 @@ const create = async () => {
     <button class="create-button desktop" @click="create">Добавить</button>
     <button class="create-button mobile" @click="create">
       <svg width="19" height="19" viewBox="0 0 19 19">
-        <use href="~/feather-icons/dist/feather-sprite.svg#plus" />
+        <use href="@/assets/tabler-sprite.svg#tabler-plus" />
       </svg>
     </button>
   </div>

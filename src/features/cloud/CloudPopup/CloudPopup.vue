@@ -51,13 +51,13 @@ const currentGroupName = computed(() => {
         width="22" height="22" viewBox="0 0 22 22"
         :class="opened ? 'opened' : ''"
       >
-        <use href="~/feather-icons/dist/feather-sprite.svg#chevron-down" />
+        <use href="@/assets/tabler-sprite.svg#tabler-chevron-down" />
       </svg>
     </button>
 
     <button class="popup-button mobile" @click="opened = !opened">
       <svg width="19" height="19" viewBox="0 0 19 19">
-        <use href="~/feather-icons/dist/feather-sprite.svg#list" />
+        <use href="@/assets/tabler-sprite.svg#tabler-list" />
       </svg>
     </button>
 

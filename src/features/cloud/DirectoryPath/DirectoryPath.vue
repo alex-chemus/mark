@@ -101,7 +101,7 @@ const shouldHide = computed(() => {
     </div>
     <button class="button-up" @click="up">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <use href="~/feather-icons/dist/feather-sprite.svg#corner-up-left" />
+        <use href="@/assets/tabler-sprite.svg#tabler-corner-up-left" />
       </svg>
     </button>
   </section>
@@ -117,7 +117,7 @@ const shouldHide = computed(() => {
     </div>
     <button class="button-up" @click="up" :class="catalogs.length<2 ? 'disabled' : ''">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <use href="~/feather-icons/dist/feather-sprite.svg#corner-up-left" />
+        <use href="@/assets/tabler-sprite.svg#tabler-corner-up-left" />
       </svg>
     </button>
   </section>
@@ -128,7 +128,7 @@ const shouldHide = computed(() => {
     </div>
     <button class="button-up" @click="up" :class="catalogs.length<2 ? 'disabled' : ''">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <use href="~/feather-icons/dist/feather-sprite.svg#corner-up-left" />
+        <use href="@/assets/tabler-sprite.svg#tabler-corner-up-left" />
       </svg>
     </button>
   </section>

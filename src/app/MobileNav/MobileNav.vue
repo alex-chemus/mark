@@ -23,7 +23,7 @@ const selectRoutes = (...routes: string[]) => {
       <li class="list-item">
         <router-link to="/" :class="selectRoutes('/', '/groupID')">
           <svg width="24" height="24" viewBox="0 0 24 24">
-            <use href="~/feather-icons/dist/feather-sprite.svg#users" />
+            <use href="@/assets/tabler-sprite.svg#tabler-users" />
           </svg>
         </router-link>
       </li>
@@ -31,7 +31,7 @@ const selectRoutes = (...routes: string[]) => {
       <li class="list-item">
         <router-link to="/cloud" :class="selectRoutes('/cloud')">
           <svg width="24" height="24" viewBox="0 0 24 24">
-            <use href="~/feather-icons/dist/feather-sprite.svg#cloud" />
+            <use href="@/assets/tabler-sprite.svg#tabler-cloud" />
           </svg>
         </router-link>
       </li>
@@ -47,7 +47,7 @@ const selectRoutes = (...routes: string[]) => {
       <li v-if="getters.roles?.includes('administrator_of_institution')" class="list-item">
         <router-link to="/institution" :class="selectRoutes('/institution')">
           <svg width="24" height="24" viewBox="0 0 24 24">
-            <use href="~/feather-icons/dist/feather-sprite.svg#edit" />
+            <use href="@/assets/tabler-sprite.svg#tabler-school" />
           </svg>
         </router-link>
       </li>

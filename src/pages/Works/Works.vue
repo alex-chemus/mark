@@ -4,7 +4,7 @@
 <template>
   <section class="wrapper">
     <svg width="100" height="100" viewBox="0 0 100 100">
-      <use href="~/feather-icons/dist/feather-sprite.svg#settings" />
+      <use href="@/assets/tabler-sprite.svg#tabler-settings" />
     </svg>
     <h6>На сайте ведутся технические работы</h6>
   </section>

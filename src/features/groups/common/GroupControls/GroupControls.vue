@@ -21,7 +21,7 @@ const title = computed(() => {
     <h2 class="group-name">{{ title }}</h2>
     <button class="add-button" @click="opened = true">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <use href="~/feather-icons/dist/feather-sprite.svg#plus" />
+        <use href="@/assets/tabler-sprite.svg#tabler-plus" />
       </svg>
     </button>
     <create-group

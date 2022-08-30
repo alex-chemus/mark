@@ -20,6 +20,7 @@ const groupsIDs = ref<number[]>([])
 const currentGroup = ref<number>(0)
 
 const getGroups = () => {
+  if (route.path !== '/' && !route.path.startsWith('/groupID')) return
   if (!state.userInfo) return
   groupsIDs.value = [
     ...state.userInfo.additionalData.inGroups,
@@ -72,7 +73,7 @@ const sidebarOpened = ref(false)
       <div class="title-group">
         <button class="sidebar-button" @click="sidebarOpened = !sidebarOpened">
           <svg width="22" height="22" viewBox="0 0 22 22">
-            <use href="~/feather-icons/dist/feather-sprite.svg#sidebar" />
+            <use href="@/assets/tabler-sprite.svg#tabler-layout-sidebar" />
           </svg>
         </button>
 
@@ -80,13 +81,13 @@ const sidebarOpened = ref(false)
 
         <button class="share-button" @click="share">
           <svg width="24" height="24" viewBox="0 0 24 24">
-            <use href="~/feather-icons/dist/feather-sprite.svg#share-2" />
+            <use href="@/assets/tabler-sprite.svg#tabler-share" />
           </svg>
         </button>
 
         <button class="info-button" @click="popupOpened = !popupOpened">
           <svg width="24" height="24" viewBox="0 0 24 24">
-            <use href="~/feather-icons/dist/feather-sprite.svg#info" />
+            <use href="@/assets/tabler-sprite.svg#tabler-info-circle" />
           </svg>
         </button>
 

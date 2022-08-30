@@ -66,7 +66,7 @@ const userCanLeave = computed(() => {
       <h6>{{ groupInfo.groupName }}</h6>
       <button v-if="userCanShare" class="share-button" @click="share">
         <svg width="22" height="22" viewBox="0 0 22 22">
-          <use href="~/feather-icons/dist/feather-sprite.svg#share-2" />
+          <use href="@/assets/tabler-sprite.svg#tabler-share" />
         </svg>
       </button>
       <alert :text="message" />
@@ -85,7 +85,7 @@ const userCanLeave = computed(() => {
 
     <button v-if="userCanLeave" class="logout-btn" @click="leaving = true">
       <svg width="22" height="22" viewBox="0 0 22 22">
-        <use href="~/feather-icons/dist/feather-sprite.svg#log-out" />
+        <use href="@/assets/tabler-sprite.svg#tabler-logout" />
       </svg>
       <span>Выйти из группы</span>
     </button>

@@ -5,8 +5,7 @@ import {
 import { useStore } from 'vuex'
 import { Key } from '@/store'
 
-import { Loader } from '@/features/loader'
-import { Alert } from '@/shared'
+import { Alert, Loader } from '@/shared'
 import Header from '../Header/Header.vue'
 import MobileNav from '../MobileNav/MobileNav.vue'
 

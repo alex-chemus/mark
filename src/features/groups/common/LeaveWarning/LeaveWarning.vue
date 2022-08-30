@@ -31,7 +31,7 @@ const leave = async () => {
 <template>
   <section v-if="isOpen" class="leave-warning">
     <svg width="40" height="40" viewBox="0 0 40 40">
-      <use href="~/feather-icons/dist/feather-sprite.svg#alert-triangle" />
+      <use href="@/assets/tabler-sprite.svg#tabler-alert-triangle" />
     </svg>
 
     <p>Вы уверены, что хотите покинуть гурппу?</p>

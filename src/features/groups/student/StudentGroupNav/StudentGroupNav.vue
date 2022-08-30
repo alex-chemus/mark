@@ -41,7 +41,7 @@ const setSelection = (item: GroupNavItem) => {
 
       <button class="popup-button" @click="opened = !opened">
         <svg width="22" height="22" viewBox="0 0 22 22">
-          <use href="~/feather-icons/dist/feather-sprite.svg#more-vertical" />
+          <use href="@/assets/tabler-sprite.svg#tabler-dots-vertical" />
         </svg>
       </button>
 

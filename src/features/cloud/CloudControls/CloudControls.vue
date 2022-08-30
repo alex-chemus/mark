@@ -78,14 +78,14 @@ const modalOpened = ref(false)
       <input type="file" ref="input" @change="uploadFiles" />
       <button class="button" @click="clickButton">
         <svg width="24" height="24" viewBox="0 0 24 24">
-          <use href="~/feather-icons/dist/feather-sprite.svg#file-plus" />
+          <use href="@/assets/tabler-sprite.svg#tabler-file-plus" />
         </svg>
       </button>
     </form>
 
     <button class="button" @click="modalOpened = !modalOpened">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <use href="~/feather-icons/dist/feather-sprite.svg#folder-plus" />
+        <use href="@/assets/tabler-sprite.svg#tabler-folder-plus" />
       </svg>
     </button>
     <create-folder

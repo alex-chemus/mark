@@ -20,7 +20,7 @@ const { push } = useRouter()
     class="folder"
     :title="folder.folderName"
   >
-    <img src="@/assets/folder.png" :alt="folder.folderName" />
+    <img src="@/assets/folder2.svg" :alt="folder.folderName" />
     <p class="name">{{ folder.folderName }}</p>
   </button>
 </template>

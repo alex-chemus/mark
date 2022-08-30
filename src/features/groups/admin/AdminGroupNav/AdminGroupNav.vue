@@ -50,19 +50,19 @@ const setSelection = (item: GroupNavItem) => {
     <div class="control-group">
       <button class="sidebar-button button" @click="sidebarOpened = true">
         <svg width="22" height="22" viewBox="0 0 22 22">
-          <use href="~/feather-icons/dist/feather-sprite.svg#sidebar" />
+          <use href="@/assets/tabler-sprite.svg#tabler-layout-sidebar-right" />
         </svg>
       </button>
 
       <button class="share-button button" @click="share">
         <svg width="22" height="22" viewBox="0 0 22 22">
-          <use href="~/feather-icons/dist/feather-sprite.svg#share-2" />
+          <use href="@/assets/tabler-sprite.svg#tabler-share" />
         </svg>
       </button>
 
       <button class="popup-button button" @click="opened = !opened">
         <svg width="22" height="22" viewBox="0 0 22 22">
-          <use href="~/feather-icons/dist/feather-sprite.svg#more-vertical" />
+          <use href="@/assets/tabler-sprite.svg#tabler-dots-vertical" />
         </svg>
       </button>
 

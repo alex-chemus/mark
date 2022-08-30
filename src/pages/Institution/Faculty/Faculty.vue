@@ -32,7 +32,7 @@ defineProps<{
         width="24" height="24" viewBox="0 0 24 24"
         :class="opened ? 'rotated' : ''"
       >
-        <use href="~/feather-icons/dist/feather-sprite.svg#chevron-down" />
+        <use href="@/assets/tabler-sprite.svg#tabler-chevron-down" />
       </svg>
     </button>
 

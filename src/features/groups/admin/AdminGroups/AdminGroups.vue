@@ -24,11 +24,13 @@ const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 
 const currentGroup = ref<number | null>(null)
 const setCurrentGroup = () => {
+  if (route.path !== '/' && !route.path.startsWith('/groupID')) return
   if (state.institution?.groups) {
     const groupID = +(route.params.groupID as string)
     if (route.params.groupID && state.institution.groups.includes(groupID)) {
       currentGroup.value = groupID
     } else {
+      console.log('push')
       router.push({ path: `/groupID/${state.institution.groups[0]}` })
     }
   }

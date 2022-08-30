@@ -35,15 +35,15 @@ const imageType = computed(() => {
 </script>
 
 <template>
-  <img v-if="imageType === 'image'" src="@/assets/SVG/image.svg" alt="Image" />
-  <img v-else-if="imageType === 'video'" src="@/assets/SVG/video.svg" alt="Video" />
-  <img v-else-if="imageType === 'audio'" src="@/assets/SVG/audio.svg" alt="Audio" />
-  <img v-else-if="imageType === 'pdf'" src="@/assets/SVG/pdf.svg" alt="PDF" />
-  <img v-else-if="imageType === 'doc'" src="@/assets/SVG/doc.svg" alt="Document" />
-  <img v-else-if="imageType === 'excel'" src="@/assets/SVG/excel.svg" alt="Table" />
-  <img v-else-if="imageType === 'presentation'" src="@/assets/SVG/presentation.svg" alt="Presentation" />
-  <img v-else-if="imageType === 'archive'" src="@/assets/SVG/archive.svg" alt="Archive" />
-  <img v-else src="@/assets/SVG/other.svg" alt="Table" />
+  <img v-if="imageType === 'image'" src="@/assets/image.svg" alt="Image" />
+  <img v-else-if="imageType === 'video'" src="@/assets/video.svg" alt="Video" />
+  <img v-else-if="imageType === 'audio'" src="@/assets/audio.svg" alt="Audio" />
+  <img v-else-if="imageType === 'pdf'" src="@/assets/pdf.svg" alt="PDF" />
+  <img v-else-if="imageType === 'doc'" src="@/assets/doc.svg" alt="Document" />
+  <img v-else-if="imageType === 'excel'" src="@/assets/excel.svg" alt="Table" />
+  <img v-else-if="imageType === 'presentation'" src="@/assets/presentation.svg" alt="Presentation" />
+  <img v-else-if="imageType === 'archive'" src="@/assets/archive.svg" alt="Archive" />
+  <img v-else src="@/assets/other.svg" alt="Unknown" />
 </template>
 
 <style lang="scss" scoped>

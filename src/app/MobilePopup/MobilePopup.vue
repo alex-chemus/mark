@@ -59,7 +59,7 @@ const openClass = computed(() => {
     </ul>
     <button class="logout-btn">
       <svg width="19" height="19" viewBox="0 0 19 19">
-        <use href="~/feather-icons/dist/feather-sprite.svg#log-out" />
+        <use href="@/assets/tabler-sprite.svg#tabler-logout" />
       </svg>
       <span>Выйти из аккаунта</span>
     </button>

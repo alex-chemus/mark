@@ -15,7 +15,7 @@ const emit = defineEmits<{
   <button class="checkbox" @click="emit('toggle')">
     <div class="field">
       <svg v-show="state" width="22" height="22" viewBox="0 0 22 22">
-        <use href="~/feather-icons/dist/feather-sprite.svg#check" />
+        <use href="@/assets/tabler-sprite.svg#tabler-check" />
       </svg>
     </div>
     <p v-if="title">{{ title }}</p>
