@@ -16,7 +16,6 @@ const {
 
 onMounted(async () => {
   //eslint-disable-next-line
-  alert('onMounted')
   if (location.pathname.startsWith('/auth')) {
     return
   }
