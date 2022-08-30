@@ -22,12 +22,25 @@ onMounted(async () => {
     await dispatch('fetchUserInfo')
     await dispatch('fetchInstituion')
   } else {
-    // todo: reidrect to auth page
+    // eslint-disable-next-line
+    location.href = `https://id.findcreek.com/auth/?redirectTo=https:/mark.findcreek.com/auth`
   }
 })
 
+watch(
+  () => state.token,
+  async () => {
+    if (state.token) {
+      console.log('update state token', state.token)
+      await dispatch('fetchUserInfo')
+      await dispatch('fetchInstituion')
+    }
+  }
+)
+
 const loaded = computed(() => {
-  return !!state.userInfo
+  //return !!state.userInfo
+  return !!state.token
 })
 
 const easterEgg = () => {

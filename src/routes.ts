@@ -6,6 +6,7 @@ const Institution = () => import('@/pages/Institution/Institution.vue')
 const NotFound = () => import('@/pages/NotFound/NotFound.vue')
 const Works = () => import('@/pages/Works/Works.vue')
 const Invitation = () => import('@/pages/Invitation/Invitation.vue')
+const Auth = () => import('@/pages/Auth/Auth.vue')
 
 const routes = [
   { path: '/', component: Groups },
@@ -22,8 +23,9 @@ const routes = [
   { path: '/friends', component: Works },
   { path: '/support', component: Works },
   { path: '/settings', component: Works },
+  { path: '/works', component: Works },
+  { path: '/auth', component: Auth },
   { path: '/:pathMatch(.*)*', component: NotFound },
-  { path: '/works', component: Works }
 ]
 
 export default routes

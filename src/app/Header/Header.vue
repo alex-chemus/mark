@@ -22,7 +22,6 @@ const openClass = computed(() => {
 const avatar = ref<string | null>(null)
 
 const fetchInfo = async () => {
-  console.log('fetch')
   const { response, error } = await useFetch({
     path: 'methods/account.getInfo'
   })
