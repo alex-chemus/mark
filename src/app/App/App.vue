@@ -4,7 +4,6 @@ import {
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
-import { useRoute } from 'vue-router'
 
 import { Alert, Loader } from '@/shared'
 import Header from '../Header/Header.vue'
@@ -15,11 +14,9 @@ const {
   dispatch, state, commit, getters
 } = useStore(key)
 
-const route = useRoute()
-
 onMounted(async () => {
-  console.log(route.path)
   //eslint-disable-next-line
+  alert('onMounted')
   if (location.pathname.startsWith('/auth')) {
     return
   }
@@ -32,7 +29,7 @@ onMounted(async () => {
     await dispatch('fetchInstituion')
   } else {
     // eslint-disable-next-line
-    //location.href = state.redirectUrl
+    location.href = state.redirectUrl
   }
 })
 
@@ -40,7 +37,6 @@ watch(
   () => state.token,
   async () => {
     if (state.token) {
-      console.log('update state token', state.token)
       await dispatch('fetchUserInfo')
       await dispatch('fetchInstituion')
     }
