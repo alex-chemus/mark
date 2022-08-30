@@ -49,5 +49,6 @@ export interface IState {
   userInfo: IUserInfo | null,
   token: string | null,
   institution: IInstitution | null,
-  error: IError
+  error: IError,
+  redirectUrl: string
 }

@@ -13,7 +13,8 @@ export const store = createStore<IState>({
     error: {
       error_code: 0,
       error_msg: ''
-    }
+    },
+    redirectUrl: `https://id.findcreek.com/auth/?redirectTo=https:/mark.findcreek.com/auth`
   },
 
   mutations: {

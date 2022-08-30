@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-import { defineEmits, defineProps, computed } from 'vue'
+import {
+  defineEmits, defineProps, computed, inject
+} from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import { Key } from '@/store'
 
 const props = defineProps<{
   opened: boolean
@@ -9,6 +13,16 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
+
+const key = inject<Key>('key')
+const { state } = useStore(key)
+
+const logout = () => {
+  localStorage.removeItem('token')
+  //console.log('logout')
+  // eslint-disable-next-line
+  location.href = state.redirectUrl
+}
 
 const route = useRoute()
 
@@ -57,7 +71,7 @@ const openClass = computed(() => {
         </router-link>
       </li>
     </ul>
-    <button class="logout-btn">
+    <button class="logout-btn" @click="logout">
       <svg width="19" height="19" viewBox="0 0 19 19">
         <use href="@/assets/tabler-sprite.svg#tabler-logout" />
       </svg>

@@ -14,7 +14,7 @@ const { commit } = useStore(key)
 const { push } = useRouter()
 
 onBeforeMount(() => {
-  console.log('should set token: ', location.search.split('=')[1])
+  console.log('onBeforeMount')
   commit('setToken', location.search.split('=')[1])
   localStorage.setItem('token', location.search.split('=')[1])
   push({ path: '/' })

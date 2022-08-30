@@ -4,6 +4,7 @@ import {
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
+import { useRoute } from 'vue-router'
 
 import { Alert, Loader } from '@/shared'
 import Header from '../Header/Header.vue'
@@ -14,7 +15,10 @@ const {
   dispatch, state, commit, getters
 } = useStore(key)
 
+const route = useRoute()
+
 onMounted(async () => {
+  if (route.path.startsWith('/auth')) return
   if (localStorage.getItem('token')) {
     const token = localStorage.getItem('token') as string
     commit('setToken', token)
@@ -23,7 +27,7 @@ onMounted(async () => {
     await dispatch('fetchInstituion')
   } else {
     // eslint-disable-next-line
-    location.href = `https://id.findcreek.com/auth/?redirectTo=https:/mark.findcreek.com/auth`
+    location.href = state.redirectUrl
   }
 })
 
@@ -31,7 +35,7 @@ watch(
   () => state.token,
   async () => {
     if (state.token) {
-      console.log('update state token', state.token)
+      //console.log('update state token', state.token)
       await dispatch('fetchUserInfo')
       await dispatch('fetchInstituion')
     }

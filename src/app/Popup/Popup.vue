@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 // eslint-disable-next-line
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, inject } from 'vue'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
 
 defineProps<{
   opened: boolean
@@ -10,7 +12,14 @@ const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
 
-const logout = () => {} // eslint-disable-line
+const key = inject<Key>('key')
+const { state } = useStore(key)
+
+const logout = () => {
+  localStorage.removeItem('token')
+  // eslint-disable-next-line
+  location.href = state.redirectUrl
+}
 </script>
 
 <template>
