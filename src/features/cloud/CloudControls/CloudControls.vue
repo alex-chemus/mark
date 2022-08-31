@@ -22,7 +22,7 @@ const { dispatch } = useStore(key)
 
 const input = ref<HTMLInputElement | null>(null)
 
-const attachToGroup = async (filesIDs: number[]) => {
+const attachToGroup = async (filesIDs: number[]): Promise<IError | null> => {
   const data: any = {
     filesIDs,
     groupID: props.groupID
@@ -37,12 +37,51 @@ const attachToGroup = async (filesIDs: number[]) => {
   if (error) {
     console.log(error)
     dispatch('setError', error as IError)
-  } else {
+    return error as IError
+  } /*else {
     emit('created')
+  }*/
+  return null
+}
+
+const uploadFile = async (file: File): Promise<IError | null> => {
+  const form = new FormData()
+  form.append('files', file)
+  const { error, response } = await useFetch({
+    path: 'methods/cloud.uploadFiles',
+    formData: form,
+    url: 'https://cloud.findcreek.com'
+  })
+  if (error) {
+    console.log(error)
+    dispatch('setError', error as IError)
+    return error
+  } else {
+    const result = await attachToGroup(response[0].fileID)
+    return result
   }
 }
 
 const uploadFiles = async () => {
+  if (input.value && input.value.files?.length) {
+    const { files } = input.value
+
+    /* eslint-disable */
+    for (let file of files) {
+      const result = await uploadFile(file)
+      if (result !== null) {
+        console.log(result)
+        await dispatch('setError', result as IError)
+        break
+      }
+    }
+    /* eslint-enable */
+
+    emit('created')
+  }
+}
+
+/*const uploadFiles = async () => {
   if (input.value && input.value.files?.length) {
     const form = new FormData()
 
@@ -61,7 +100,7 @@ const uploadFiles = async () => {
       attachToGroup(response[0].fileID)
     }
   } else console.log('error')
-}
+}*/
 
 const clickButton = () => {
   if (input.value) input.value.click()
@@ -74,7 +113,7 @@ const modalOpened = ref(false)
   <section class="cloud-controls">
     <form @submit.prevent>
       <!-- eslint-disable-next-line -->
-      <input type="file" ref="input" @change="uploadFiles" />
+      <input type="file" ref="input" multiple @change="uploadFiles" />
       <button class="button" @click="clickButton">
         <svg width="24" height="24" viewBox="0 0 24 24">
           <use href="@/assets/tabler-sprite.svg#tabler-file-plus" />
