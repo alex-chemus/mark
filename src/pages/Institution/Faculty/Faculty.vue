@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { defineProps, onMounted, ref } from 'vue'
+import {
+  defineProps, onMounted, ref
+} from 'vue'
 import { IFaculty } from '../types'
 import AddDepartment from '../AddDepartment/AddDepartment.vue';
 
