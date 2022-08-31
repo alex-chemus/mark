@@ -24,7 +24,7 @@ const useFetchUsers = () => {
       users.value = response
         .map((user: any) => ({
           uid: +user.id,
-          fullName: `${user.firstName} ${user.lastName} ${user.patronymic}`,
+          fullName: `${user.lastName} ${user.firstName} ${user.patronymic}`,
           avatar: user.additionalData.avatarData.avatarCompressed
         } as IUserItem))
         /* eslint-disable */
