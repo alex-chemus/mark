@@ -50,5 +50,6 @@ export interface IState {
   token: string | null,
   institution: IInstitution | null,
   error: IError,
-  redirectUrl: string
+  redirectUrl: string,
+  errorsCount: number
 }

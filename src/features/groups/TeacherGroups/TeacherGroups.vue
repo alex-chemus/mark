@@ -50,7 +50,7 @@ const reload = () => {
 }
 watch(currentGroup, reload)
 
-const { message, shareGroup } = useShareGroup()
+const { message, shareGroup, invitationLink } = useShareGroup()
 const share = () => groupInfo.value && shareGroup({
   groupID: groupInfo.value.groupID,
   url: location.origin // eslint-disable-line
@@ -65,6 +65,7 @@ const sidebarOpened = ref(false)
     <div class="desktop-sidebar">
       <groups-sidebar
         :groupsIDs="groupsIDs"
+        :current-group="currentGroup"
         @change-group="value => router.push({ path: `/groupID/${value}` })"
       />
     </div>
@@ -97,12 +98,13 @@ const sidebarOpened = ref(false)
           @toggle="popupOpened = !popupOpened"
         />
 
-        <alert :text="message" />
+        <alert :text="message" :observer="invitationLink" />
       </div>
 
       <div v-show="sidebarOpened" class="sidebar-popup">
         <groups-sidebar
           :groupsIDs="groupsIDs"
+          :current-group="currentGroup"
           @change-group="value => router.push({ path: `/groupID/${value}` })"
         />
       </div>

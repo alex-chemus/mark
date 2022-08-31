@@ -21,7 +21,7 @@ const emit = defineEmits<{
   (e: 'toggle'): void
 }>()
 
-const { message, shareGroup } = useShareGroup()
+const { message, shareGroup, invitationLink } = useShareGroup()
 const share = () => shareGroup({
   groupID: props.groupInfo.groupID,
   url: location.origin // eslint-disable-line
@@ -69,7 +69,7 @@ const userCanLeave = computed(() => {
           <use href="@/assets/tabler-sprite.svg#tabler-share" />
         </svg>
       </button>
-      <alert :text="message" />
+      <alert :text="message" :observer="invitationLink" />
     </div>
 
     <dl class="list">

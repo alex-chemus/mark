@@ -18,14 +18,14 @@ const useShareGroup = () => {
       data: { groupID }
     })
     if (error) {
-      store.commit('setError', error as IError)
+      store.dispatch('setError', error as IError)
       console.log(error)
       return null
     } else {
       //invitationID.value = response as string
       invitationLink.value = `${url}/invitation/${response as string}`
       navigator.clipboard.writeText(invitationLink.value)
-      //message.value = `InvitationID скопировано! ${invitationID.value}`
+      //message.value = `Ссылка скопирована!\n${invitationLink.value}`
       message.value = 'Ссылка скопирована!'
       return invitationLink.value
     }

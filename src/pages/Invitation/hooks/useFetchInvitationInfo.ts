@@ -17,7 +17,7 @@ const useFetchInvitationInfo = () => {
     })
 
     if (error) {
-      store.commit('setError', error as IError)
+      store.dispatch('setError', error as IError)
       console.log(error)
     } else {
       invitationInfo.value = response

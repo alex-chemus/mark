@@ -14,7 +14,8 @@ export const store = createStore<IState>({
       error_code: 0,
       error_msg: ''
     },
-    redirectUrl: `https://id.findcreek.com/auth/?redirectTo=${encodeURIComponent('https://mark.findcreek.com/auth')}`
+    redirectUrl: `https://id.findcreek.com/auth/?redirectTo=${encodeURIComponent('https://mark.findcreek.com/auth')}`,
+    errorsCount: 0
   },
 
   mutations: {
@@ -32,6 +33,10 @@ export const store = createStore<IState>({
 
     setError(state, value: IError) {
       state.error = value
+    },
+
+    incrementError(state) {
+      state.errorsCount += 1
     }
   },
 
@@ -79,6 +84,11 @@ export const store = createStore<IState>({
           portfolio: response.portfolio
         } as IUserInfo)
       }
+    },
+
+    setError({ commit }, error: IError) {
+      commit('incrementError')
+      commit('setError', error)
     }
   }
 })

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-  inject, onMounted, computed, watch
+  inject, onMounted, computed, watch, ref
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
@@ -15,7 +15,6 @@ const {
 } = useStore(key)
 
 onMounted(async () => {
-  //alert('something')
   //eslint-disable-next-line
   if (location.pathname.startsWith('/auth')) {
     return
@@ -82,11 +81,14 @@ const easterEgg = () => {
 
 // пасхалочка, видна только студентам
 watch(() => getters.roles, easterEgg)
+
+const text = ref('')
+watch(() => state.errorsCount, () => text.value = state.error.error_msg)
 </script>
 
 <template>
   <Header />
-  <alert :text="state.error?.error_msg" />
+  <alert :text="text" :observer="state.errorsCount" />
   <div v-if="loaded">
     <router-view />
   </div>

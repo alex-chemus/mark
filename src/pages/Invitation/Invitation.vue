@@ -10,7 +10,7 @@ import useFetchInvitationInfo from './hooks/useFetchInvitationInfo'
 import { IGroupInfo } from './types'
 
 const key = inject<Key>('key')
-const { commit, dispatch, getters } = useStore(key)
+const { dispatch, getters } = useStore(key)
 
 const { params } = useRoute()
 const router = useRouter()
@@ -37,7 +37,7 @@ watch(invitationInfo, async () => {
   })
 
   if (error) {
-    commit('setError', error as IError)
+    dispatch('setError', error as IError)
     console.log(error)
   } else groupInfo.value = response[0] // eslint-disable-line
 })
@@ -49,7 +49,7 @@ const join = async () => {
   })
 
   if (error) {
-    commit('setError', error as IError)
+    dispatch('setError', error as IError)
     console.log(error)
   } else {
     await dispatch('fetchUserInfo')

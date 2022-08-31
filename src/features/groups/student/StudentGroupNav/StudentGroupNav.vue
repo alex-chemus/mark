@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref } from 'vue'
 import { GroupNavItem, IGroupInfo } from '@/features/groups/types'
-import { GroupPopup } from '@/features/groups/common'
+import { GroupPopup, LeaveWarning } from '@/features/groups/common'
 
 const props = defineProps<{
   groupNavItem: GroupNavItem,
@@ -13,6 +13,7 @@ const emit = defineEmits<{
 }>()
 
 const opened = ref(false)
+const leaving = ref(false)
 
 const setSelection = (item: GroupNavItem) => {
   return item === props.groupNavItem ? 'selected' : ''
@@ -39,17 +40,31 @@ const setSelection = (item: GroupNavItem) => {
     <div class="control-group">
       <p class="group-name">{{ groupInfo.groupName }}</p>
 
-      <button class="popup-button" @click="opened = !opened">
-        <svg width="22" height="22" viewBox="0 0 22 22">
-          <use href="@/assets/tabler-sprite.svg#tabler-dots-vertical" />
-        </svg>
-      </button>
+      <template v-if="groupInfo.institutionID !== 0">
+        <button class="popup-button" @click="opened = !opened">
+          <svg width="22" height="22" viewBox="0 0 22 22">
+            <use href="@/assets/tabler-sprite.svg#tabler-dots-vertical" />
+          </svg>
+        </button>
+        <group-popup
+          v-if="groupInfo.institutionID !== 0"
+          :opened="opened"
+          :group-info="groupInfo"
+          @toggle="opened = !opened"
+        />
+      </template>
 
-      <group-popup
-        :opened="opened"
-        :group-info="groupInfo"
-        @toggle="opened = !opened"
-      />
+      <template v-else>
+        <button class="button-logout" @click="leaving = true">
+          <svg width="22" height="22" viewBox="0 0 22 22">
+            <use href="@/assets/tabler-sprite.svg#tabler-logout" />
+          </svg>
+        </button>
+        <leave-warning
+          :is-open="leaving"
+          @close="leaving = false"
+        />
+      </template>
     </div>
   </nav>
 </template>
@@ -141,6 +156,15 @@ li {
       width: 19px;
       height: 19px;
     }
+  }
+}
+
+.button-logout {
+  @include button;
+
+  &:hover,
+  &:focus {
+    color: var(--color-accent);
   }
 }
 </style>

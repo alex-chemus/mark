@@ -26,36 +26,12 @@ const logout = () => {
     <section v-show="opened" class="popup">
       <ul class="list">
         <li>
-          <router-link to="/profile">
-            <svg width="22" height="22" viewBox="0 0 22 22">
-              <use href="@/assets/tabler-sprite.svg#tabler-user" />
-            </svg>
-            <span>Профиль</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/friends">
-            <svg width="22" height="22" viewBox="0 0 22 22">
-              <use href="@/assets/tabler-sprite.svg#tabler-users" />
-            </svg>
-            <span>Друзья</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/support">
-            <svg width="22" height="22" viewBox="0 0 22 22">
-              <use href="@/assets/tabler-sprite.svg#tabler-alert-circle" />
-            </svg>
-            <span>Подержка</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/settings">
+          <a href="https://id.findcreek.com">
             <svg width="22" height="22" viewBox="0 0 22 22">
               <use href="@/assets/tabler-sprite.svg#tabler-settings" />
             </svg>
             <span>Настройки</span>
-          </router-link>
+          </a>
         </li>
       </ul>
 

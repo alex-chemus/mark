@@ -18,7 +18,7 @@ const emit = defineEmits<{
 }>()
 
 const key = inject<Key>('key')
-const { commit } = useStore(key)
+const { dispatch } = useStore(key)
 
 const route = useRoute()
 
@@ -52,7 +52,7 @@ const createFolder = async () => {
 
   if (error) {
     console.log(error)
-    commit('setError', error as IError)
+    dispatch('setError', error as IError)
   } else {
     emit('created')
     emit('toggle')

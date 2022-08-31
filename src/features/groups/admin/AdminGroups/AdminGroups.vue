@@ -57,6 +57,7 @@ watch(currentGroup, reload)
       <groups-sidebar
         v-if="state.institution?.groups"
         :groupsIDs="state.institution.groups"
+        :currentGroup="currentGroup"
         @change-group="value => router.push({ path: `/groupID/${value}` })"
       />
     </div>
@@ -66,6 +67,7 @@ watch(currentGroup, reload)
         :group-info="groupInfo"
         :group-nav-item="navItem"
         :groups-list="state.institution?.groups"
+        :current-group="currentGroup"
         @switch="value => navItem = value"
         @change-group="value => router.push({ path: `/groupID/${value}` })"
       />
