@@ -7,7 +7,7 @@ module.exports = defineConfig({
 const path = require('path')
 
 const publicPath = process.env.NODE_ENV === 'production'
-  ? 'https://mark.findcreek.com'
+  ? 'https://mark-findcreek.herokuapp.com/'
   : '/'
 
 module.exports = {
