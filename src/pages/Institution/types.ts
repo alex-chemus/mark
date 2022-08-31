@@ -24,3 +24,11 @@ export interface IStaff {
   password: string,
   passwordIsInvalid: boolean
 }
+
+export interface ITeacherCreds {
+  firstName: string,
+  lastName: string,
+  patronymic: string,
+  textID: string,
+  password: string
+}

@@ -23,6 +23,9 @@ onMounted(() => {
 })
 
 const amogus = () => {
+  /*if (!state.userInfo?.additionalData.inGroups[0]) {
+    router.push({ path: '/' })
+  }*/
   if (!getters.roles.includes('teacher')
     && !getters.roles.includes('administrator_of_institution')
     && state.userInfo?.additionalData.inGroups.length
@@ -56,7 +59,7 @@ const setSelection = (item: NavItem) => {
       </li>
     </ul>
 
-    <div v-show="currentNav === '/cloud/groups' && authorized">
+    <div v-if="currentNav === '/cloud/groups' && authorized">
       <!--<p v-if="role === 'user'" class="group-name">{{ group }}</p>-->
       <cloud-popup />
     </div>

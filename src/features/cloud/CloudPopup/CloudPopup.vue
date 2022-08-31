@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-  inject, ref, computed, onMounted, watch
+  inject, ref, computed, onMounted, watch, defineEmits
 } from 'vue'
 import { Key } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
@@ -41,6 +41,11 @@ const currentGroupName = computed(() => {
     .find(group => group.groupID === groupID.value)
     ?.groupName
 })
+
+const onclick = (id: number) => {
+  router.push({ path: `/cloud/groups/${id}` })
+  opened.value = false
+}
 </script>
 
 <template>
@@ -67,7 +72,7 @@ const currentGroupName = computed(() => {
         :class="group.groupID === groupID ? 'selected' : ''"
       >
         <!--<button @click="setCurrentGroup(group.groupID)">-->
-        <button @click="router.push({ path: `/cloud/groups/${group.groupID}` })">
+        <button @click="onclick(group.groupID)">
           {{ group.groupName }}
         </button>
       </li>

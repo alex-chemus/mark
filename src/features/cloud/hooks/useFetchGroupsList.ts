@@ -36,7 +36,7 @@ const useFetchGroupsList = () => {
     if (!store.state.userInfo) return
 
     const groupsIDs = await getGroupsIDs()
-    if (!groupsIDs) return
+    if (!groupsIDs || groupsIDs.length === 0) return
 
     const { response, error } = await useFetch({
       path: 'markMethods/group.getInfo',

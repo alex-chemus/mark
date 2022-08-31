@@ -18,6 +18,7 @@ const router = useRouter()
 
 const groupsIDs = ref<number[]>([])
 const currentGroup = ref<number>(0)
+const noGroups = ref(false)
 
 const getGroups = () => {
   if (route.path !== '/' && !route.path.startsWith('/groupID')) return
@@ -26,6 +27,11 @@ const getGroups = () => {
     ...state.userInfo.additionalData.inGroups,
     ...state.userInfo.additionalData.ownGroups
   ]
+
+  if (groupsIDs.value.length === 0) {
+    noGroups.value = true
+    return
+  }
 
   const groupID = +(route.params.groupID as string)
   if (route.params.groupID && groupsIDs.value.includes(groupID)) {
@@ -61,7 +67,11 @@ const sidebarOpened = ref(false)
 </script>
 
 <template>
-  <main class="teacher-groups">
+  <main v-if="noGroups" class="no-groups">
+    Вы не состоите ни в одной группе
+  </main>
+
+  <main v-else class="teacher-groups">
     <div class="desktop-sidebar">
       <groups-sidebar
         :groupsIDs="groupsIDs"
@@ -122,6 +132,26 @@ const sidebarOpened = ref(false)
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
+
+.no-groups {
+  /*width: 100%;
+  height: 100%;
+  @include container;
+  @include flex(center, center);*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-family: var(--ff-montserrat);
+  font-size: var(--size-8);
+  color: var(--text-color-1);
+  text-align: center;
+
+  @include md {
+    font-size: var(--size-6);
+  }
+}
 
 .teacher-groups {
   display: grid;
