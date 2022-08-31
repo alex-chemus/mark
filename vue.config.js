@@ -7,7 +7,7 @@ module.exports = defineConfig({
 const path = require('path')
 
 const publicPath = process.env.NODE_ENV === 'production'
-  ? 'https://alex-chemus.github.io/mark/'
+  ? 'https://mark.findcreek.com'
   : '/'
 
 module.exports = {
@@ -27,5 +27,5 @@ module.exports = {
     port: process.env.PORT
   },
 
-  //publicPath
+  publicPath
 }
