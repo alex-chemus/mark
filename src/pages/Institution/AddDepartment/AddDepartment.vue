@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { defineProps, ref, inject } from 'vue'
+import {
+  defineProps, ref, inject
+} from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
 import useAddDepartment from '../hooks/useAddDepartment'
@@ -63,6 +65,12 @@ const create = async () => {
 
 .add-button {
   @include button-icon;
+  height: 40px;
+  @include flex(center, center);
+
+  @include md {
+    height: 37.5px;
+  }
 }
 
 input {
