@@ -9,6 +9,7 @@ import GroupsList from '../GroupsList/GroupsList.vue'
 
 const props = defineProps<{
   groupsIDs: number[], // groupsID[]
+  currentGroup: number | null
 }>()
 
 const emit = defineEmits<{
@@ -18,9 +19,9 @@ const emit = defineEmits<{
 const { groups, fetchGroups } = useFetchGroups()
 
 const searchedGroups = ref<number[] | null>(null)
-const currentGroup = ref(props.groupsIDs[0])
+//const currentGroup = ref(props.groupsIDs[0])
 
-watch(currentGroup, () => emit('change-group', currentGroup.value))
+//watch(currentGroup, () => emit('change-group', currentGroup.value))
 
 onMounted(() => fetchGroups({
   groupsIDs: props.groupsIDs
@@ -53,7 +54,7 @@ const getGroups = computed(() => {
     <groups-list
       :groups="getGroups"
       :current-group="currentGroup"
-      @switch="value => currentGroup = value"
+      @switch="value => emit('change-group', value)"
     />
   </aside>
 </template>

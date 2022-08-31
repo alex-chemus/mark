@@ -7,8 +7,13 @@ import '@/style/style.scss'
 
 // установить тему
 type Theme = 'dark' | 'light'
-const prefers = (theme: Theme) =>
-  window.matchMedia(`(prefers-color-scheme: ${theme})`).matches
+const prefers = (theme: Theme) => {
+  if (localStorage.getItem('theme')) {
+    return localStorage.getItem('theme') === theme
+  } else {
+    return window.matchMedia(`(prefers-color-scheme: ${theme})`).matches
+  }
+}
 const root = document.querySelector(':root') as HTMLElement
 
 if (prefers('light'))

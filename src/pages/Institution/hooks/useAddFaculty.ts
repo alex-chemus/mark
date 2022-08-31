@@ -16,7 +16,7 @@ const useAddFaculty = () => {
     })
 
     if (error)
-      store.commit('setError', error as IError)
+      store.dispatch('setError', error as IError)
   }
 
   return { facultyName, addFaculty }

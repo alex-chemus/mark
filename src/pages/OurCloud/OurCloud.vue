@@ -13,7 +13,7 @@ import useFolderInfo from './hooks/useFolderInfo'
 const route = useRoute()
 
 const key = inject<Key>('key')
-const { getters } = useStore(key)
+const { getters, state } = useStore(key)
 
 const folderID = ref<string | null>(null)
 const updateFolderID = () => {
@@ -47,6 +47,27 @@ const updateInfo = () => {
 onMounted(updateInfo)
 watch([groupID, folderID], updateInfo)
 
+const inGroups = computed(() => {
+  console.log(state)
+  if (
+    getters.roles.includes('administrator_of_institution')
+    && state.institution?.groups.length === 0
+  ) return false
+
+  if (
+    getters.roles.includes('teacher')
+    && state.userInfo?.additionalData.inGroups.length === 0
+    && state.userInfo?.additionalData.ownGroups.length === 0
+  ) return false
+
+  if (
+    state.userInfo?.additionalData.inGroups.length === 0
+    && !getters.roles.includes('administrator_of_institution')
+  ) return false
+
+  return true
+})
+
 const authorized = computed(() => {
   return getters.roles.includes('teacher')
     || getters.roles.includes('administrator_of_institution')
@@ -60,7 +81,7 @@ onBeforeMount(() => document.title = 'Облако группы')
   <main class="cloud-page">
     <cloud-nav />
 
-    <template v-if="folderInfo && groupID">
+    <template v-if="folderInfo && groupID && inGroups">
       <section class="cloud-heading" :class="authorized ? 'hide-path' : ''">
         <directory-path
           :groupID="groupID"
@@ -93,14 +114,43 @@ onBeforeMount(() => document.title = 'Облако группы')
         />
       </section>
     </template>
+
+    <div v-else-if="getters.roles.includes('administrator_of_institution') && !inGroups" class="no-groups">
+      Группы еще не созданы
+    </div>
+
+    <div v-else-if="!inGroups" class="no-groups">
+      Вы не состоите ни в одной группе
+    </div>
   </main>
 </template>
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
 
+.no-groups {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-family: var(--ff-montserrat);
+  font-size: var(--size-8);
+  color: var(--text-color-1);
+  text-align: center;
+
+  @include md {
+    font-size: var(--size-6);
+  }
+}
+
 .cloud-page {
   @include container;
+  margin-bottom: var(--size-15);
+
+  @include md {
+    margin-bottom: var(--size-11);
+  }
 }
 
 .cloud-heading {

@@ -21,14 +21,14 @@
 
 h6 {
   font-family: var(--ff-open-sans);
-  font-size: var(--size-6);
+  font-size: var(--size-8);
   color: var(--text-color-1);
   font-weight: var(--fw-semibold);
   margin: 0;
   text-align: center;
 
   @include md {
-    font-size: var(--size-7);
+    font-size: var(--size-6);
   }
 }
 

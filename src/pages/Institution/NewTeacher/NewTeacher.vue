@@ -3,22 +3,26 @@ import { defineEmits, inject } from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
 import useAddTeacher from '../hooks/useAddTeacher'
+import { ITeacherCreds } from '../types'
 
 const key = inject<Key>('key')
 const { dispatch } = useStore(key)
 
 const emit = defineEmits<{
-  (e: 'toggle'): void
+  (e: 'toggle'): void,
+  (e: 'teacher-credentials', value: ITeacherCreds): void
 }>()
 
 const {
-  firstName, lastName, patronymic, password, addTeacher
+  firstName, lastName, patronymic, password, addTeacher, credentials
 } = useAddTeacher()
 
 const create = async () => {
   await addTeacher()
   dispatch('fetchInstituion')
-  emit('toggle')
+  //emit('toggle')
+  if (!credentials.value) return
+  emit('teacher-credentials', credentials.value)
 }
 </script>
 

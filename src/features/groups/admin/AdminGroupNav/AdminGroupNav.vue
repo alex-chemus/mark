@@ -8,7 +8,8 @@ import useShareGroup from '@/features/groups/hooks/useShareGroup'
 const props = defineProps<{
   groupNavItem: GroupNavItem,
   groupInfo: IGroupInfo,
-  groupsList: number[] | null | undefined
+  groupsList: number[] | null | undefined,
+  currentGroup: number | null
 }>()
 
 const emit = defineEmits<{
@@ -16,7 +17,7 @@ const emit = defineEmits<{
   (e: 'change-group', value: number): void
 }>()
 
-const { message, shareGroup } = useShareGroup()
+const { message, shareGroup, invitationLink } = useShareGroup()
 const share = () => shareGroup({
   groupID: props.groupInfo.groupID,
   url: location.origin // eslint-disable-line
@@ -72,13 +73,14 @@ const setSelection = (item: GroupNavItem) => {
         @toggle="opened = !opened"
       />
 
-      <alert :text="message" />
+      <alert :text="message" :observer="invitationLink" />
     </div>
 
     <div v-show="sidebarOpened" class="sidebar-popup">
       <groups-sidebar
         v-if="groupsList"
         :groupsIDs="groupsList"
+        :current-group="currentGroup"
         @change-group="value => emit('change-group', value)"
       />
     </div>

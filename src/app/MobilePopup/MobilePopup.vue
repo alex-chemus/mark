@@ -2,12 +2,14 @@
 import {
   defineEmits, defineProps, computed, inject
 } from 'vue'
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
 import { Key } from '@/store'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import { IAccountInfo } from '../types'
 
 const props = defineProps<{
-  opened: boolean
+  opened: boolean,
+  accountInfo: IAccountInfo
 }>()
 
 const emit = defineEmits<{
@@ -19,7 +21,6 @@ const { state } = useStore(key)
 
 const logout = () => {
   localStorage.removeItem('token')
-  //console.log('logout')
   // eslint-disable-next-line
   location.href = state.redirectUrl
 }
@@ -37,38 +38,24 @@ const openClass = computed(() => {
 
 <template>
   <section v-show="opened" class="mobile-popup" :class="openClass">
+    <div class="img-wrapper">
+      <img :src="accountInfo.avatar" alt="Avatar" class="img" />
+    </div>
+
+    <h6 class="name">
+      {{ `${accountInfo.firstName} ${accountInfo.lastName} ${accountInfo.patronymic}` }}
+    </h6>
+
+    <div class="separator" />
+
     <ul>
-      <li :class="selectRoutes('/profile')">
-        <router-link to="/profile">
-          <span>Профиль</span>
-          <!--<svg width="19" height="19" viewBox="0 0 19 19">
-            <use href="~/feather-icons/dist/feather-sprite.svg#user" />
-          </svg>-->
-        </router-link>
-      </li>
-      <li :class="selectRoutes('/friends')">
-        <router-link to="/friends">
-          <span>Друзья</span>
-          <!--<svg width="19" height="19" viewBox="0 0 19 19">
-            <use href="~/feather-icons/dist/feather-sprite.svg#users" />
-          </svg>-->
-        </router-link>
-      </li>
-      <li :class="selectRoutes('/support')">
-        <router-link to="/support">
-          <span>Поддержка</span>
-          <!--<svg width="19" height="19" viewBox="0 0 19 19">
-            <use href="~/feather-icons/dist/feather-sprite.svg#alert-circle" />
-          </svg>-->
-        </router-link>
-      </li>
       <li :class="selectRoutes('/settings')">
-        <router-link to="/settings">
+        <a href="https://id.findcreek.com">
+          <svg width="19" height="19" viewBox="0 0 19 19">
+            <use href="@/assets/tabler-sprite.svg#tabler-settings" />
+          </svg>
           <span>Настройки</span>
-          <!--<svg width="19" height="19" viewBox="0 0 19 19">
-            <use href="~/feather-icons/dist/feather-sprite.svg#settings" />
-          </svg>-->
-        </router-link>
+        </a>
       </li>
     </ul>
     <button class="logout-btn" @click="logout">
@@ -95,8 +82,27 @@ const openClass = computed(() => {
   @include popup('right');
 }
 
+.img-wrapper {
+  padding: var(--size-10);
+  padding-bottom: var(--size-2);
+}
+
+.img {
+  border-radius: 100vmax;
+  border: 1px solid var(--element-color);
+  width: var(--size-13);
+}
+
+.name {
+  padding: var(--size-2) var(--size-10) 0;
+  margin: 0;
+  font-family: var(--ff-montserrat);
+  font-size: var(--size-6);
+}
+
 ul {
   padding: var(--size-10);
+  padding-top: 0;
   margin: 0;
   list-style: none;
 
@@ -124,7 +130,8 @@ li {
     text-decoration: none;
     outline: none;
     transition: var(--fast);
-    @include flex(space-between, center);
+    @include flex(flex-start, center);
+    @include gap(var(--size-3));
 
     &:focus {
       color: var(--color-accent);
@@ -142,7 +149,7 @@ li.selected {
 }
 
 .separator {
-  margin: 0 var(--size-10);
+  margin: var(--size-10);
   height: 1px;
   background-color: var(--element-color);
 }

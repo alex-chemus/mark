@@ -67,6 +67,7 @@ defineProps<{
   border-radius: 100vmax;
   background-color: var(--element-color);
   flex-shrink: 0;
+  border: 1px solid var(--element-color);
 
   &.hide {
     @include sm {

@@ -18,7 +18,7 @@ const emit = defineEmits<{
 }>()
 
 const key = inject<Key>('key')
-const { commit } = useStore(key)
+const { dispatch } = useStore(key)
 
 const input = ref<HTMLInputElement | null>(null)
 
@@ -29,7 +29,6 @@ const attachToGroup = async (filesIDs: number[]) => {
   }
 
   if (props.folderID && props.folderID) data.folderID = props.folderID
-  console.log('data to send', data)
 
   const { error } = await useFetch({
     path: 'markMethods/groupCloud.addFiles', data
@@ -37,7 +36,7 @@ const attachToGroup = async (filesIDs: number[]) => {
 
   if (error) {
     console.log(error)
-    commit('setError', error as IError)
+    dispatch('setError', error as IError)
   } else {
     emit('created')
   }
@@ -57,7 +56,7 @@ const uploadFiles = async () => {
 
     if (error) {
       console.log(error)
-      commit('setError', error as IError)
+      dispatch('setError', error as IError)
     } else {
       attachToGroup(response[0].fileID)
     }

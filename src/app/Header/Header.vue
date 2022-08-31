@@ -9,9 +9,10 @@ import PrimaryNav from '../PrimaryNav/PrimaryNav.vue'
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher.vue'
 import Popup from '../Popup/Popup.vue'
 import MobilePopup from '../MobilePopup/MobilePopup.vue'
+import { IAccountInfo } from '../types'
 
 const key = inject<Key>('key')
-const { commit, state } = useStore(key)
+const { dispatch, state } = useStore(key)
 
 const opened = ref(false)
 
@@ -20,6 +21,7 @@ const openClass = computed(() => {
 })
 
 const avatar = ref<string | null>(null)
+const accountInfo = ref<IAccountInfo | null>(null)
 
 const fetchInfo = async () => {
   const { response, error } = await useFetch({
@@ -28,9 +30,15 @@ const fetchInfo = async () => {
 
   if (error) {
     console.log(error)
-    commit('setError', error as IError)
+    dispatch('setError', error as IError)
   } else {
     avatar.value = response.additionalData.avatarData.avatarCompressed
+    accountInfo.value = {
+      avatar: response.additionalData.avatarData.avatarCompressed,
+      firstName: response.firstName,
+      lastName: response.lastName,
+      patronymic: response.patronymic
+    }
   }
 }
 watch(() => state.token, fetchInfo)
@@ -84,7 +92,9 @@ onMounted(fetchInfo)
           </svg>
         </button>
         <mobile-popup
+          v-if="accountInfo"
           :opened="opened"
+          :account-info="accountInfo"
           @toggle="opened = !opened"
         />
       </div>
@@ -201,6 +211,7 @@ header .container {
 .img {
   border-radius: 100vmax;
   background-color: var(--element-color);
+  border: 1px solid var(--element-color);
   width: 40px;
   aspect-ratio: 1;
 

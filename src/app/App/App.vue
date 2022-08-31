@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import {
-  inject, onMounted, computed, watch
+  inject, onMounted, computed, watch, ref
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
-import { useRoute } from 'vue-router'
 
 import { Alert, Loader } from '@/shared'
 import Header from '../Header/Header.vue'
@@ -15,10 +14,12 @@ const {
   dispatch, state, commit, getters
 } = useStore(key)
 
-const route = useRoute()
-
 onMounted(async () => {
-  if (route.path.startsWith('/auth')) return
+  //eslint-disable-next-line
+  if (location.pathname.startsWith('/auth')) {
+    return
+  }
+
   if (localStorage.getItem('token')) {
     const token = localStorage.getItem('token') as string
     commit('setToken', token)
@@ -35,7 +36,6 @@ watch(
   () => state.token,
   async () => {
     if (state.token) {
-      //console.log('update state token', state.token)
       await dispatch('fetchUserInfo')
       await dispatch('fetchInstituion')
     }
@@ -44,7 +44,7 @@ watch(
 
 const loaded = computed(() => {
   //return !!state.userInfo
-  return !!state.token
+  return !!state.token || location.pathname.startsWith('/auth')
 })
 
 const easterEgg = () => {
@@ -81,11 +81,14 @@ const easterEgg = () => {
 
 // пасхалочка, видна только студентам
 watch(() => getters.roles, easterEgg)
+
+const text = ref('')
+watch(() => state.errorsCount, () => text.value = state.error.error_msg)
 </script>
 
 <template>
   <Header />
-  <alert :text="state.error?.error_msg" />
+  <alert :text="text" :observer="state.errorsCount" />
   <div v-if="loaded">
     <router-view />
   </div>

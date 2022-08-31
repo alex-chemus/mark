@@ -20,5 +20,12 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Deploy Heroku project
+```
+npm run heroku
+```
+
+### Start production server
+```
+npm run start
+```

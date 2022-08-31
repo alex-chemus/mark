@@ -25,7 +25,7 @@ const useFetchGroupsList = () => {
       })
 
       if (error) {
-        store.commit('setError', error as IError)
+        store.dispatch('setError', error as IError)
         console.log(error)
         return null
       } else return response.groups
@@ -36,7 +36,7 @@ const useFetchGroupsList = () => {
     if (!store.state.userInfo) return
 
     const groupsIDs = await getGroupsIDs()
-    if (!groupsIDs) return
+    if (!groupsIDs || groupsIDs.length === 0) return
 
     const { response, error } = await useFetch({
       path: 'markMethods/group.getInfo',
@@ -44,7 +44,7 @@ const useFetchGroupsList = () => {
     })
 
     if (error) {
-      store.commit('setError', error as IError)
+      store.dispatch('setError', error as IError)
       console.log(error)
     } else groupsList.value = response.map((i: any) => ({
       groupID: i.groupID,

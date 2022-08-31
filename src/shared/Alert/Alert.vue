@@ -1,8 +1,11 @@
 <script lang="ts" setup>
-import { defineProps, onUpdated, ref } from 'vue'
+import {
+  defineProps, onUpdated, ref, watch
+} from 'vue'
 
-defineProps<{
-  text: string
+const props = defineProps<{
+  text: string,
+  observer?: any
 }>()
 
 const button = ref<HTMLButtonElement | null>(null)
@@ -10,16 +13,19 @@ const close = () => {
   button.value?.classList.add('hidden')
 }
 
-onUpdated(() => {
+const showAlert = () => {
   if (!button.value) return
   button.value.classList.remove('hidden')
-  setTimeout(close, 3000)
-})
+  setTimeout(close, 5000)
+}
+
+onUpdated(showAlert)
+watch(() => props.text, showAlert)
 </script>
 
 <template>
-  <button class="alert hidden" ref="button" @click="close">
-    {{ text }}
+  <button class="alert hidden" ref="button" @click="close" :title="text">
+    <span>{{ text }}</span>
   </button>
 </template>
 
@@ -44,6 +50,11 @@ onUpdated(() => {
   font-family: var(--ff-open-sans);
   font-size: var(--size-6);
   text-align: left;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   @include md {
     font-size: var(--size-5);

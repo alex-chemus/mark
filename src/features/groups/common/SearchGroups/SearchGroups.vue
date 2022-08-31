@@ -22,9 +22,6 @@ const search = (e: Event) => {
     })
     .map(group => group.groupID)
 
-  console.log('groups', props.groups)
-  console.log('result', result)
-
   emit('search', result)
 }
 </script>

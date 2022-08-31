@@ -18,7 +18,6 @@ const router = useRouter()
 onBeforeMount(() => document.title = 'Учреждение')
 
 if (!getters.roles?.includes('administrator_of_institution')) {
-  console.log('push from institution')
   router.push({ path: '/notfound' })
 }
 

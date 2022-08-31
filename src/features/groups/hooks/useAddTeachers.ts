@@ -28,7 +28,7 @@ const useAddTeachers = () => {
     })
 
     if (error) {
-      store.commit('setError', error as IError)
+      store.dispatch('setError', error as IError)
       console.log(error)
       return null // eslint-disable-line
     } else {

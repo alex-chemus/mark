@@ -4,7 +4,7 @@ import { IGroupButton } from '@/features/groups/types'
 
 const props = defineProps<{
   groups: IGroupButton[],
-  currentGroup: number
+  currentGroup: number | null
 }>()
 
 const emit = defineEmits<{

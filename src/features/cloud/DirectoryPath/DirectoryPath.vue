@@ -16,7 +16,7 @@ const props = defineProps<{
 const router = useRouter()
 
 const key = inject<Key>('key')
-const { commit, getters } = useStore(key)
+const { dispatch, getters } = useStore(key)
 
 const catalogs = ref<IFolder[] | null>(null)
 const fetchCatalogs = async () => {
@@ -40,7 +40,7 @@ const fetchCatalogs = async () => {
 
   if (error) {
     console.log(error)
-    commit('setError', error as IError)
+    dispatch('setError', error as IError)
   } else {
     catalogs.value = response
   }
