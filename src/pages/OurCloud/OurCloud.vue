@@ -48,7 +48,6 @@ onMounted(updateInfo)
 watch([groupID, folderID], updateInfo)
 
 const inGroups = computed(() => {
-  console.log(state)
   if (
     getters.roles.includes('administrator_of_institution')
     && state.institution?.groups.length === 0

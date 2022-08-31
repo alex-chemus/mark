@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-  inject, ref, computed, onMounted, watch, defineEmits
+  inject, ref, computed, onMounted, watch
 } from 'vue'
 import { Key } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
@@ -16,10 +16,9 @@ const router = useRouter()
 const opened = ref(false)
 
 const { groupsList, fetchGroupsList } = useFetchGroupsList()
-
 const updatePath = async () => {
   await fetchGroupsList()
-  if (groupsList.value) {
+  if (groupsList.value && !route.params.groupID) {
     router.push({ path: `/cloud/groups/${groupsList.value[0].groupID}` })
   }
 }
