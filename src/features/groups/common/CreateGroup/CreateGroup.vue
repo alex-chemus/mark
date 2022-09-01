@@ -18,7 +18,11 @@ const {
 
 const create = async () => {
   await createGroup()
-  dispatch('fetchUserInfo')
+  emit('toggle')
+  if (getters.roles.includes('administrator_of_institution'))
+    dispatch('fetchInstituion')
+  else
+    dispatch('fetchUserInfo')
 }
 </script>
 
