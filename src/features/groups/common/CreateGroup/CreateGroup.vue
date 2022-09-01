@@ -10,7 +10,7 @@ const emit = defineEmits<{
 }>()
 
 const key = inject<Key>('key')
-const { getters, dispatch } = useStore(key)
+const { getters, dispatch, state } = useStore(key)
 
 const {
   name, hasRoles, createGroup, shouldAttach
@@ -41,7 +41,7 @@ const create = async () => {
       />
     </div>
 
-    <div v-if="getters.roles.includes('teacher')">
+    <div v-if="getters.roles.includes('teacher') && state.userInfo?.institutionData.institutionID">
       <checkbox
         title="Привязать к учреждению"
         :state="shouldAttach"
