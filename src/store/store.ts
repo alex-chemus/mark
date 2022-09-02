@@ -57,7 +57,7 @@ export const store = createStore<IState>({
   },
 
   actions: {
-    async fetchInstituion({ commit, getters }) {
+    async fetchInstituion({ commit, getters, state }) {
       if (!getters.IID) return
       const { response, error } = await useFetch({
         path: 'markMethods/institution.getInfo',
@@ -66,16 +66,20 @@ export const store = createStore<IState>({
       if (error) {
         commit('setError', error as IError)
         console.log(error)
+        if (error.error_msg === 'Invalid token.')
+          location.href = state.redirectUrl
       } else {
         commit('setInstitution', response as IInstitution)
       }
     },
 
-    async fetchUserInfo({ commit }) {
+    async fetchUserInfo({ commit, state }) {
       const { response, error } = await useFetch({ path: 'markMethods/account.getInfo' })
       if (error) {
         commit('setError', error as IError)
         console.log(error)
+        if (error.error_msg === 'Invalid token.')
+          location.href = state.redirectUrl
       } else {
         commit('setUserInfo', {
           id: response.findcreekID,
