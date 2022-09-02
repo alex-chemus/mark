@@ -78,6 +78,7 @@ export const store = createStore<IState>({
       if (error) {
         commit('setError', error as IError)
         console.log(error)
+        alert('')
         if (error.error_msg === 'Invalid token.')
           location.href = state.redirectUrl
       } else {
