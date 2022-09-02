@@ -53,6 +53,7 @@ const join = async () => {
     console.log(error)
   } else {
     await dispatch('fetchUserInfo')
+    await dispatch('fetchInstituion')
     router.push({ path: '/' })
   }
 }

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from 'vue'
+// eslint-disable-next-line
+import { defineProps, defineEmits, ref, onMounted, watch } from 'vue'
 import { GroupNavItem, IGroupInfo } from '@/features/groups/types'
 import { GroupPopup, LeaveWarning } from '@/features/groups/common'
 
@@ -47,7 +48,6 @@ const setSelection = (item: GroupNavItem) => {
           </svg>
         </button>
         <group-popup
-          v-if="groupInfo.institutionID !== 0"
           :opened="opened"
           :group-info="groupInfo"
           @toggle="opened = !opened"

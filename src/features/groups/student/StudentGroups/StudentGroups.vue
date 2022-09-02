@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-  ref, inject, watch, onBeforeMount
+  ref, inject, watch, onBeforeMount, onMounted
 } from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
@@ -44,13 +44,19 @@ watch(groupID, () => {
       currentGroup: groupID.value
     })
 })
+onMounted(() => {
+  if (typeof groupID.value === 'number' && groupID.value !== 0)
+    fetchGroupInfo({
+      currentGroup: groupID.value
+    })
+})
 
 const currentNav = ref<GroupNavItem>('Студенты')
 </script>
 
 <template>
-  <div v-if="groupID === 0">
-    <join-group />
+  <div v-if="groupID === 0" class="no-groups">
+    Вы не состоите ни в одной группе
   </div>
   <div v-else>
     <student-group-nav
@@ -74,6 +80,22 @@ const currentNav = ref<GroupNavItem>('Студенты')
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
+
+.no-groups {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-family: var(--ff-montserrat);
+  font-size: var(--size-8);
+  color: var(--text-color-1);
+  text-align: center;
+
+  @include md {
+    font-size: var(--size-6);
+  }
+}
 
 .student-group {
   @include small-container;
