@@ -77,13 +77,17 @@ const selectRoutes = (...routes: string[]) => {
   @include container;
   padding: 0;
   list-style: none;
-  @include flex(space-around, center);
+  @include flex(stretch, center);
+
 }
 
 .list-item {
+  flex-grow: 1;
   a {
     @include button-icon;
     color: var(--text-color-2);
+    width: 100%;
+    @include flex(center, center);
 
     &.selected {
       color: var(--color-accent);

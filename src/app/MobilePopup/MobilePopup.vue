@@ -80,6 +80,8 @@ const openClass = computed(() => {
 
 .mobile-popup {
   @include popup('right');
+  height: 100vh;
+  @include flex(flex-start, flex-start, column);
 }
 
 .img-wrapper {
@@ -98,6 +100,7 @@ const openClass = computed(() => {
   margin: 0;
   font-family: var(--ff-montserrat);
   font-size: var(--size-6);
+  color: var(--text-color-1);
 }
 
 ul {
@@ -160,9 +163,10 @@ li.selected {
 }
 
 .logout-btn {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  //position: absolute;
+  //bottom: 0;
+  //left: 0;
+  margin-top: auto;
   width: 100%;
   border: none;
   outline: none;
