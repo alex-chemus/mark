@@ -48,7 +48,7 @@ onMounted(fetchInfo)
 <template>
   <header>
     <div class="container">
-      <button class="logo">
+      <router-link to="/" class="logo">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735.77 178">
           <g id="Слой_2" data-name="Слой 2" stroke="none">
             <circle class="cls-1" fill="#269dc6" cx="75.74" cy="75.74" r="75.74"/>
@@ -63,7 +63,7 @@ onMounted(fetchInfo)
           </g>
         </svg>
         <!--<img src="@/assets/mark_logo_black_font.svg" alt="Logo" height="40" />-->
-      </button>
+      </router-link>
 
       <div class="primary-nav desktop">
         <primary-nav />
