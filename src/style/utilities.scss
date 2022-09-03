@@ -165,7 +165,8 @@ $sm: 480px;
 @mixin popup($dir: 'left', $z: 2) {
   width: 70vw;
   min-width: 250px;
-  min-height: 100vh;
+  //min-height: 100vh;
+  height: 100vh;
   border-radius: 0;
   position: fixed;
   top: 0;

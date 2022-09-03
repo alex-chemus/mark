@@ -167,7 +167,7 @@ li.selected {
   //position: absolute;
   //bottom: 0;
   //left: 0;
-  //margin-top: auto;
+  margin-top: auto;
   width: 100%;
   border: none;
   outline: none;

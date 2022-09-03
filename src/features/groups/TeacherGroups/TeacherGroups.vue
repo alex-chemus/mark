@@ -185,7 +185,7 @@ const sidebarOpened = ref(false)
 .sidebar-popup {
   display: none;
   @include scrollbar;
-  max-height: calc(100vh - var(--size-10)*2);
+  //max-height: calc(100vh - var(--size-10)*2);
 
   @include md {
     @include flex(flex-start, stretch, column);
