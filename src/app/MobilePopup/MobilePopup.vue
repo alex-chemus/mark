@@ -155,6 +155,7 @@ li.selected {
   margin: var(--size-10);
   height: 1px;
   background-color: var(--element-color);
+  width: 100%;
 }
 
 .backdrop {
@@ -166,7 +167,7 @@ li.selected {
   //position: absolute;
   //bottom: 0;
   //left: 0;
-  margin-top: auto;
+  //margin-top: auto;
   width: 100%;
   border: none;
   outline: none;
