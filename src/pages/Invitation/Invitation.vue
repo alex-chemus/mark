@@ -17,8 +17,10 @@ const router = useRouter()
 
 onBeforeMount(() => document.title = 'Войти')
 
-if (params.id === '' || getters.roles.includes('administrator_of_institution'))
-  router.push('/notfound')
+onBeforeMount(() => {
+  if (params.id === '' || getters.roles?.includes('administrator_of_institution'))
+    router.push('/notfound')
+})
 
 const { invitationInfo, getInvitationInfo } = useFetchInvitationInfo()
 onMounted(() => {
