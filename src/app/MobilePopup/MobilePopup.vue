@@ -155,6 +155,7 @@ li.selected {
   margin: var(--size-10);
   height: 1px;
   background-color: var(--element-color);
+  width: 100%;
 }
 
 .backdrop {
@@ -163,11 +164,13 @@ li.selected {
 }
 
 .logout-btn {
-  //position: absolute;
-  //bottom: 0;
-  //left: 0;
-  margin-top: auto;
-  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  //margin-top: auto;
+  //width: 100%;
+  width: 70vw;
+  min-width: 250px;
   border: none;
   outline: none;
   background-color: var(--text-color-2);
