@@ -5,7 +5,7 @@ import {
 import { Key } from '@/store'
 import { useStore } from 'vuex'
 import {
-  useFetchUsers, GroupUser, Checkbox, IUserItem
+  useFetchUsers, User, Checkbox, IUserItem
 } from '@/shared'
 import { IGroupInfo } from '@/features/groups/types';
 import useAddTeachers from '@/features/groups/hooks/useAddTeachers'

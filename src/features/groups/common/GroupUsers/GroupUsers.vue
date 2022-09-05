@@ -1,12 +1,20 @@
 <script lang="ts" setup>
-import { defineProps, onMounted, watch } from 'vue'
+import {
+  defineProps, defineEmits, onMounted, watch
+} from 'vue'
 import { useFetchUsers } from '@/shared'
 import { IGroupUsers } from '@/features/groups'
-import User from '../User/User.vue'
+import GroupUser from '../GroupUser/GroupUser.vue'
 
 const props = defineProps<{
   users?: IGroupUsers, // UIDs
-  checkStatus?: (studentID: number) => 'Староста' | 'Зам. старосты' | undefined
+  headStudentID?: number,
+  deputyHeadStudentID?: number,
+  groupID: number
+}>()
+
+const emit = defineEmits<{
+  (e: 'update'): void
 }>()
 
 const { users: usersData, fetchUsers } = useFetchUsers()
@@ -40,14 +48,17 @@ watch(
 
 <template>
   <ul v-if="usersData && usersData.length > 0" class="users-list">
-    <li v-for="user in usersData" :key="user.uid" class="user">
-      <user
-        :avatar="user.avatar"
-        :full-name="user.fullName"
-        :uid="user.uid"
-        :badge-text="checkStatus ? checkStatus(user.uid) : undefined"
-      />
-    </li>
+    <group-user
+      v-for="user in usersData" :key="user.uid"
+      :user="user"
+      :headStudentID="headStudentID"
+      :deputyHeadStudentID="deputyHeadStudentID"
+      :groupID="groupID"
+      :avatar="user.avatar"
+      :full-name="user.fullName"
+      :uid="user.uid"
+      @update="emit('update')"
+    />
   </ul>
 </template>
 

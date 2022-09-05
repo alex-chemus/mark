@@ -7,7 +7,7 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { UsersList } from '@/shared'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
-import { GroupsSidebar } from '@/features/groups/common'
+import { GroupsSidebar, GroupUsers } from '@/features/groups/common'
 import { GroupNavItem } from '@/features/groups/types'
 import AdminGroupNav from '../AdminGroupNav/AdminGroupNav.vue'
 import AddTeacher from '../AddTeacher/AddTeacher.vue'
@@ -41,7 +41,7 @@ watch([
   () => route.params.groupID
 ], setCurrentGroup)
 
-const reload = () => {
+const reload = async () => {
   if (currentGroup.value) {
     fetchGroupInfo({
       currentGroup: currentGroup.value
@@ -71,9 +71,13 @@ watch(currentGroup, reload)
         @switch="value => navItem = value"
         @change-group="value => router.push({ path: `/groupID/${value}` })"
       />
-      <users-list
+      <group-users
         v-if="navItem === 'Студенты' && currentGroup"
         :users="groupInfo.users.students"
+        :headStudentID="groupInfo.headStudentID"
+        :deputyHeadStudentID="groupInfo.deputyHeadStudentID"
+        :groupID="groupInfo.groupID"
+        @update="reload"
       />
       <div v-else-if="navItem === 'Преподаватели' && currentGroup">
         <users-list :users="groupInfo.users.teachers" />
