@@ -153,8 +153,10 @@ li {
 
   svg {
     @include md {
-      width: 19px;
-      height: 19px;
+      //width: 19px;
+      //height: 19px;
+      width: var(--size-9);
+      width: var(--size-9);
     }
   }
 }

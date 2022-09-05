@@ -108,6 +108,7 @@ ul {
   padding-top: 0;
   margin: 0;
   list-style: none;
+  width: 100%;
 
   @include flex(flex-start, flex-start, column);
   @include gap(var(--size-7), 'column');
@@ -135,6 +136,8 @@ li {
     transition: var(--fast);
     @include flex(flex-start, center);
     @include gap(var(--size-3));
+    padding: var(--size-2) 0;
+    margin-top: calc(var(--size-2) * -1);
 
     &:focus {
       color: var(--color-accent);
@@ -176,7 +179,7 @@ li.selected {
   background-color: var(--text-color-2);
   @include flex;
   @include gap(var(--size-2));
-  padding: var(--size-1) var(--size-10);
+  padding: var(--size-3) var(--size-10);
   color: var(--bg-color-1);
   background-color: var(--text-color-2);
   font-family: var(--ff-open-sans);

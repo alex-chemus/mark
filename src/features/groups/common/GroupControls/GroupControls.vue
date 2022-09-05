@@ -57,9 +57,9 @@ const title = computed(() => {
     color: var(--color-accent);
   }
 
-  @include md {
+  /*@include md {
     width: 22px;
     height: 22px;
-  }
+  }*/
 }
 </style>

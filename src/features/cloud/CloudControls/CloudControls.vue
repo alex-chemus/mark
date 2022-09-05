@@ -118,6 +118,7 @@ const modalOpened = ref(false)
         <svg width="24" height="24" viewBox="0 0 24 24">
           <use href="@/assets/tabler-sprite.svg#tabler-file-plus" />
         </svg>
+        <span>Добавить файл</span>
       </button>
     </form>
 
@@ -125,6 +126,7 @@ const modalOpened = ref(false)
       <svg width="24" height="24" viewBox="0 0 24 24">
         <use href="@/assets/tabler-sprite.svg#tabler-folder-plus" />
       </svg>
+      <span>Добавить папку</span>
     </button>
     <create-folder
       :opened="modalOpened"
@@ -143,7 +145,9 @@ const modalOpened = ref(false)
   @include gap(var(--size-9));
 
   @include md {
-    @include gap(var(--size-6));
+    @include gap(0);
+    @include gap(var(--size-6), 'column');
+    flex-direction: column;
   }
 }
 
@@ -157,10 +161,15 @@ input {
 
 .button {
   @include button;
+  width: max-content;
 
   &:hover,
   &:focus {
     color: var(--color-accent);
+  }
+
+  svg {
+    margin-right: var(--size-1);
   }
 }
 

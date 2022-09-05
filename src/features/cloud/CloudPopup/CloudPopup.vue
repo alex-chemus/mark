@@ -60,7 +60,7 @@ const onclick = (id: number) => {
     </button>
 
     <button class="popup-button mobile" @click="opened = !opened">
-      <svg width="19" height="19" viewBox="0 0 19 19">
+      <svg width="24" height="24" viewBox="0 0 24 24">
         <use href="@/assets/tabler-sprite.svg#tabler-list" />
       </svg>
     </button>

@@ -124,7 +124,7 @@ header .container {
   position: relative;
 
   @include md {
-    //padding: var(--size-1) 0;
+    padding: var(--size-2) 0;
   }
 
   @include md {
