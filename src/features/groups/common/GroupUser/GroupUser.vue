@@ -143,6 +143,7 @@ const getBadgeText = (id: number | string) => {
   @include button;
   padding: var(--size-8);
   transition: var(--fast);
+  width: 100%;
 
   &:hover,
   &:focus {
