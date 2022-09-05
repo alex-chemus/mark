@@ -34,6 +34,7 @@ const { push } = useRouter()
   outline: none;
   max-width: 100%;
   min-width: 0;
+  width: 100%;
 }
 
 .name {

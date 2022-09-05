@@ -156,9 +156,9 @@ onBeforeMount(() => document.title = 'Облако группы')
   @include flex(space-between, center);
   margin-bottom: var(--size-10);
 
-  @include md {
+  /*@include md {
     margin-bottom: var(--size-9);
-  }
+  }*/
 }
 
 .cloud-heading.hide-path {
