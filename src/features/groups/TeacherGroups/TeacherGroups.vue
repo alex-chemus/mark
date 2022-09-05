@@ -5,8 +5,8 @@ import {
 import { Key } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { UsersList, Alert } from '@/shared'
-import { GroupPopup, GroupsSidebar } from '@/features/groups/common'
+import { Alert } from '@/shared'
+import { GroupPopup, GroupsSidebar, GroupUsers } from '@/features/groups/common'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import useShareGroup from '@/features/groups/hooks/useShareGroup'
 
@@ -125,7 +125,13 @@ const sidebarOpened = ref(false)
         @click="sidebarOpened = !sidebarOpened"
       />
       <!-- eslint-disable -->
-      <users-list :users="groupInfo.users.students" />
+      <group-users
+        :users="groupInfo.users.students"
+        :headStudentID="groupInfo.headStudentID"
+        :deputyHeadStudentID="groupInfo.deputyHeadStudentID"
+        :groupID="groupInfo.groupID"
+        @update="reload"
+      />
     </section>
   </main>
 </template>

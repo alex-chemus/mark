@@ -1,13 +1,6 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 import { Badge } from '@/shared'
-//import { IGroupUser } from '../types'
-
-/*defineProps<{
-  img?: string,
-  fullName: string,
-  badgeText?: string
-}>()*/
 
 defineProps<{
   avatar: string,
@@ -19,17 +12,19 @@ defineProps<{
 </script>
 
 <template>
-  <div class="group-user">
-    <div v-if="avatar === ''" class="avatar" :class="hideOnShrink ? 'hide' : ''" />
-    <img v-else :src="avatar" alt="Avatar" class="avatar" :class="hideOnShrink ? 'hide' : ''" >
-    <div class="wrapper">
-      <p class="name">{{ fullName }}</p>
-      <div class="badge">
-        <badge v-if="badgeText" :text="badgeText" />
+  <section>
+    <div class="group-user">
+      <div v-if="avatar === ''" class="avatar" :class="hideOnShrink ? 'hide' : ''" />
+      <img v-else :src="avatar" alt="Avatar" class="avatar" :class="hideOnShrink ? 'hide' : ''" >
+      <div class="wrapper">
+        <p class="name">{{ fullName }}</p>
+        <div class="badge">
+          <badge v-if="badgeText" :text="badgeText" />
+        </div>
       </div>
     </div>
-  </div>
-  <div v-if="badgeText" class="mobile-badge">{{ badgeText }}</div>
+    <div v-if="badgeText" class="mobile-badge">{{ badgeText }}</div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
