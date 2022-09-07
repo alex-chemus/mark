@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-  defineProps, ref, onMounted, watch, inject
+  defineProps, ref, onMounted, watch, inject, defineEmits
 } from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
@@ -15,15 +15,26 @@ const props = defineProps<{
   groupInfo: IGroupInfo
 }>()
 
+const emit = defineEmits<{
+  (e: 'add'): void
+}>()
+
 const key = inject<Key>('key')
-const { dispatch, state } = useStore(key)
+const { state } = useStore(key)
 
 const { users, fetchUsers } = useFetchUsers()
 
 const loadTeachers = async () => {
   if (state.institution) {
     const uids = state.institution.additionalData.staff.teachers.map(i => i.userID).join(', ')
-    fetchUsers({ userIds: uids, excludeIds: props.groupInfo.users.teachers })
+    //fetchUsers({ userIds: uids, excludeIds: props.groupInfo.users.teachers })
+    const { teachers } = props.groupInfo.users
+    if (Array.isArray(teachers))
+      fetchUsers({ userIds: uids, excludeIds: teachers })
+    else fetchUsers({
+      userIds: uids,
+      excludeIds: Object.values(teachers)
+    })
   }
 }
 
@@ -45,12 +56,14 @@ watch(users, () => { // eslint-disable-line
   } as IListItem))
 })
 
+const opened = ref(false)
+
 const add = async () => {
   await addTeachers({ group: props.group })
-  dispatch('fetchInstituion')
+  //dispatch('fetchInstituion')
+  emit('add')
+  opened.value = false
 }
-
-const opened = ref(false)
 </script>
 
 <template>
@@ -60,7 +73,7 @@ const opened = ref(false)
 
   <section v-show="opened" class="add-modal">
     <div v-for="user in teachersList" :key="user.uid" class="teacher-wrapper">
-      <group-user
+      <user
         :avatar="user.avatar"
         :full-name="user.fullName"
         :hide-on-shrink="true"
@@ -71,7 +84,7 @@ const opened = ref(false)
       />
     </div>
     <div class="button-wrapper">
-      <button class="cancel-button" @click="opened = false">Отмета</button>
+      <button class="cancel-button" @click="opened = false">Отмена</button>
       <button class="fetch-button" @click="add">Добавить</button>
     </div>
   </section>

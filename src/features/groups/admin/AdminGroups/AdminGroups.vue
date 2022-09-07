@@ -84,6 +84,7 @@ watch(currentGroup, reload)
         <add-teacher
           :group="currentGroup"
           :group-info="groupInfo"
+          @add="reload"
         />
       </div>
     </section>
