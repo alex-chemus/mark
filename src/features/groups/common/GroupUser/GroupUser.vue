@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const key = inject<Key>('key')
-const { commit } = useStore(key)
+const { dispatch } = useStore(key)
 
 const opened = ref(false)
 
@@ -35,7 +35,7 @@ const setStatus = async (statusCode: 1 | 2 | 3, userID: number | string) => {
   })
 
   if (error) {
-    commit('setError', error as IError)
+    dispatch('setError', error as IError)
     console.log(error)
   } else {
     emit('update')

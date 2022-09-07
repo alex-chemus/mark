@@ -38,6 +38,7 @@ export interface IUserInfo {
     groupID: number,
     inGroup: boolean,
     groupRole: string // todo: сделать отдельно роли в группе
+    groupStatus: string
   },
   portfolio: {
     works: any[],
