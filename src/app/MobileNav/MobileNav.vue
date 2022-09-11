@@ -28,6 +28,14 @@ const selectRoutes = (...routes: string[]) => {
         </router-link>
       </li>
 
+      <li v-if="getters.roles?.includes('teacher')" class="list-item">
+        <router-link to="/attendance/user" :class="selectRoutes('/attendance/user')">
+          <svg width="24" height="24" viewBox="0 0 24 24">
+            <use href="@/assets/tabler-sprite.svg#tabler-list-check" />
+          </svg>
+        </router-link>
+      </li>
+
       <li class="list-item">
         <router-link to="/cloud" :class="selectRoutes('/cloud')">
           <svg width="24" height="24" viewBox="0 0 24 24">

@@ -48,10 +48,24 @@ watch(() => props.teacherIDs, fetchTeachers)
 
 const searchedTeachers = ref<number[] | null>(null)
 const getTeachers = computed(() => {
+  function compare(a: ITeacher, b: ITeacher) {
+    if (a.fullName < b.fullName) {
+      return -1;
+    }
+    if (a.fullName > b.fullName) {
+      return 1;
+    }
+    return 0;
+  }
+
+  if (!teachers.value) return null
+
   if (searchedTeachers.value === null)
-    return teachers.value
+    return [...teachers.value].sort(compare)
   else if (teachers.value)
-    return teachers.value.filter(t => searchedTeachers.value?.includes(t.id))
+    return teachers.value
+      .filter(t => searchedTeachers.value?.includes(t.id))
+      .sort(compare)
   else return null
 })
 </script>
@@ -62,16 +76,56 @@ const getTeachers = computed(() => {
       :teachers="teachers"
       @input="result => searchedTeachers = result"
     />
-    <div v-for="teacher in getTeachers" :key="teacher.id">
+    <div class="separator" />
+    <h2 class="title">Преподаватели</h2>
+    <button
+      v-for="teacher in getTeachers" :key="teacher.id"
+      class="checkbox"
+      @click="emit('select', teacher.id)"
+    >
       <checkbox
         :state="!!selectedIDs && selectedIDs.includes(teacher.id)"
-        @toggle="emit('select', teacher.id)"
       />
       <span>{{ teacher.fullName }}</span>
-    </div>
+    </button>
   </aside>
 </template>
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
+
+.separator {
+  width: 100%;
+  height: 1px;
+  background-color: var(--element-color);
+  margin: var(--size-9) 0;
+}
+
+.title {
+  font-family: var(--ff-montserrat);
+  font-size: var(--size-8);
+  font-weight: var(--fw-semibold);
+  color: var(--text-color-1);
+  margin-bottom: var(--size-8);
+
+  /*@include md {
+    font-size: var(--size-6);
+  }*/
+}
+
+.checkbox {
+  @include flex(flex-start, flex-start);
+  margin-bottom: var(--size-6);
+  @include button;
+
+  & > * {
+    margin-bottom: 0px;
+  }
+
+  span {
+    margin-left: var(--size-1);
+    word-break: normal;
+    text-align: left;
+  }
+}
 </style>

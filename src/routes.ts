@@ -9,6 +9,8 @@ const Invitation = () => import('@/pages/Invitation/Invitation.vue')
 const Auth = () => import('@/pages/Auth/Auth.vue')
 const NewReport = () => import('@/pages/NewReport/NewReport.vue')
 const Attendance = () => import('@/pages/Attendance/Attendance.vue')
+const Report = () => import('@/pages/Report/Report.vue')
+const EditReport = () => import('@/pages/EditReport/EditReport.vue')
 
 const routes = [
   { path: '/', component: Groups },
@@ -30,7 +32,11 @@ const routes = [
   { path: '/new-report/:groupID', component: NewReport },
   { path: '/new-report', component: NewReport },
   { path: '/attendance/group/:groupID', component: Attendance },
+  { path: '/attendance/group', component: Attendance },
   { path: '/attendance/user/:userID', component: Attendance },
+  { path: '/attendance/user', component: Attendance },
+  { path: '/report/:reportID', component: Report },
+  { path: '/edit-report/:reportID', component: EditReport },
   { path: '/:pathMatch(.*)*', component: NotFound },
 ]
 

@@ -32,9 +32,13 @@ const onInput = (e: Event) => {
 
 <template>
   <!-- eslint-disable-next-line -->
-  <input type="text" @input="onInput" :value="inputVal" />
+  <input type="text" @input="onInput" :value="inputVal" placeholder="Поиск" />
 </template>
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
+
+input {
+  @include input;
+}
 </style>

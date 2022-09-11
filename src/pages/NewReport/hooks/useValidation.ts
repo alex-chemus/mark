@@ -14,7 +14,7 @@ const useValidation = ({ router, route }: IParams) => {
     if (
       !store.getters.roles
       || !store.state.userInfo
-      || !store.state.institution
+      //|| !store.state.institution
     ) return
 
     const isHeadStudent = store.state.userInfo.institutionData.groupStatus === 'head_student'
@@ -36,6 +36,7 @@ const useValidation = ({ router, route }: IParams) => {
       return
     }
 
+    if (!store.state.institution) return
     const isAdminUU = store.getters.roles.includes('administrator_of_institution')
     if (isAdminUU) {
       if (store.state.institution.groups[0])
@@ -52,10 +53,12 @@ const useValidation = ({ router, route }: IParams) => {
     if (
       !store.getters.roles
       || !store.state.userInfo
-      || !store.state.institution
+      //|| !store.state.institution
+      || !route.path.startsWith('/new-report')
     ) return
 
     if (!route.params.groupID) {
+      console.log('push to starting route')
       pushToStartingRoute()
       return
     }
@@ -84,6 +87,7 @@ const useValidation = ({ router, route }: IParams) => {
       }
     }
 
+    if (!store.state.institution) return
     const isAdminUU = store.getters.roles.includes('administrator_of_institution')
     if (isAdminUU) {
       const hasGroup = store.state.institution.groups.includes(+(route.params.groupID as string))

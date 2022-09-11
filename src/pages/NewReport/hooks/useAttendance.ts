@@ -12,7 +12,7 @@ const useAttendance = ({ route }: IParams) => {
   const attendance = ref<IResponseAttendance[] | null>(null)
 
   const fetchAttendance = async (isValid: Ref<boolean>) => {
-    if (!isValid.value) return
+    if (!isValid.value || !route.params.groupID) return
     const { response, error } = await useFetch({
       path: 'markMethods/attendance.getAttendanceListInfo',
       data: {
@@ -34,7 +34,7 @@ const useAttendance = ({ route }: IParams) => {
       if (user.userID === userID)
         return { ...user, isPresent: !user.isPresent }
       else
-        return user
+        return { ...user }
     })
   }
 

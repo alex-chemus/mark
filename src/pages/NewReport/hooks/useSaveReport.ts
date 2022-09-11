@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import { useFetch, IError } from "@/shared"
 import { store } from "@/store"
 import { IResponseAttendance } from "@/features/reports"
@@ -38,12 +39,15 @@ const useSaveReport = () => {
     groupID: number
   }
 
+  const saveCount = ref(0)
+
   const saveReport = async ({ attendance, groupID }: IParams) => {
     await markAttendance(attendance.filter(s => s.isPresent), groupID)
     await removeAttendance(attendance.filter(s => !s.isPresent), groupID)
+    saveCount.value += 1
   }
 
-  return { saveReport }
+  return { saveReport, saveCount }
 }
 
 export default useSaveReport

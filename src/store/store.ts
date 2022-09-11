@@ -65,6 +65,7 @@ export const store = createStore<IState>({
       })
       if (error) {
         commit('setError', error as IError)
+        commit('incrementError')
         console.log(error)
         if (error.error_msg === 'Invalid token.')
           location.href = state.redirectUrl
@@ -77,6 +78,7 @@ export const store = createStore<IState>({
       const { response, error } = await useFetch({ path: 'markMethods/account.getInfo' })
       if (error) {
         commit('setError', error as IError)
+        commit('incrementError')
         console.log(error)
         alert('')
         if (error.error_msg === 'Invalid token.')

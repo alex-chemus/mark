@@ -71,6 +71,14 @@ watch(currentGroup, reload)
         @switch="value => navItem = value"
         @change-group="value => router.push({ path: `/groupID/${value}` })"
       />
+      <section v-if="navItem === 'Студенты'" class="attendance">
+        <button @click="router.push({ path: `/attendance/group/${groupInfo!.groupID}` })">
+          <svg width="24" height="24" viewBox="0 0 24 24">
+            <use href="@/assets/tabler-sprite.svg#tabler-list-check" />
+          </svg>
+          <span>Посещаемость</span>
+        </button>
+      </section>
       <group-users
         v-if="navItem === 'Студенты' && currentGroup"
         :users="groupInfo.users.students"
@@ -122,6 +130,24 @@ watch(currentGroup, reload)
   align-self: start;
   @include md {
     display: none;
+  }
+}
+
+.attendance {
+  width: fit-content;
+  padding-bottom: var(--size-3);
+  border-bottom: 1px solid var(--element-color);
+  margin-bottom: var(--size-9);
+
+  button {
+    @include button;
+    align-items: center;
+    @include gap(var(--size-1));
+
+    &:hover,
+    &:focus {
+      color: var(--color-accent);
+    }
   }
 }
 </style>

@@ -44,6 +44,7 @@ defineProps<{
   margin-top: var(--size-3);
   //text-align: right;
   padding-top: var(--size-1);
+  text-align: left;
 
   @include sm {
     display: block;
@@ -75,6 +76,11 @@ defineProps<{
   font-family: var(--ff-open-sans);
   font-size: var(--size-6);
   color: var(--text-color-1);
+  text-align: left;
+
+  @include md {
+    font-size: var(--size-5);
+  }
 }
 
 .badge {

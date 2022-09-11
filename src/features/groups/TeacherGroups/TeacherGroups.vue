@@ -125,6 +125,14 @@ const sidebarOpened = ref(false)
         @click="sidebarOpened = !sidebarOpened"
       />
       <!-- eslint-disable -->
+      <div class="attendance">
+        <button @click="router.push({ path: `/new-report/${route.params.groupID}` })">
+          <svg width="24" height="24" viewBox="0 0 24 24">
+            <use href="@/assets/tabler-sprite.svg#tabler-file-description" />
+          </svg>
+          <span>Составить отчет</span>
+        </button>
+      </div>
       <group-users
         :users="groupInfo.users.students"
         :headStudentID="groupInfo.headStudentID"
@@ -227,6 +235,7 @@ const sidebarOpened = ref(false)
   font-family: var(--ff-montserrat);
   font-size: var(--size-9);
   color: var(--text-color-1);
+  font-weight: var(--fw-semibold);
 
   @include md {
     font-size: var(--size-6);
@@ -259,6 +268,24 @@ const sidebarOpened = ref(false)
 
   @include md {
     display: none;
+  }
+}
+
+.attendance {
+  width: fit-content;
+  padding-bottom: var(--size-3);
+  border-bottom: 1px solid var(--element-color);
+  margin-bottom: var(--size-9);
+
+  button {
+    @include button;
+    align-items: center;
+    @include gap(var(--size-1));
+
+    &:hover,
+    &:focus {
+      color: var(--color-accent);
+    }
   }
 }
 </style>

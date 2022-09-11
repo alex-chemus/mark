@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import {
-  defineProps, defineEmits, ref, watch, onMounted, inject
+  defineProps, defineEmits, watch, onMounted, computed, ref
 } from 'vue'
-import { Key } from '@/store'
-import { useStore } from 'vuex'
-import { IError, useFetch } from '@/shared'
 import { IUserAttendance, IResponseAttendance } from '../types'
 import ReportUser from '../ReportUser/ReportUser.vue'
+import useUsers from '../hooks/useUsers'
 
 const props = defineProps<{
   usersData: IResponseAttendance[],
@@ -17,50 +15,58 @@ const emit = defineEmits<{
   (e: 'edit', userID: number): void
 }>()
 
-const key = inject<Key>('key')
-const { dispatch } = useStore(key)
+const { users, fetchUsers } = useUsers()
+onMounted(() => fetchUsers({ usersData: props.usersData }))
 
-const users = ref<IUserAttendance[] | null>(null)
-const setUsers = async () => {
-  const { response, error } = await useFetch({
-    path: 'methods/users.getInfo',
-    data: {
-      userIds: props.usersData.map(u => u.userID)
-    }
-  })
+const sortedUsers = ref<IUserAttendance[] | null>()
+watch(users, () => {
+  if (!users.value) return
+  const newUsers: IUserAttendance[] = []
 
-  if (error) {
-    dispatch('setError', error as IError)
-    console.log(error)
-  } else {
-    users.value = response.map((user: any) => ({
-      uid: +user.id,
-      fullName: `${user.lastName} ${user.firstName} ${user.patronymic}`,
-      avatar: user.additionalData.avatarData.avatarCompressed,
-      isPresent: props.usersData.some(u => u.userID === +user.id && u.isPresent)
-    } as IUserAttendance))
-    console.log(users.value)
+  for (let i = 0; i < users.value.length; i++) {
+    const { userID } = props.usersData[i]
+    const user = users.value.find(u => u.uid === userID)
+    if (user)
+      newUsers.push(user)
   }
-}
-onMounted(setUsers)
+
+  sortedUsers.value = newUsers
+})
 
 const updateUsers = () => {
-  if (!users.value) return
-  users.value = props.usersData.map((user, i) => {
-    return {
-      uid: user.userID,
-      fullName: `${user.lastName} ${user.firstName} ${user.patronymic}`,
-      avatar: users.value![i].avatar,
-      isPresent: user.isPresent
-    } as IUserAttendance
-  })
+  if (!sortedUsers.value) return
+  sortedUsers.value = [...props.usersData]
+    .map((user, i) => {
+      return {
+        uid: user.userID,
+        fullName: `${user.lastName} ${user.firstName} ${user.patronymic}`,
+        avatar: sortedUsers.value![i].avatar,
+        isPresent: user.isPresent
+      } as IUserAttendance
+    })
 }
 watch(() => props.usersData, updateUsers)
+
+const getUsers = computed(() => {
+  if (!sortedUsers.value) return null
+
+  function compare(a: IUserAttendance, b: IUserAttendance) {
+    if (a.fullName < b.fullName) {
+      return -1;
+    }
+    if (a.fullName > b.fullName) {
+      return 1;
+    }
+    return 0;
+  }
+
+  return [...sortedUsers.value].sort(compare)
+})
 </script>
 
 <template>
   <ul v-if="users" class="users-list">
-    <li v-for="user in users" :key="user.uid">
+    <li v-for="user in getUsers" :key="user.uid">
       <report-user
         :avatar="user.avatar"
         :full-name="user.fullName"
@@ -75,4 +81,15 @@ watch(() => props.usersData, updateUsers)
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
+
+.users-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  @include gap(var(--size-8), 'column');
+
+  @include md {
+    @include gap(var(--size-6), 'column');
+  }
+}
 </style>

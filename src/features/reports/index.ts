@@ -1,4 +1,8 @@
 export { type IUserAttendance } from './types'
 export { type IResponseAttendance } from './types'
+export { type IReportInfo } from './types'
 export { default as ReportUsers } from './ReportUsers/ReportUsers.vue'
 export { default as TeachersSidebar } from './TeachersSidebar/TeachersSidebar.vue'
+export { default as PresenceUsers } from './PresenceUsers/PresenceUsers.vue'
+export { default as AttendanceFilter } from './AttendanceFilter/AttendanceFilter.vue'
+export { default as useTime } from './hooks/useTime'

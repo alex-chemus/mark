@@ -13,9 +13,16 @@ const useUserValidation = ({ router, route }: IParams, isValid: Ref<boolean>) =>
     if (
       !store.getters.roles
       || !store.state.userInfo
-      || !store.state.institution
+      //|| !store.state.institution
     ) return
 
+    const isTeacher = store.getters.roles.includes('teacher')
+    if (isTeacher && store.state.userInfo.id) {
+      router.push({ path: `/attendance/user/${store.state.userInfo.id}` })
+      return
+    }
+
+    if (!store.state.institution) return
     const isAdminUU = store.getters.roles.includes('administrator_of_institution')
     if (isAdminUU) {
       const { teachers } = store.state.institution.additionalData.staff
@@ -26,13 +33,6 @@ const useUserValidation = ({ router, route }: IParams, isValid: Ref<boolean>) =>
       return
     }
 
-    const userID = +(route.params.userID as string)
-    const isTeacher = store.getters.roles.includes('teacher')
-    if (isTeacher && store.state.userInfo.id === userID) {
-      router.push({ path: `/attendance/user/${store.state.userInfo.id}` })
-      return
-    }
-
     router.push({ path: '/notfound' })
   }
 
@@ -40,7 +40,8 @@ const useUserValidation = ({ router, route }: IParams, isValid: Ref<boolean>) =>
     if (
       !store.getters.roles
       || !store.state.userInfo
-      || !store.state.institution
+      //|| !store.state.institution
+      || !route.path.startsWith('/attendance/user')
     ) return
 
     if (!route.params.userID) {
@@ -48,21 +49,22 @@ const useUserValidation = ({ router, route }: IParams, isValid: Ref<boolean>) =>
       return
     }
 
+    if (store.getters.roles.includes('teacher')) {
+      const userID = +(route.params.userID as string)
+      if (userID === store.state.userInfo.id) isValid.value = true
+      else pushToStartingRoute()
+      return
+    }
+
+    if (!store.state.institution) return
     const isAdminUU = store.getters.roles.includes('administrator_of_institution')
     if (isAdminUU) {
       const userID = +(route.params.userID as string)
       const { teachers } = store.state.institution.additionalData.staff
-      if (teachers.map(t => t.userID).includes(userID)) {
-        isValid.value = true
-        return
-      } else pushToStartingRoute()
-    }
-
-    const userID = +(route.params.userID as string)
-    if (userID === store.state.userInfo.id) {
-      isValid.value = true
+      if (teachers.map(t => t.userID).includes(userID)) isValid.value = true
+      else pushToStartingRoute()
       return
-    } else pushToStartingRoute()
+    }
 
     router.push({ path: '/notfound' })
   }
@@ -75,28 +77,27 @@ const useGroupValidation = ({ router, route }: IParams, isValid: Ref<boolean>) =
     if (
       !store.getters.roles
       || !store.state.userInfo
-      || !store.state.institution
+      //|| !store.state.institution
     ) return
-
-    if (store.getters.roles.includes('administrator_of_institution')) {
-      const { groups } = store.state.institution
-      if (groups.length) {
-        router.push({ path: `/attendance/group/${groups[0]}` })
-      } else {
-        router.push({ path: '/notfound' })
-      }
-      return
-    }
 
     const isStudent = !store.getters.roles.includes('teacher')
       && !store.getters.roles.includes('administrator_of_institution')
     if (isStudent) {
       const groups = store.state.userInfo.additionalData.inGroups
-      if (groups.length) {
+      if (groups.length)
         router.push({ path: `/attendance/group/${groups[0]}` })
-      } else {
+      else
         router.push({ path: '/notfound' })
-      }
+      return
+    }
+
+    if (!store.state.institution) return
+    if (store.getters.roles.includes('administrator_of_institution')) {
+      const { groups } = store.state.institution
+      if (groups.length)
+        router.push({ path: `/attendance/group/${groups[0]}` })
+      else
+        router.push({ path: '/notfound' })
       return
     }
 
@@ -107,7 +108,8 @@ const useGroupValidation = ({ router, route }: IParams, isValid: Ref<boolean>) =
     if (
       !store.getters.roles
       || !store.state.userInfo
-      || !store.state.institution
+      //|| !store.state.institution
+      || !route.path.startsWith('/attendance/group')
     ) return
 
     if (!route.params.groupID) {
@@ -115,27 +117,26 @@ const useGroupValidation = ({ router, route }: IParams, isValid: Ref<boolean>) =
       return
     }
 
-    if (store.getters.roles.includes('administrator_of_institution')) {
-      const group = +(route.params.groupID)
-      const { groups } = store.state.institution
-      if (groups.includes(group)) {
-        isValid.value = true
-        return
-      } else pushToStartingRoute()
-    }
-
     const isStudent = !store.getters.roles.includes('teacher')
       && !store.getters.roles.includes('administrator_of_institution')
     if (isStudent) {
       const group = +(route.params.groupID)
       const groups = store.state.userInfo.additionalData.inGroups
-      if (groups.includes(group)) {
-        isValid.value = true
-        return
-      } else pushToStartingRoute()
+      if (groups.includes(group)) isValid.value = true
+      else pushToStartingRoute()
+      return
     }
 
-    router.push({ path: 'notfound' })
+    if (!store.state.institution) return
+    if (store.getters.roles.includes('administrator_of_institution')) {
+      const group = +(route.params.groupID)
+      const { groups } = store.state.institution
+      if (groups.includes(group)) isValid.value = true
+      else pushToStartingRoute()
+      return
+    }
+
+    router.push({ path: '/notfound' })
   }
 
   return validateGroup
@@ -149,10 +150,18 @@ const useValidation = ({ router, route }: IParams) => {
 
   const validate = () => {
     if (route.path.startsWith('/attendance/group')) validateGroup()
-    else validateUser()
+    if (route.path.startsWith('/attendance/user')) validateUser()
   }
 
-  return { validate }
+  const validationDeps = [
+    () => store.getters.roles,
+    () => store.state.userInfo,
+    () => store.state.institution,
+    () => route.params.groupID,
+    () => route.params.userID
+  ]
+
+  return { validate, isValid, validationDeps }
 }
 
 export default useValidation
