@@ -16,7 +16,7 @@ const close = () => {
 const showAlert = () => {
   if (!button.value) return
   button.value.classList.remove('hidden')
-  setTimeout(close, 5000)
+  setTimeout(close, 4000)
 }
 
 onUpdated(showAlert)

@@ -5,12 +5,12 @@ import {
 import { Key } from '@/store'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { UsersList } from '@/shared'
+import { UsersList, Alert } from '@/shared'
 import { GroupNavItem } from '@/features/groups/types'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import { GroupUsers } from '@/features/groups/common'
 import StudentGroupNav from '../StudentGroupNav/StudentGroupNav.vue'
-import JoinGroup from '../JoinGroup/JoinGroup.vue'
+import MarkStudent from '../MarkStudent/MarkStudent.vue'
 
 const key = inject<Key>('key')
 const { state } = useStore(key)
@@ -50,7 +50,6 @@ watch(groupID, reload)
 onMounted(reload)
 
 const currentNav = ref<GroupNavItem>('Студенты')
-watch(currentNav, () => console.log(currentNav.value))
 
 const checkStatus = (studentID: number) => {
   /* eslint-disable */
@@ -60,9 +59,18 @@ const checkStatus = (studentID: number) => {
   else return
   /* eslint-enable */
 }
+
+const message = ref('')
+const messageCount = ref(0)
+
+const mark = (m: string) => {
+  message.value = m
+  messageCount.value += 1
+}
 </script>
 
 <template>
+  <alert :text="message" :observer="messageCount" />
   <div v-if="groupID === 0" class="no-groups">
     Вы не состоите ни в одной группе
   </div>
@@ -74,9 +82,16 @@ const checkStatus = (studentID: number) => {
     />
 
     <main class="student-group">
-      <template v-if="groupInfo && currentNav === 'Студенты'">
+      <template v-if="groupInfo && state.userInfo && currentNav === 'Студенты'">
+        <mark-student
+          :groupID="groupInfo.groupID"
+          :studentID="state.userInfo?.id"
+          :can-make-reports="groupInfo.headStudentID === state.userInfo.id
+            || groupInfo.deputyHeadStudentID === state.userInfo.id"
+          @mark="mark"
+        />
         <group-users
-          v-if="groupInfo?.headStudentID === state.userInfo?.id"
+          v-if="groupInfo.headStudentID === state.userInfo.id"
           :users="groupInfo?.users.students"
           :headStudentID="groupInfo?.headStudentID"
           :deputyHeadStudentID="groupInfo?.deputyHeadStudentID"

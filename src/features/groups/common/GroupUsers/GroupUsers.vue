@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import {
-  defineProps, defineEmits, onMounted, watch
+  defineProps, defineEmits, onMounted, watch, computed
 } from 'vue'
-import { useFetchUsers } from '@/shared'
+import { useFetchUsers, IUserItem } from '@/shared'
 import { IGroupUsers } from '@/features/groups'
 import GroupUser from '../GroupUser/GroupUser.vue'
 
@@ -44,12 +44,28 @@ watch(
     }
   }
 )
+
+const getUsers = computed(() => {
+  if (usersData.value === null) return null
+
+  function compare(a: IUserItem, b: IUserItem) {
+    if (a.fullName < b.fullName) {
+      return -1;
+    }
+    if (a.fullName > b.fullName) {
+      return 1;
+    }
+    return 0;
+  }
+
+  return [...usersData.value].sort(compare)
+})
 </script>
 
 <template>
   <ul v-if="usersData && usersData.length > 0" class="users-list">
     <group-user
-      v-for="user in usersData" :key="user.uid"
+      v-for="user in getUsers" :key="user.uid"
       :user="user"
       :headStudentID="headStudentID"
       :deputyHeadStudentID="deputyHeadStudentID"

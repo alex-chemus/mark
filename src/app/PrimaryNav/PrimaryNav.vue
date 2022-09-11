@@ -20,6 +20,10 @@ const selectRoutes = (...routes: string[]) => {
 const isAdmin = computed(() => {
   return getters.roles?.includes('administrator_of_institution')
 })
+
+const isTeacher = computed(() => {
+  return getters.roles?.includes('teacher')
+})
 </script>
 
 <template>
@@ -27,6 +31,10 @@ const isAdmin = computed(() => {
     <ul>
       <li :class="selectRoutes('/', '/groupID')">
         <router-link to="/">Группы</router-link>
+      </li>
+
+      <li v-if="isTeacher" :class="selectRoutes('/attendance/user')">
+        <router-link to="/attendance/user">Посещаемость</router-link>
       </li>
 
       <li :class="selectRoutes('/cloud')">

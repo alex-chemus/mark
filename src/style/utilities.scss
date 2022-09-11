@@ -107,6 +107,7 @@ $sm: 480px;
   }*/
 
   @include lg {
+    width: 100%;
     max-width: calc(100vw - 4rem);
   }
 
@@ -222,7 +223,7 @@ $sm: 480px;
   box-shadow: inset 0 0 0 1px var(--element-color);
   border: none;
   outline: none;
-  background-color: transparent;
+  background-color: var(--bg-color-1);
   color: var(--text-color-2);
   font-family: var(--ff-open-sans);
   font-size: var(--size-6);
@@ -289,7 +290,7 @@ $sm: 480px;
   border-radius: 100vmax;
   border: 1px solid var(--element-color);
   outline: none;
-  background-color: transparent;
+  background-color: var(--bg-color-1);
   width: 100%; 
   transition: var(--fast);
 
