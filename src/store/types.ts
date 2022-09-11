@@ -52,5 +52,6 @@ export interface IState {
   institution: IInstitution | null,
   error: IError,
   redirectUrl: string,
-  errorsCount: number
+  errorsCount: number,
+  redirectDomain: string
 }

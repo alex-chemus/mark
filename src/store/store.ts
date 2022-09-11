@@ -15,7 +15,8 @@ export const store = createStore<IState>({
       error_msg: ''
     },
     redirectUrl: `https://id.findcreek.com/auth/?redirectTo=${encodeURIComponent('https://mark.findcreek.com/auth')}`,
-    errorsCount: 0
+    errorsCount: 0,
+    redirectDomain: `https://id.findcreek.com/auth/?redirectTo=`
   },
 
   mutations: {
