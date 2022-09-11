@@ -91,8 +91,7 @@ const mark = (m: string) => {
           @mark="mark"
         />
         <group-users
-          v-if="groupInfo.headStudentID === state.userInfo.id
-            || groupInfo.deputyHeadStudentID === state.userInfo.id"
+          v-if="groupInfo.headStudentID === state.userInfo.id"
           :users="groupInfo?.users.students"
           :headStudentID="groupInfo?.headStudentID"
           :deputyHeadStudentID="groupInfo?.deputyHeadStudentID"
