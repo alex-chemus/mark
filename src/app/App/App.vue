@@ -26,10 +26,18 @@ onMounted(async () => {
 
     await dispatch('fetchUserInfo')
     await dispatch('fetchInstituion')
-  } else {
+    return
+  } /*else {
     // eslint-disable-next-line
-    location.href = state.redirectUrl
+    //location.href = state.redirectUrl
+  }*/
+
+  if (location.href.startsWith('https://mark.findcreek.com/invitation')) {
+    location.href = `${state.redirectDomain}${encodeURIComponent(location.href)}`
+    return
   }
+
+  location.href = state.redirectUrl
 })
 
 watch(
