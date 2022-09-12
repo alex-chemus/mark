@@ -4,6 +4,7 @@ import {
 } from 'vue'
 import { useStore } from 'vuex'
 import { Key } from '@/store'
+import { useRoute } from 'vue-router'
 
 import { Alert, Loader } from '@/shared'
 import Header from '../Header/Header.vue'
@@ -13,6 +14,8 @@ const key = inject<Key>('key')
 const {
   dispatch, state, commit, getters
 } = useStore(key)
+
+const route = useRoute()
 
 onMounted(async () => {
   //eslint-disable-next-line
@@ -32,8 +35,10 @@ onMounted(async () => {
     //location.href = state.redirectUrl
   }*/
 
-  if (location.href.startsWith('https://mark.findcreek.com/invitation')) {
-    location.href = `${state.redirectDomain}${encodeURIComponent(location.href)}`
+  if (location.href.startsWith('https://mark.findcreek.com/invitation') && route.params.id) {
+    //location.href = `${state.redirectDomain}${encodeURIComponent(location.href)}`
+    const redirectTo = encodeURI(`https://mark.findcreek.com/auth${route.params.id as string}`)
+    location.href = `${state.redirectDomain}${redirectTo}`
     return
   }
 

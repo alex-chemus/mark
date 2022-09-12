@@ -26,7 +26,7 @@ const logout = () => {
     <section v-show="opened" class="popup">
       <ul class="list">
         <li>
-          <a href="https://id.findcreek.com">
+          <a href="https://id.findcreek.com" target="_blank">
             <svg width="22" height="22" viewBox="0 0 22 22">
               <use href="@/assets/tabler-sprite.svg#tabler-settings" />
             </svg>
