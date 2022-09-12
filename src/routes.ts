@@ -30,6 +30,7 @@ const routes = [
   { path: '/settings', component: Works },
   { path: '/works', component: Works },
   { path: '/auth', component: Auth },
+  { path: '/auth/:id', component: Auth },
   { path: '/new-report/:groupID', component: NewReport },
   { path: '/new-report', component: NewReport },
   { path: '/attendance/group/:groupID', component: Attendance },

@@ -3,6 +3,8 @@ import {
   onBeforeMount, onMounted, watch, computed, ref
 } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { Alert } from '@/shared'
+import { GroupsFilter } from '@/features/reports'
 import useValidation from './hooks/useValidation'
 import useReports from './hooks/useReports'
 import useSortedReports from './hooks/useSortedReports'
@@ -16,7 +18,7 @@ const { validate, isValid, validationDeps } = useValidation({ route, router })
 onBeforeMount(validate)
 watch(validationDeps, validate)
 
-const { fetchReports, reportsInfo } = useReports()
+const { fetchReports, reportsInfo, isOver } = useReports()
 const getReports = () => {
   if (!isValid.value) return
   if (route.params.groupID) {
@@ -29,7 +31,7 @@ const getReports = () => {
     })
   }
 }
-onMounted(getReports)
+//onMounted(getReports)
 watch([
   isValid,
   () => route.params.groupID,
@@ -37,9 +39,24 @@ watch([
 ], getReports)
 
 const { sort, sortedReports } = useSortedReports({ reportsInfo })
+
+const currentGroupID = ref<null | number>(null)
+const filteredReports = computed(() => {
+  if (!sortedReports.value) return null
+  if (currentGroupID.value === null) return sortedReports.value
+  return sortedReports.value.filter(r => r.groupID === currentGroupID.value)
+})
+const groupsList = computed(() => {
+  if (!sortedReports.value) return null
+
+  return [...new Map(
+    sortedReports.value.map(r => [r.groupName, r])
+  ).values()].map(r => ({ groupName: r.groupName, groupID: r.groupID }))
+})
 </script>
 
 <template>
+  <alert text="Отчеты закончились!" :observer="isOver" />
   <nav>
     <div class="sort-group">
       <svg class="sort-icon" width="24" height="24" viewBox="0 0 24 24">
@@ -52,17 +69,25 @@ const { sort, sortedReports } = useSortedReports({ reportsInfo })
         Сначала старые
       </button>
     </div>
+    <div class="filter-wrapper" v-if="route.params.userID">
+      <groups-filter
+        v-if="groupsList"
+        :groups="groupsList"
+        :currentGroupID="currentGroupID"
+        @switch="groupID => currentGroupID = groupID"
+      />
+    </div>
   </nav>
   <div v-if="sortedReports && sortedReports.length === 0" class="no-reports">
     У вас нет отчетов
   </div>
-  <ul v-else-if="sortedReports" class="reports-list">
-    <li v-for="(report, i) in sortedReports" :key="i">
+  <ul v-else-if="filteredReports" class="reports-list">
+    <li v-for="(report, i) in filteredReports" :key="i">
       <router-link :to="`/report/${report.textID}`">
         <div>
           <span>{{ report.date }}</span>
           <span>{{ report.groupName }}</span>
-          <span>{{report.institutionData.shortName }}</span>
+          <span>{{ report.institutionData.shortName }}</span>
         </div>
         <svg width="22" height="22" viewBox="0 0 22 22">
           <use href="@/assets/tabler-sprite.svg#tabler-chevron-right" />
@@ -98,12 +123,18 @@ nav {
   margin-top: var(--size-12);
   margin-bottom: var(--size-15);
   border-bottom: 1px solid var(--element-color);
+  position: relative;
+  @include flex(space-between, flex-end);
 
   @include md {
     //margin: var(--size-9) 0 var(--size-11);
     margin-top: var(--size-9);
     margin-bottom: var(--size-11);
   }
+}
+
+.filter-wrapper {
+  padding-bottom: var(--size-3);
 }
 
 .sort-group {

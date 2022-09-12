@@ -58,7 +58,7 @@ const useReports = () => {
     }
   }
 
-  return { fetchReports, reportsInfo }
+  return { fetchReports, reportsInfo, isOver }
 }
 
 export default useReports
