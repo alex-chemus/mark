@@ -61,16 +61,23 @@ const selectRoutes = (...routes: string[]) => {
       </li>
     </ul>
   </nav>
+  <div class="div" />
 </template>
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
 
+.div {
+  height: 40px;
+}
+
 .mobile-nav {
   display: none;
   //@include container;
   height: 40px;
-  position: sticky;
+  //position: sticky;
+  position: fixed;
+  width: 100%;
   bottom: 0;
   //background-color: red;
   background-color: var(--bg-color-1);
@@ -86,15 +93,19 @@ const selectRoutes = (...routes: string[]) => {
   padding: 0;
   list-style: none;
   @include flex(stretch, center);
+  height: 100%;
 
 }
 
 .list-item {
   flex-grow: 1;
+  height: 100%;
+
   a {
     @include button-icon;
     color: var(--text-color-2);
     width: 100%;
+    height: 100%;
     @include flex(center, center);
 
     &.selected {

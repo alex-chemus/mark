@@ -1,7 +1,5 @@
-import { IUserItem } from "@/shared"
-
 export interface IResponseAttendance {
-  userID: number,
+  userID: number | string,
   firstName: string,
   lastName: string,
   patronymic: string,
@@ -9,8 +7,11 @@ export interface IResponseAttendance {
   status: string
 }
 
-export interface IUserAttendance extends IUserItem {
-  isPresent: boolean
+export interface IUserAttendance {
+  isPresent: boolean,
+  uid: string | number,
+  fullName: string,
+  avatar: string
 }
 
 export interface IReportInfo {
@@ -20,7 +21,7 @@ export interface IReportInfo {
   creatorID: number,
   date: string,
   students: {
-    userID: number,
+    userID: number | string,
     type: string,
     firstName: string,
     lastName: string,

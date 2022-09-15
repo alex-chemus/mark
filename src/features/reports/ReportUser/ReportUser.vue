@@ -6,7 +6,7 @@ import ReportCheckbox from '../ReportCheckbox/ReportCheckbox.vue'
 const props = defineProps<{
   avatar: string,
   fullName: string,
-  uid?: number,
+  uid?: number | string,
   badgeText?: string,
   isPresent: boolean
 }>()
@@ -19,7 +19,7 @@ const emit = defineEmits<{
 <template>
   <button class="report-user" @click="emit('toggle')">
     <report-checkbox :state="isPresent" />
-    <user :avatar="avatar" :full-name="fullName" :uid="uid" :badge-text="badgeText" />
+    <user :avatar="avatar" :full-name="fullName" :badge-text="badgeText" />
   </button>
 </template>
 

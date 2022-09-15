@@ -1,3 +1,5 @@
+import { IRobot } from "@/shared"
+
 export type GroupNavItem = 'Студенты' | 'Преподаватели'
 
 export interface IGroupButton {
@@ -15,7 +17,7 @@ export interface IGroupInfo {
   institutionID: number,
   users: {
     students: IGroupUsers,
-    robotos: IGroupUsers,
+    robots: IRobot[],
     teachers: IGroupUsers,
   },
   headStudentID: number,

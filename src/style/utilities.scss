@@ -102,9 +102,9 @@ $sm: 480px;
   width: calc(100vw -  4rem);
   margin: 0 auto;
 
-  /*@include xl {
-    max-width: calc(100% - 6rem);
-  }*/
+  @include xl {
+    max-width: calc(100vw - 6rem);
+  }
 
   @include lg {
     width: 100%;

@@ -18,12 +18,12 @@ defineProps<{
       <img v-else :src="avatar" alt="Avatar" class="avatar" :class="hideOnShrink ? 'hide' : ''" >
       <div class="wrapper">
         <p class="name">{{ fullName }}</p>
-        <div class="badge">
+        <div class="desktop-badge">
           <badge v-if="badgeText" :text="badgeText" />
         </div>
+        <div v-if="badgeText" class="mobile-badge">{{ badgeText }}</div>
       </div>
     </div>
-    <div v-if="badgeText" class="mobile-badge">{{ badgeText }}</div>
   </section>
 </template>
 
@@ -37,13 +37,13 @@ defineProps<{
 
 .mobile-badge {
   display: none;
-  border-top: 1px solid var(--element-color);
+  //border-top: 1px solid var(--element-color);
   font-family: var(--ff-roboto);
   font-size: var(--size-4);
   color: var(--text-color-2);
-  margin-top: var(--size-3);
+  margin-top: var(--size-1);
   //text-align: right;
-  padding-top: var(--size-1);
+  //padding-top: var(--size-1);
   text-align: left;
 
   @include sm {
@@ -55,6 +55,13 @@ defineProps<{
   @include flex;
   flex-wrap: wrap;
   @include gap(var(--size-3));
+  width: calc(100% - var(--size-13) - var(--size-3));
+
+  @include md {
+    @include gap();
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .avatar {
@@ -64,6 +71,7 @@ defineProps<{
   background-color: var(--element-color);
   flex-shrink: 0;
   border: 1px solid var(--element-color);
+  object-fit: cover;
 
   &.hide {
     @include sm {
@@ -78,12 +86,17 @@ defineProps<{
   color: var(--text-color-1);
   text-align: left;
 
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   @include md {
     font-size: var(--size-5);
   }
 }
 
-.badge {
+.desktop-badge {
   @include sm {
     display: none;
   }

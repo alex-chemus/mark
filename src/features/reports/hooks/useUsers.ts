@@ -14,7 +14,7 @@ const useUsers = () => {
     const { response, error } = await useFetch({
       path: 'methods/users.getInfo',
       data: {
-        userIds: usersData.map(u => u.userID)
+        userIds: usersData.map(u => u.userID).filter(id => typeof id === "number")
       }
     })
 
@@ -28,6 +28,17 @@ const useUsers = () => {
         avatar: user.additionalData.avatarData.avatarCompressed,
         isPresent: usersData.some(u => u.userID === +user.id && u.isPresent)
       } as IUserAttendance))
+      users.value?.push(
+        ...usersData
+          .filter(u => typeof u.userID === 'string')
+          .map(u => ({
+            uid: u.userID,
+            fullName: `${u.lastName} ${u.firstName} ${u.patronymic}`,
+            avatar: store.state.defaultAvatar,
+            isPresent: usersData.some(i => i.userID === u.userID && i.isPresent)
+          } as IUserAttendance))
+      )
+      console.log('fetch users: ', users.value)
     }
   }
 
