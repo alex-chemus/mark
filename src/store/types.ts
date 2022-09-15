@@ -53,5 +53,6 @@ export interface IState {
   error: IError,
   redirectUrl: string,
   errorsCount: number,
-  redirectDomain: string
+  redirectDomain: string,
+  defaultAvatar: string
 }

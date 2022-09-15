@@ -8,11 +8,11 @@ import useUsers from '../hooks/useUsers'
 
 const props = defineProps<{
   usersData: IResponseAttendance[],
-  checkStatus?: (userID: number) => 'Староста' | 'Зам. старосты' | undefined
+  checkStatus?: (userID: number | string) => 'Староста' | 'Зам. старосты' | undefined
 }>()
 
 const emit = defineEmits<{
-  (e: 'edit', userID: number): void
+  (e: 'edit', userID: number | string): void
 }>()
 
 const { users, fetchUsers } = useUsers()

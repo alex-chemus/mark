@@ -10,7 +10,7 @@ import useFetchInvitationInfo from './hooks/useFetchInvitationInfo'
 import { IGroupInfo } from './types'
 
 const key = inject<Key>('key')
-const { dispatch, getters } = useStore(key)
+const { dispatch, getters, state } = useStore(key)
 
 const { params } = useRoute()
 const router = useRouter()
@@ -31,7 +31,29 @@ onMounted(() => {
 })
 
 const groupInfo = ref<IGroupInfo | null>(null)
-watch(invitationInfo, async () => {
+const getGroupInfo = async () => {
+  // for a student
+  if (invitationInfo.value && state.userInfo) {
+    if (
+      state.userInfo.additionalData.inGroups.includes(invitationInfo.value.groupID)
+      && !getters.roles.includes('teacher')
+    ) {
+      router.push({ path: '/' })
+      return
+    }
+  }
+
+  // for a teacher
+  if (invitationInfo.value && state.userInfo) {
+    if (
+      state.userInfo.additionalData.inGroups.includes(invitationInfo.value.groupID)
+      || state.userInfo.additionalData.ownGroups.includes(invitationInfo.value.groupID)
+    ) {
+      router.push({ path: `/groupID/${invitationInfo.value.groupID}` })
+      return
+    }
+  }
+
   if (!invitationInfo.value) return
   const { response, error } = await useFetch({
     path: 'markMethods/group.getInfo',
@@ -42,7 +64,8 @@ watch(invitationInfo, async () => {
     dispatch('setError', error as IError)
     console.log(error)
   } else groupInfo.value = response[0] // eslint-disable-line
-})
+}
+watch([invitationInfo, () => state.userInfo], getGroupInfo)
 
 const join = async () => {
   const { error } = await useFetch({

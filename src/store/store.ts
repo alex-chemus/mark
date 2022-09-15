@@ -16,7 +16,8 @@ export const store = createStore<IState>({
     },
     redirectUrl: `https://id.findcreek.com/auth/?redirectTo=${encodeURIComponent('https://mark.findcreek.com/auth')}`,
     errorsCount: 0,
-    redirectDomain: `https://id.findcreek.com/auth/?redirectTo=`
+    redirectDomain: `https://id.findcreek.com/auth/?redirectTo=`,
+    defaultAvatar: 'https://findcreek.com/assets/img/unknown-user.png'
   },
 
   mutations: {
@@ -81,7 +82,6 @@ export const store = createStore<IState>({
         commit('setError', error as IError)
         commit('incrementError')
         console.log(error)
-        alert('')
         if (error.error_msg === 'Invalid token.')
           location.href = state.redirectUrl
       } else {

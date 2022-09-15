@@ -124,7 +124,8 @@ header .container {
   position: relative;
 
   @include md {
-    padding: var(--size-2) 0;
+    //padding: var(--size-2) 0;
+    padding: 0;
   }
 
   @include md {
@@ -157,6 +158,7 @@ header .container {
 
   @include md {
     font-size: var(--size-9);
+    height: 40px;
   }
 
   svg {

@@ -21,6 +21,8 @@ const { validate, validationDeps, isValid } = useValidation({ route, router })
 onBeforeMount(validate)
 watch(validationDeps, validate)
 
+onBeforeMount(() => console.log('new report'))
+
 const { attendance, fetchAttendance, updateAttendance } = useAttendance({ route })
 onMounted(() => fetchAttendance(isValid))
 watch([
@@ -62,7 +64,6 @@ const { createAndSendReport, createAndSaveCount, notSelectedCounter } = useCreat
 const sendReport = () => {
   if (isValid && attendance.value) {
     if (!getters.roles.includes('teacher')) {
-      console.log('create report')
       createAndSendReport({
         groupID: +(route.params.groupID as string),
         usersIDs: selectedIDs.value,
@@ -92,7 +93,8 @@ watch([
 
 const opened = ref(false)
 
-const checkStatus = (userID: number) => {
+const checkStatus = (userID: number | string) => {
+  if (typeof userID === 'string') return undefined
   if (userID === headStudentID.value) return 'Староста'
   if (userID === deputyStudentID.value) return 'Зам. старосты'
   return undefined

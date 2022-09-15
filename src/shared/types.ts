@@ -14,6 +14,13 @@ export interface IUserItem {
   avatar: string
 }
 
+export interface IRobot {
+  firstName: string,
+  lastName: string,
+  patronymic: string,
+  robotID: string
+}
+
 export interface IInstitution {
   id: number,
   shortName: string,

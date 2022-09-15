@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits, inject } from 'vue'
+import {
+  defineProps, defineEmits, inject, onMounted, ref, computed
+} from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { useFetch, IError } from '@/shared'
+import { IResponseAttendance } from '@/features/reports'
 
 const props = defineProps<{
   groupID: number,
@@ -12,13 +15,33 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'mark', message: string): void
+  (e: 'mark', message: string): void,
 }>()
 
 const router = useRouter()
 
 const key = inject<Key>('key')
 const { dispatch } = useStore(key)
+
+const isMarked = ref(false)
+const getMark = async () => {
+  const { error, response } = await useFetch({
+    path: 'markMethods/attendance.getAttendanceListInfo',
+    data: {
+      groupID: props.groupID
+    }
+  })
+
+  if (error) {
+    dispatch('setError', error as IError)
+    console.log(error)
+  } else {
+    isMarked.value = response.students
+      .find((s: IResponseAttendance) => s.userID === props.studentID)
+      .isPresent
+  }
+}
+onMounted(getMark)
 
 const markStudent = async () => {
   const { error } = await useFetch({
@@ -34,12 +57,35 @@ const markStudent = async () => {
     dispatch('setError', error as IError)
   } else {
     emit('mark', 'Вы отмечены!')
+    getMark()
+  }
+}
+
+const removeStudent = async () => {
+  const { error } = await useFetch({
+    path: 'markMethods/attendance.removeUserAttendance',
+    data: {
+      groupID: props.groupID,
+      usersIDs: props.studentID
+    }
+  })
+
+  if (error) {
+    console.log(error)
+    dispatch('setError', error as IError)
+  } else {
+    emit('mark', 'Отметка снята!')
+    getMark()
   }
 }
 
 const newReport = () => {
   router.push({ path: `/new-report/${props.groupID}` })
 }
+
+const getMarkMethod = computed(() => {
+  return isMarked.value ? removeStudent : markStudent
+})
 
 const history = () => {
   router.push({ path: `/attendance/group/${props.groupID}` })
@@ -54,9 +100,12 @@ const history = () => {
       </svg>
       <span>Составить отчет</span>
     </button>
-    <button v-else @click="markStudent">
-      <svg width="24" height="24" viewBox="0 0 24 24">
+    <button v-else @click="getMarkMethod">
+      <svg v-if="isMarked" width="24" height="24" viewBox="0 0 24 24">
         <use href="@/assets/tabler-sprite.svg#tabler-hand-stop" />
+      </svg>
+      <svg v-else width="24" height="24" viewBox="0 0 24 24">
+        <use href="@/assets/tabler-sprite.svg#tabler-hand-off" />
       </svg>
       <span>Отметиться</span>
     </button>

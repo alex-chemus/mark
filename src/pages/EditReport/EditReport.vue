@@ -38,7 +38,7 @@ watch(report, () => {
   }
 })
 
-const updateAttendance = (userID: number) => {
+const updateAttendance = (userID: number | string) => {
   if (!attendance.value) return
   attendance.value = attendance.value.map(user => {
     if (user.userID === userID)
@@ -48,9 +48,10 @@ const updateAttendance = (userID: number) => {
   })
 }
 
-const checkStatus = (userID: number) => {
+const checkStatus = (userID: number | string) => {
   /* eslint-disable */
   if (!groupInfo.value) return
+  if (typeof userID === 'string') return
   if (groupInfo.value.headStudentID === userID) return 'Староста'
   if (groupInfo.value.deputyHeadStudentID === userID) return 'Зам. старосты'
   return
@@ -63,8 +64,10 @@ const messageCount = ref(0)
 const editReport = async () => {
   if (!attendance.value) return
 
-  const presentStudents = attendance.value.filter(s => s.isPresent).map(s => s.userID)
-  const missingStudents = attendance.value.filter(s => !s.isPresent).map(s => s.userID)
+  const presentStudents = attendance.value
+    .filter(s => s.isPresent).map(s => s.userID)
+  const missingStudents = attendance.value
+    .filter(s => !s.isPresent).map(s => s.userID)
 
   const { error } = await useFetch({
     path: 'markMethods/attendance.editAttendanceReport',

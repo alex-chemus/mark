@@ -205,7 +205,12 @@ dd {
   }
 
   @include md {
-    margin-top: auto;
+    //margin-top: auto;
+    width: 70vw;
+    min-width: 250px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
   }
 }
 
