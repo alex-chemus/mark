@@ -6,11 +6,16 @@ import { useRoute, useRouter } from 'vue-router'
 import {
   IReportInfo, useTime, PresenceUsers, AttendanceFilter
 } from '@/features/reports'
+import { Key } from '@/store'
+import { useStore } from 'vuex'
 import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import useReport from './hooks/useReport'
 
 const route = useRoute()
 const router = useRouter()
+
+const key = inject<Key>('key')
+const { getters, state } = useStore(key)
 
 const { report, fetchReport } = useReport({ route })
 
@@ -35,6 +40,17 @@ const checkStatus = (userID: number) => {
   return
   /* eslint-enable */
 }
+
+const canEdit = computed(() => {
+  if (!state.userInfo || !groupInfo.value) return false
+  const isTeacher = getters.roles.includes('teacher')
+  const isAdmin = getters.roles.includes('administrator_of_institution')
+  //const isHeadStudent = state.userInfo.institutionData.groupStatus === 'head_student'
+  //const isDeputyStudent = state.userInfo.institutionData.groupStatus === 'deputy_head_student'
+  const isHeadStudent = state.userInfo.id === groupInfo.value.headStudentID
+  const isDeputyStudent = state.userInfo.id === groupInfo.value.deputyHeadStudentID
+  return isTeacher || isAdmin || isHeadStudent || isDeputyStudent
+})
 </script>
 
 <template>
@@ -53,7 +69,7 @@ const checkStatus = (userID: number) => {
     </div>
 
     <div class="desktop-filter">
-      <button class="edit-button" @click="router.push({ path: `/edit-report/${route.params.reportID}` })">
+      <button v-if="canEdit" class="edit-button" @click="router.push({ path: `/edit-report/${route.params.reportID}` })">
         <span>Редактировать</span>
         <svg width="24" height="24" viewBox="0 0 24 24">
           <use href="@/assets/tabler-sprite.svg#tabler-edit" />
