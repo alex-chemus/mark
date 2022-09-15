@@ -50,7 +50,7 @@ const openClass = computed(() => {
 
     <ul>
       <li :class="selectRoutes('/settings')">
-        <a href="https://id.findcreek.com" target="_blank">
+        <a href="https://id.findcreek.com?from=mark" target="_blank">
           <svg width="19" height="19" viewBox="0 0 19 19">
             <use href="@/assets/tabler-sprite.svg#tabler-settings" />
           </svg>
