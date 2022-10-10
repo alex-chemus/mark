@@ -39,11 +39,11 @@ onMounted(async () => {
   if (location.href.startsWith('https://mark.findcreek.com/invitation') && route.params.id) {
     //location.href = `${state.redirectDomain}${encodeURIComponent(location.href)}`
     const redirectTo = encodeURI(`https://mark.findcreek.com/auth${route.params.id as string}`)
-    location.href = `${state.redirectDomain}${redirectTo}`
-    return
+    //location.href = `${state.redirectDomain}${redirectTo}`
+    //return
   }
 
-  location.href = state.redirectUrl
+  //location.href = state.redirectUrl
 })
 
 watch(

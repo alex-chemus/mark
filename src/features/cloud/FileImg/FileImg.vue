@@ -14,18 +14,18 @@ const imageType = computed(() => {
   if (props.file.fileExtension === 'pdf') return 'pdf'
 
   if (
-    props.file.fileExtension === 'doc' ||
-    props.file.fileExtension === 'docx'
+    props.file.fileExtension === 'doc'
+    || props.file.fileExtension === 'docx'
   ) return 'doc'
 
   if (
-    props.file.fileExtension === 'xls' ||
-    props.file.fileExtension === 'xlsx'
+    props.file.fileExtension === 'xls'
+    || props.file.fileExtension === 'xlsx'
   ) return 'excel'
 
   if (
-    props.file.fileExtension === 'ppt' ||
-    props.file.fileExtension === 'pptx'
+    props.file.fileExtension === 'ppt'
+    || props.file.fileExtension === 'pptx'
   ) return 'presentation'
 
   if (['zip', 'rar', '7z', 'tar'].includes(props.file.fileExtension)) return 'archive'

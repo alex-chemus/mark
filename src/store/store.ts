@@ -93,8 +93,8 @@ export const store = createStore<IState>({
         commit('setError', error as IError)
         commit('incrementError')
         console.log(error)
-        if (error.error_msg === 'Invalid token.')
-          location.href = state.redirectUrl
+        /*if (error.error_msg === 'Invalid token.')
+          location.href = state.redirectUrl*/
       } else {
         commit('setInstitution', response as IInstitution)
       }
@@ -106,8 +106,8 @@ export const store = createStore<IState>({
         commit('setError', error as IError)
         commit('incrementError')
         console.log(error)
-        if (error.error_msg === 'Invalid token.')
-          location.href = state.redirectUrl
+        /*if (error.error_msg === 'Invalid token.')
+          location.href = state.redirectUrl*/
       } else {
         commit('setUserInfo', {
           id: response.findcreekID,

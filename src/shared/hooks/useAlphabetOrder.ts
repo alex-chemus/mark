@@ -1,7 +1,0 @@
-interface IParams {
-  
-}
-
-const useAlphabetOrder = () => {
-
-}
