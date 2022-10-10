@@ -2,14 +2,11 @@
 import {
   ref, inject, watch, onBeforeMount, onMounted, computed
 } from 'vue'
-import { Key } from '@/store'
+import { Key, IGroupInfo } from '@/store'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  UsersList, Alert, Robot, IRobot, useFetch, IError
-} from '@/shared'
+import { UsersList, Alert, Robot } from '@/shared'
 import { GroupNavItem } from '@/features/groups/types'
-import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import useRobots from '@/features/groups/hooks/useRobots'
 import { GroupUsers } from '@/features/groups/common'
 import StudentGroupNav from '../StudentGroupNav/StudentGroupNav.vue'
@@ -17,7 +14,7 @@ import MarkStudent from '../MarkStudent/MarkStudent.vue'
 import AddRobot from '../AddRobot/AddRobot.vue'
 
 const key = inject<Key>('key')
-const { state } = useStore(key)
+const { state, dispatch, getters } = useStore(key)
 
 const route = useRoute()
 const router = useRouter()
@@ -26,8 +23,6 @@ onBeforeMount(() => {
   if (route.params.groupID)
     router.push({ path: '/' })
 })
-
-const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 
 const groupID = ref<number | null>(null) // todo type
 const setGroupID = () => {
@@ -38,21 +33,17 @@ const setGroupID = () => {
     else groupID.value = 0
   }
 }
-
 onBeforeMount(setGroupID)
 watch(() => state.userInfo, setGroupID)
 
-const reload = () => {
-  if (typeof groupID.value === 'number' && groupID.value !== 0)
-    fetchGroupInfo({
-      currentGroup: groupID.value
-    })
+const groupInfo = ref<IGroupInfo | null>(null)
+const setGroupInfo = () => {
+  groupInfo.value = getters.getGroups(groupID.value)
 }
+onMounted(setGroupInfo)
+watch(() => state.groups, setGroupInfo)
 
-watch(groupID, reload)
-onMounted(reload)
-
-const { sortedRobots, deleteRobot } = useRobots({ groupInfo })
+const { sortedRobots, deleteRobot } = useRobots({ groupID })
 
 const currentNav = ref<GroupNavItem>('Студенты')
 
@@ -106,7 +97,6 @@ const isHeadOrDeputy = computed(() => {
           :headStudentID="groupInfo?.headStudentID"
           :deputyHeadStudentID="groupInfo?.deputyHeadStudentID"
           :groupID="groupInfo?.groupID"
-          @update="reload"
         />
         <users-list
           v-else
@@ -120,12 +110,12 @@ const isHeadOrDeputy = computed(() => {
               :full-name="`${robot.lastName} ${robot.firstName} ${robot.patronymic}`"
               :robotID="robot.robotID"
               :with-options="true"
-              @delete="groupID => deleteRobot(groupID, reload)"
+              @delete="groupID => deleteRobot(groupID, () => dispatch('useGroups'))"
             />
           </div>
           <add-robot
             :group-info="groupInfo"
-            @added="reload"
+            @added="dispatch('useGroups')"
           />
         </section>
       </template>

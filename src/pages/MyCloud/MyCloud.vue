@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import { onBeforeMount } from 'vue'
 import { CloudNav } from '@/features/cloud'
+
+onBeforeMount(() => document.title = 'Мое облако')
 </script>
 
 <template>

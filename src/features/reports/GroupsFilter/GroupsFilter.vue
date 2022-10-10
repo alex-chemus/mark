@@ -87,6 +87,7 @@ const currentGroupName = computed(() => {
 
   button {
     @include button;
+    font-weight: normal;
     padding: var(--size-2);
 
     &:hover,

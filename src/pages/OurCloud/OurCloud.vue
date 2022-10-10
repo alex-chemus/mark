@@ -8,6 +8,7 @@ import { useRoute } from 'vue-router'
 import {
   CloudNav, DirectoryPath, CloudControls, Folder, File
 } from '@/features/cloud'
+import { Loader } from '@/shared'
 import useFolderInfo from './hooks/useFolderInfo'
 
 const route = useRoute()
@@ -17,7 +18,7 @@ const { getters, state } = useStore(key)
 
 const folderID = ref<string | null>(null)
 const updateFolderID = () => {
-  if (route.params.folderID === '' || route.params.folderID === '0')
+  if (!route.params.folderID || route.params.folderID === '0')
     folderID.value = null
   else
     folderID.value = route.params.folderID as string
@@ -94,25 +95,35 @@ onBeforeMount(() => document.title = 'Облако группы')
         />
       </section>
 
-      <section class="content-grid">
-        <folder
-          v-for="folder in folderInfo.folders"
-          :key="folder.folderName"
-          :folder="folder"
-          :groupID="groupID"
-        />
-      </section>
+      <template v-if="folderInfo.folders.length !== 0 && folderInfo.folders.length !== 0">
+        <section class="content-grid">
+          <folder
+            v-for="folder in folderInfo.folders"
+            :key="folder.folderName"
+            :folder="folder"
+            :groupID="groupID"
+          />
+        </section>
 
-      <div class="separator" v-if="folderInfo.folders.length && folderInfo.files.length" />
+        <div class="separator" v-if="folderInfo.folders.length && folderInfo.files.length" />
 
-      <section v-if="folderInfo" class="content-grid --margin">
-        <file
-          v-for="file in folderInfo.files"
-          :key="file.fileName"
-          :file="file"
-        />
-      </section>
+        <section v-if="folderInfo" class="content-grid --margin">
+          <file
+            v-for="file in folderInfo.files"
+            :key="file.fileName"
+            :file="file"
+          />
+        </section>
+      </template>
+
+      <div v-else class="no-groups">
+        Директория пуста
+      </div>
     </template>
+
+    <div v-else-if="!folderInfo && groupID && inGroups" class="no-groups">
+      <loader />
+    </div>
 
     <div v-else-if="getters.roles.includes('administrator_of_institution') && !inGroups" class="no-groups">
       Группы еще не созданы

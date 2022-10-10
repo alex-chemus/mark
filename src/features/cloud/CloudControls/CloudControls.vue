@@ -70,7 +70,6 @@ const uploadFiles = async () => {
     for (let file of files) {
       const result = await uploadFile(file)
       if (result !== null) {
-        console.log(result)
         await dispatch('setError', result as IError)
         break
       }

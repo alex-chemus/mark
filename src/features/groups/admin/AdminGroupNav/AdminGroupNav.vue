@@ -76,21 +76,25 @@ const setSelection = (item: GroupNavItem) => {
       <alert :text="message" :observer="invitationLink" />
     </div>
 
-    <div v-show="sidebarOpened" class="sidebar-popup">
-      <groups-sidebar
-        v-if="groupsList"
-        :groupsIDs="groupsList"
-        :current-group="currentGroup"
-        @change-group="value => emit('change-group', value)"
+    <transition name="mobile-sidebar-animation">
+      <div v-show="sidebarOpened" class="sidebar-popup">
+        <groups-sidebar
+          v-if="groupsList"
+          :groupsIDs="groupsList"
+          :current-group="currentGroup"
+          @change-group="value => emit('change-group', value)"
+        />
+      </div>
+    </transition>
+    <transition name="mobile-backdrop-animation">
+      <!-- eslint-disable -->
+      <div
+        v-show="sidebarOpened"
+        class="sidebar-backdrop"
+        @click="sidebarOpened = !sidebarOpened"
       />
-    </div>
-    <!-- eslint-disable -->
-    <div
-      v-show="sidebarOpened"
-      class="sidebar-backdrop"
-      @click="sidebarOpened = !sidebarOpened"
-    />
-    <!-- eslint-disable -->
+      <!-- eslint-disable -->
+    </transition>
   </nav>
 </template>
 
@@ -197,5 +201,13 @@ li {
   @include md {
     display: flex;
   }
+}
+
+.mobile-sidebar-animation {
+  @include mobile-sidebar-animation;
+}
+
+.mobile-backdrop-animation {
+  @include mobile-backdrop-animation;
 }
 </style>

@@ -53,6 +53,8 @@ const groupsList = computed(() => {
     sortedReports.value.map(r => [r.groupName, r])
   ).values()].map(r => ({ groupName: r.groupName, groupID: r.groupID }))
 })
+
+onBeforeMount(() => document.title = 'Посещаемость')
 </script>
 
 <template>
@@ -62,11 +64,17 @@ const groupsList = computed(() => {
       <svg class="sort-icon" width="24" height="24" viewBox="0 0 24 24">
         <use href="@/assets/tabler-sprite.svg#tabler-arrows-sort" />
       </svg>
-      <button class="sort-button" :class="sort === 'latest' ? 'selected' : ''" @click="sort = 'latest'">
+      <button class="sort-button --mobile --no-margin" :class="sort === 'latest' ? 'selected' : ''" @click="sort = 'latest'">
+        Новые
+      </button>
+      <button class="sort-button --desktop" :class="sort === 'latest' ? 'selected' : ''" @click="sort = 'latest'">
         Сначала новые
       </button>
-      <button class="sort-button" :class="sort === 'oldest' ? 'selected' : ''" @click="sort = 'oldest'">
+      <button class="sort-button --desktop" :class="sort === 'oldest' ? 'selected' : ''" @click="sort = 'oldest'">
         Сначала старые
+      </button>
+      <button class="sort-button --mobile" :class="sort === 'oldest' ? 'selected' : ''" @click="sort = 'oldest'">
+        Старые
       </button>
     </div>
     <div class="filter-wrapper" v-if="route.params.userID">
@@ -138,11 +146,13 @@ nav {
 }
 
 .sort-group {
-  @include flex(flex-start, flex-end);
-  @include gap(var(--size-9));
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: fit-content;
+  grid-gap: var(--size-9);
 
   @include md {
-    @include gap(var(--size-8));
+    grid-gap: var(--size-8);
   }
 }
 
@@ -160,15 +170,25 @@ nav {
   padding-bottom: var(--size-3);
   transition: var(--fast);
 
-  &:first-of-type {
-    @include md {
-      margin-left: 0;
-    }
-  }
-
   &:hover,
   &:focus {
     color: var(--color-accent);
+  }
+
+  /*&.--no-margin {
+    margin-left: 0;
+  }*/
+
+  &.--desktop {
+    @include sm {
+      display: none;
+    }
+  }
+
+  &.--mobile {
+    @media (min-width: $sm) {
+      display: none;
+    }
   }
 }
 

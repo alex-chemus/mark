@@ -2,25 +2,22 @@
 import {
   ref, watch, inject, onMounted
 } from 'vue'
-import { Key } from '@/store'
+import { Key, IGroupInfo } from '@/store'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { UsersList } from '@/shared'
-import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import { GroupsSidebar, GroupUsers } from '@/features/groups/common'
 import { GroupNavItem } from '@/features/groups/types'
 import AdminGroupNav from '../AdminGroupNav/AdminGroupNav.vue'
 import AddTeacher from '../AddTeacher/AddTeacher.vue'
 
 const key = inject<Key>('key')
-const { state } = useStore(key)
+const { state, getters } = useStore(key)
 
 const route = useRoute()
 const router = useRouter()
 
 const navItem = ref<GroupNavItem>('Студенты')
-
-const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 
 const currentGroup = ref<number | null>(null)
 const setCurrentGroup = () => {
@@ -30,25 +27,20 @@ const setCurrentGroup = () => {
     if (route.params.groupID && state.institution.groups.includes(groupID)) {
       currentGroup.value = groupID
     } else {
-      console.log('push')
       router.push({ path: `/groupID/${state.institution.groups[0]}` })
     }
   }
 }
 onMounted(setCurrentGroup)
 watch([
-  () => state.institution?.groups,
+  () => state.institution,
   () => route.params.groupID
 ], setCurrentGroup)
 
-const reload = async () => {
-  if (currentGroup.value) {
-    fetchGroupInfo({
-      currentGroup: currentGroup.value
-    })
-  }
-}
-watch(currentGroup, reload)
+const groupInfo = ref<IGroupInfo | null>(null)
+watch([
+  () => state.groups, currentGroup
+], () => groupInfo.value = getters.getGroups(currentGroup.value))
 </script>
 
 <template>
@@ -85,14 +77,12 @@ watch(currentGroup, reload)
         :headStudentID="groupInfo.headStudentID"
         :deputyHeadStudentID="groupInfo.deputyHeadStudentID"
         :groupID="groupInfo.groupID"
-        @update="reload"
       />
       <div v-else-if="navItem === 'Преподаватели' && currentGroup">
         <users-list :users="groupInfo.users.teachers" />
         <add-teacher
           :group="currentGroup"
           :group-info="groupInfo"
-          @add="reload"
         />
       </div>
     </section>
@@ -126,6 +116,7 @@ watch(currentGroup, reload)
 
 .desktop-sidebar {
   @include sticky;
+  z-index: 1;
   @include scrollbar;
   align-self: start;
   @include md {

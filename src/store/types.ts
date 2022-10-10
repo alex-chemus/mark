@@ -1,30 +1,8 @@
-import { Role, IInstitution, IError } from "@/shared"
+import {
+  Role, IInstitution, IError, IRobot
+} from "@/shared"
 
 export interface IUserInfo {
-  /*id: number,
-  firstName: string,
-  lastName: string,
-  patronymic: string,
-  textID: string,
-  email: string,
-  additionalData: {
-    roles: Role[],
-    deleteAccount: boolean,
-    deleteAccountDate: string,
-    deleteAccountReason: string,
-    banAccount: boolean,
-    banAccountDate: string,
-    banAccountReason: string,
-    banAccountExpiration: string,
-    avatarData: {
-      avatar: string,
-      avatarCompressed: string,
-      avatarShiftX: number,
-      avatarShirtY: number,
-      avatarScale: number
-    },
-    sex: number,
-  },*/
   id: number,
   additionalData: {
     roles: Role[],
@@ -46,6 +24,34 @@ export interface IUserInfo {
   }
 }
 
+export type IGroupUsers = number[] | {
+  [key: string]: number
+}
+
+export interface IGroupInfo {
+  groupID: number,
+  groupName: string,
+  institutionID: number,
+  users: {
+    students: IGroupUsers,
+    robots: IRobot[],
+    teachers: IGroupUsers,
+  },
+  headStudentID: number,
+  deputyHeadStudentID: number,
+  additionalData: {
+    groupAvatar: string,
+    creationDate: string,
+    creatorFindcreekID: number,
+    facultyID: number,
+    departmentID: number,
+    enabledRoles: number,
+    headStudentCanManageCloud: boolean,
+    ownerType: string,
+    status: string
+  }
+}
+
 export interface IState {
   userInfo: IUserInfo | null,
   token: string | null,
@@ -54,5 +60,6 @@ export interface IState {
   redirectUrl: string,
   errorsCount: number,
   redirectDomain: string,
-  defaultAvatar: string
+  defaultAvatar: string,
+  groups: IGroupInfo[]
 }

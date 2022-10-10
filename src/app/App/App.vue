@@ -27,8 +27,9 @@ onMounted(async () => {
     const token = localStorage.getItem('token') as string
     commit('setToken', token)
 
-    await dispatch('fetchUserInfo')
+    /*await dispatch('fetchUserInfo')
     await dispatch('fetchInstituion')
+    dispatch('useGroups')*/
     return
   } /*else {
     // eslint-disable-next-line
@@ -51,9 +52,16 @@ watch(
     if (state.token) {
       await dispatch('fetchUserInfo')
       await dispatch('fetchInstituion')
+      dispatch('useGroups')
     }
   }
 )
+
+//onMounted(() => dispatch('useGroups'))
+/*watch([
+  () => state.userInfo,
+  () => state.institution
+], () => dispatch('useGroups'))*/
 
 const loaded = computed(() => {
   //return !!state.userInfo

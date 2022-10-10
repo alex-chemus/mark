@@ -98,7 +98,7 @@ const history = () => {
       <svg width="24" height="24" viewBox="0 0 24 24">
         <use href="@/assets/tabler-sprite.svg#tabler-file-description" />
       </svg>
-      <span>Составить отчет</span>
+      <span>Создать отчет посещаемости</span>
     </button>
     <button v-else @click="getMarkMethod">
       <svg v-if="isMarked" width="24" height="24" viewBox="0 0 24 24">

@@ -1,14 +1,11 @@
 <script lang="ts" setup>
 import {
-  ref, inject, onMounted, watch, computed
+  ref, inject, onMounted, watch, computed, onBeforeMount
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  IReportInfo, useTime, PresenceUsers, AttendanceFilter
-} from '@/features/reports'
-import { Key } from '@/store'
+import { PresenceUsers, AttendanceFilter } from '@/features/reports'
+import { Key, IGroupInfo } from '@/store'
 import { useStore } from 'vuex'
-import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import useReport from './hooks/useReport'
 
 const route = useRoute()
@@ -19,22 +16,22 @@ const { getters, state } = useStore(key)
 
 const { report, fetchReport } = useReport({ route })
 
-const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 
 onMounted(fetchReport)
 watch(() => route.params.reportID, fetchReport)
-watch(report, () => {
-  if (report.value) {
-    fetchGroupInfo({ currentGroup: report.value.groupID })
-  }
+
+const groupInfo = ref<IGroupInfo | null>(null)
+watch([report, () => state.groups], () => {
+  if (!report.value) return
+  groupInfo.value = getters.getGroups(report.value.groupID)
 })
 
 type Filter = 'all' | 'absent' | 'present'
 const filter = ref<Filter>('all')
 
-const checkStatus = (userID: number) => {
+const checkStatus = (userID: number | string) => {
   /* eslint-disable */
-  if (!groupInfo.value) return
+  if (!groupInfo.value || typeof userID === 'string') return
   if (groupInfo.value.headStudentID === userID) return 'Староста'
   if (groupInfo.value.deputyHeadStudentID === userID) return 'Зам. старосты'
   return
@@ -51,6 +48,8 @@ const canEdit = computed(() => {
   const isDeputyStudent = state.userInfo.id === groupInfo.value.deputyHeadStudentID
   return isTeacher || isAdmin || isHeadStudent || isDeputyStudent
 })
+
+onBeforeMount(() => document.title = 'Отчет посещаемости')
 </script>
 
 <template>

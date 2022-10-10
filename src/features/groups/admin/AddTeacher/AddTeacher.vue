@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const key = inject<Key>('key')
-const { state } = useStore(key)
+const { state, dispatch } = useStore(key)
 
 const { users, fetchUsers } = useFetchUsers()
 
@@ -60,8 +60,7 @@ const opened = ref(false)
 
 const add = async () => {
   await addTeachers({ group: props.group })
-  //dispatch('fetchInstituion')
-  emit('add')
+  dispatch('useGroups')
   opened.value = false
 }
 </script>

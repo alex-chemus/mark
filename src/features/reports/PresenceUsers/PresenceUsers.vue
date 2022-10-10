@@ -8,7 +8,7 @@ import PresenceUser from '../PresenceUser/PresenceUser.vue'
 
 const props = defineProps<{
   usersData: IResponseAttendance[],
-  checkStatus?: (userID: number) => 'Староста' | 'Зам. старосты' | undefined,
+  checkStatus?: (userID: number | string) => 'Староста' | 'Зам. старосты' | undefined,
   filter: 'all' | 'present' | 'absent'
 }>()
 

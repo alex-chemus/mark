@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits } from 'vue'
-import { IGroupButton } from '@/features/groups/types'
+import { IGroupInfo } from '@/store';
 
 const props = defineProps<{
-  groups: IGroupButton[]
+  groups: IGroupInfo[] | null
 }>()
 
 const emit = defineEmits<{
@@ -12,6 +12,8 @@ const emit = defineEmits<{
 
 const search = (e: Event) => {
   const { value } = e.target as HTMLInputElement
+
+  if (props.groups === null) return
 
   if (value === '') emit('search', [])
 

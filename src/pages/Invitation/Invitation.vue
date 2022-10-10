@@ -15,7 +15,7 @@ const { dispatch, getters, state } = useStore(key)
 const { params } = useRoute()
 const router = useRouter()
 
-onBeforeMount(() => document.title = 'Войти')
+onBeforeMount(() => document.title = 'Войти в группу')
 
 onBeforeMount(() => {
   if (params.id === '' || getters.roles?.includes('administrator_of_institution'))
@@ -79,6 +79,7 @@ const join = async () => {
   } else {
     await dispatch('fetchUserInfo')
     await dispatch('fetchInstituion')
+    await dispatch('useGroups')
     router.push({ path: '/' })
   }
 }

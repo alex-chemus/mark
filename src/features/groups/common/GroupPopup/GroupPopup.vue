@@ -61,43 +61,47 @@ const userCanLeave = computed(() => {
 </script>
 
 <template>
-  <section v-show="opened" class="group-popup">
-    <div class="mobile-group">
-      <h6>{{ groupInfo.groupName }}</h6>
-      <button v-if="userCanShare" class="share-button" @click="share">
+  <transition name="group-popup-animation">
+    <section v-show="opened" class="group-popup">
+      <div class="mobile-group">
+        <h6>{{ groupInfo.groupName }}</h6>
+        <button v-if="userCanShare" class="share-button" @click="share">
+          <svg width="22" height="22" viewBox="0 0 22 22">
+            <use href="@/assets/tabler-sprite.svg#tabler-share" />
+          </svg>
+        </button>
+        <alert :text="message" :observer="invitationLink" />
+      </div>
+
+      <dl class="list">
+        <dt v-if="getName">{{ getName }}</dt>
+        <dd v-if="getName">Учебное учреждение</dd>
+
+        <dt v-if="getFaculty">{{ getFaculty }}</dt>
+        <dd v-if="getFaculty">Специальность</dd>
+
+        <dt v-if="getDepartment">{{ getDepartment }}</dt>
+        <dd v-if="getDepartment">Факультет</dd>
+      </dl>
+
+      <button v-if="userCanLeave" class="logout-btn" @click="leaving = true">
         <svg width="22" height="22" viewBox="0 0 22 22">
-          <use href="@/assets/tabler-sprite.svg#tabler-share" />
+          <use href="@/assets/tabler-sprite.svg#tabler-logout" />
         </svg>
+        <span>Выйти из группы</span>
       </button>
-      <alert :text="message" :observer="invitationLink" />
-    </div>
+    </section>
+  </transition>
 
-    <dl class="list">
-      <dt v-if="getName">{{ getName }}</dt>
-      <dd v-if="getName">Учебное учреждение</dd>
-
-      <dt v-if="getFaculty">{{ getFaculty }}</dt>
-      <dd v-if="getFaculty">Специальность</dd>
-
-      <dt v-if="getDepartment">{{ getDepartment }}</dt>
-      <dd v-if="getDepartment">Факультет</dd>
-    </dl>
-
-    <button v-if="userCanLeave" class="logout-btn" @click="leaving = true">
-      <svg width="22" height="22" viewBox="0 0 22 22">
-        <use href="@/assets/tabler-sprite.svg#tabler-logout" />
-      </svg>
-      <span>Выйти из группы</span>
-    </button>
-  </section>
-
-  <!-- eslint-disable -->
-  <div 
-    v-show="opened"
-    class="backdrop" 
-    @click="emit('toggle')"
-  />
-  <!-- eslint-enable -->
+  <transition name="group-backdrop-animation">
+    <!-- eslint-disable -->
+    <div 
+      v-show="opened"
+      class="backdrop" 
+      @click="emit('toggle')"
+    />
+    <!-- eslint-enable -->
+  </transition>
 
   <leave-warning
     :is-open="leaving"
@@ -216,5 +220,17 @@ dd {
 
 .backdrop {
   @include backdrop(1);
+}
+
+.group-popup-animation {
+  @include md {
+    @include mobile-sidebar-animation;
+  }
+}
+
+.group-backdrop-animation {
+  @include md {
+    @include mobile-backdrop-animation;
+  }
 }
 </style>

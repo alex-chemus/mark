@@ -8,32 +8,39 @@ const props = defineProps<{
   observer?: any
 }>()
 
-const button = ref<HTMLButtonElement | null>(null)
+const hidden = ref(true)
+
+//const button = ref<HTMLButtonElement | null>(null)
 const close = () => {
-  button.value?.classList.add('hidden')
+  //button.value?.classList.add('hidden')
+  hidden.value = true
 }
 
 const showAlert = () => {
-  if (!button.value) return
-  button.value.classList.remove('hidden')
+  //if (!button.value) return
+  //button.value.classList.remove('hidden')
+  hidden.value = false
   setTimeout(close, 4000)
 }
+
 
 onUpdated(showAlert)
 watch(() => props.text, showAlert)
 </script>
 
 <template>
-  <button class="alert hidden" ref="button" @click="close" :title="text">
-    <span>{{ text }}</span>
-  </button>
+  <transition name="alert-animation">
+    <button v-show="!hidden" class="alert" @click="close" :title="text">
+      <span>{{ text }}</span>
+    </button>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
 @import '@/style/style.scss';
 
 .alert {
-  display: none;
+
   @include button;
   position: fixed;
   z-index: 10;
@@ -62,6 +69,21 @@ watch(() => props.text, showAlert)
 
   &.hidden {
     display: none;
+  }
+}
+
+.alert-animation {
+  &-enter-from,
+  &-leave-to {
+    transform: translate(-50%, calc(-2rem - 100%));
+  }
+
+  &-enter-active {
+    transition: transform .25s ease-out;
+  }
+
+  &-leave-active {
+    transition: transform .32s ease-in;
   }
 }
 </style>

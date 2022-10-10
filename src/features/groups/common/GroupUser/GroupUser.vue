@@ -15,10 +15,6 @@ const props = defineProps<{
   uid: number,
 }>()
 
-const emit = defineEmits<{
-  (e: 'update'): void
-}>()
-
 const key = inject<Key>('key')
 const { dispatch } = useStore(key)
 
@@ -38,7 +34,8 @@ const setStatus = async (statusCode: 1 | 2 | 3, userID: number | string) => {
     dispatch('setError', error as IError)
     console.log(error)
   } else {
-    emit('update')
+    //emit('update')
+    dispatch('useGroups')
     opened.value = false
   }
 }
@@ -96,6 +93,7 @@ const getBadgeText = (id: number | string) => {
   border-radius: 100vmax;
   outline-color: transparent;
   position: relative;
+  z-index: auto;
   @include flex(space-between, center);
 
   &:hover {
@@ -130,7 +128,7 @@ const getBadgeText = (id: number | string) => {
   position: absolute;
   top: 100%;
   right: 0;
-  z-index: 2;
+  z-index: 3;
   list-style: none;
   padding: 0;
   //padding: var(--size-8);

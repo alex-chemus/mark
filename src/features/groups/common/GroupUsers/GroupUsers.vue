@@ -13,10 +13,6 @@ const props = defineProps<{
   groupID: number
 }>()
 
-const emit = defineEmits<{
-  (e: 'update'): void
-}>()
-
 const { users: usersData, fetchUsers } = useFetchUsers()
 
 onMounted(() => {
@@ -66,14 +62,12 @@ const getUsers = computed(() => {
   <ul v-if="usersData && usersData.length > 0" class="users-list">
     <group-user
       v-for="user in getUsers" :key="user.uid"
-      :user="user"
       :headStudentID="headStudentID"
       :deputyHeadStudentID="deputyHeadStudentID"
       :groupID="groupID"
       :avatar="user.avatar"
       :full-name="user.fullName"
       :uid="user.uid"
-      @update="emit('update')"
     />
   </ul>
 </template>

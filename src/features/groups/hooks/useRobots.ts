@@ -1,14 +1,15 @@
 import { computed, Ref } from "vue"
 import { useFetch, IError, IRobot } from "@/shared"
-import { store } from "@/store"
-import { IGroupInfo } from '../types'
+import { store, IGroupInfo } from "@/store"
+//import { IGroupInfo } from '../types'
 
 interface IParams {
-  groupInfo: Ref<IGroupInfo | null>
+  //groupInfo: Ref<IGroupInfo | null>
+  groupID: Ref<number | null>
 }
 
-const useRobots = ({ groupInfo }: IParams) => {
-  const sortedRobots = computed(() => {
+const useRobots = ({ groupID }: IParams) => {
+  /*const sortedRobots = computed(() => {
     if (!groupInfo.value) return null
 
     function compare(a: IRobot, b: IRobot) {
@@ -24,15 +25,16 @@ const useRobots = ({ groupInfo }: IParams) => {
     }
 
     return [...groupInfo.value.users.robots].sort(compare)
-  })
+  })*/
 
   const deleteRobot = async (robotID: string, callback?: () => void) => {
-    if (!groupInfo.value) return
+    const groupInfo: IGroupInfo = store.getters.getGroups(groupID.value)
+    if (!groupInfo) return
 
     const { error } = await useFetch({
       path: 'markMethods/group.deleteRobots',
       data: {
-        groupID: groupInfo.value.groupID,
+        groupID: groupInfo.groupID,
         robotsIDs: robotID
       }
     })
@@ -44,6 +46,26 @@ const useRobots = ({ groupInfo }: IParams) => {
       if (callback) callback() // eslint-disable-line
     }
   }
+
+  const sortedRobots = computed(() => {
+    const groupInfo: IGroupInfo = store.getters.getGroups(groupID.value)
+
+    if (!groupID.value || !groupInfo) return null
+
+    function compare(a: IRobot, b: IRobot) {
+      const aFullName = `${a.lastName} ${a.firstName} ${a.patronymic}`
+      const bFullName = `${b.lastName} ${b.firstName} ${b.patronymic}`
+      if (aFullName < bFullName) {
+        return -1;
+      }
+      if (aFullName > bFullName) {
+        return 1;
+      }
+      return 0;
+    }
+
+    return [...groupInfo.users.robots].sort(compare)
+  })
 
   return { sortedRobots, deleteRobot }
 }

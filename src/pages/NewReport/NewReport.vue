@@ -1,27 +1,27 @@
 <script lang="ts" setup>
 import {
-  onBeforeMount, watch, onMounted, ref, inject
+  onBeforeMount, watch, onMounted, ref, inject, computed
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Key } from '@/store'
+import { Key, IGroupInfo } from '@/store'
 import { useStore } from 'vuex'
 import { Alert } from '@/shared'
 import { ReportUsers, TeachersSidebar } from '@/features/reports'
 import {
-  useValidation, useAttendance, useTeachers, useSaveReport, useCreateReport, useGroupInfo
+  useValidation, useAttendance, useSaveReport, useCreateReport
 } from './hooks'
 
 const router = useRouter()
 const route = useRoute()
 
 const key = inject<Key>('key')
-const { getters } = useStore(key)
+const { getters, state } = useStore(key)
 
 const { validate, validationDeps, isValid } = useValidation({ route, router })
 onBeforeMount(validate)
 watch(validationDeps, validate)
 
-onBeforeMount(() => console.log('new report'))
+onBeforeMount(() => document.title = 'Создать отчет')
 
 const { attendance, fetchAttendance, updateAttendance } = useAttendance({ route })
 onMounted(() => fetchAttendance(isValid))
@@ -30,16 +30,19 @@ watch([
   () => route.params.groupID
 ], () => fetchAttendance(isValid))
 
-const { teacherIDs, fetchTeachers } = useTeachers()
-const getTeachers = () => {
-  if (!getters.roles.includes('teacher')) {
-    fetchTeachers({
-      groupID: +(route.params.groupID as string), isValid
-    })
+const groupInfo = ref<IGroupInfo | null>(null)
+const headStudentID = ref<number | null>(null)
+const deputyStudentID = ref<number | null>(null)
+
+watch([isValid, () => route.params.groupID], () => {
+  const id = +(route.params.groupID as string)
+  if (!route.params.groupID) return
+  groupInfo.value = getters.getGroups(id)
+  if (groupInfo.value) {
+    headStudentID.value = groupInfo.value.headStudentID
+    deputyStudentID.value = groupInfo.value.deputyHeadStudentID
   }
-}
-onMounted(getTeachers)
-watch(isValid, getTeachers)
+})
 
 const selectedIDs = ref<number[]>([])
 const onTeacherSelect = (teacherID: number) => {
@@ -78,19 +81,6 @@ const sendReport = () => {
   }
 }
 
-const {
-  groupName, fetchGroupInfo, headStudentID, deputyStudentID
-} = useGroupInfo()
-const getGroupName = () => {
-  if (!isValid.value) return
-  fetchGroupInfo({ groupID: +(route.params.groupID as string) })
-}
-onMounted(getGroupName)
-watch([
-  isValid,
-  () => route.params.groupID
-], getGroupName)
-
 const opened = ref(false)
 
 const checkStatus = (userID: number | string) => {
@@ -99,6 +89,15 @@ const checkStatus = (userID: number | string) => {
   if (userID === deputyStudentID.value) return 'Зам. старосты'
   return undefined
 }
+
+const getTeachers = computed(() => {
+  if (!groupInfo.value) return []
+  //return groupInfo.value.users.teachers
+  if (Array.isArray(groupInfo.value.users.teachers))
+    return groupInfo.value.users.teachers
+  else
+    return Object.values(groupInfo.value.users.teachers)
+})
 </script>
 
 <template>
@@ -108,10 +107,10 @@ const checkStatus = (userID: number | string) => {
   <div v-if="attendance && !attendance.length" class="no-students">
     В этой группе нет студентов
   </div>
-  <main v-else-if="attendance && teacherIDs" class="main --sidebar">
+  <main v-else-if="attendance && groupInfo" class="main --sidebar">
     <section class="sidebar --desktop">
       <teachers-sidebar
-        :teacherIDs="teacherIDs"
+        :teacherIDs="getTeachers"
         :selectedIDs="selectedIDs"
         @select="onTeacherSelect"
       />
@@ -120,25 +119,29 @@ const checkStatus = (userID: number | string) => {
       <button @click="sendReport" class="button">Отправить отчет</button>
     </section>
     <section>
-      <div v-if="groupName" class="group-title">
-        <h3>{{ groupName }}</h3>
+      <div v-if="groupInfo.groupName" class="group-title">
+        <h3>{{ groupInfo.groupName }}</h3>
         <button class="mobile-sidebar-button" @click="opened = !opened">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use href="@/assets/tabler-sprite.svg#tabler-layout-sidebar-right" />
           </svg>
         </button>
-        <section v-if="opened" class="popup">
-          <teachers-sidebar
-            :teacherIDs="teacherIDs"
-            :selectedIDs="selectedIDs"
-            @select="onTeacherSelect"
-          />
-          <div class="separator" />
-          <button @click="save" class="button">Отметить</button>
-          <button @click="sendReport" class="button">Отправить отчет</button>
-        </section>
-        <!-- eslint-disable-next-line -->
-        <div v-if="opened" class="backdrop" @click="opened = !opened" />
+        <transition name="mobile-sidebar-animation">
+          <section v-if="opened" class="popup">
+            <teachers-sidebar
+              :teacherIDs="getTeachers"
+              :selectedIDs="selectedIDs"
+              @select="onTeacherSelect"
+            />
+            <div class="separator" />
+            <button @click="save" class="button">Отметить</button>
+            <button @click="sendReport" class="button">Отправить отчет</button>
+          </section>
+        </transition>
+        <transition name="mobile-backdrop-animation">
+          <!-- eslint-disable-next-line -->
+          <div v-if="opened" class="backdrop" @click="opened = !opened" />
+        </transition>
       </div>
       <report-users
         :users-data="attendance"
@@ -149,8 +152,8 @@ const checkStatus = (userID: number | string) => {
   </main>
 
   <template v-else-if="attendance">
-    <nav v-if="groupName" class="nav">
-      <h1>{{ groupName }}</h1>
+    <nav v-if="groupInfo" class="nav">
+      <h1>{{ groupInfo.groupName }}</h1>
     </nav>
     <main class="main-single">
       <report-users
@@ -292,5 +295,13 @@ const checkStatus = (userID: number | string) => {
 
 .main-single {
   @include small-container;
+}
+
+.mobile-sidebar-animation {
+  @include mobile-sidebar-animation;
+}
+
+.mobile-backdrop-animation {
+  @include mobile-backdrop-animation;
 }
 </style>

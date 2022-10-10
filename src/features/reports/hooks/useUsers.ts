@@ -38,7 +38,6 @@ const useUsers = () => {
             isPresent: usersData.some(i => i.userID === u.userID && i.isPresent)
           } as IUserAttendance))
       )
-      console.log('fetch users: ', users.value)
     }
   }
 

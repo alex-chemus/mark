@@ -2,16 +2,15 @@
 import {
   ref, inject, onBeforeMount, watch
 } from 'vue'
-import { Key } from '@/store'
+import { Key, IGroupInfo } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { Alert } from '@/shared'
 import { GroupPopup, GroupsSidebar, GroupUsers } from '@/features/groups/common'
-import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import useShareGroup from '@/features/groups/hooks/useShareGroup'
 
 const key = inject<Key>('key')
-const { state } = useStore(key)
+const { state, dispatch, getters } = useStore(key)
 
 const route = useRoute()
 const router = useRouter()
@@ -46,15 +45,12 @@ watch([
 ], getGroups)
 onBeforeMount(getGroups)
 
-const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
-const reload = () => {
-  if (currentGroup.value) {
-    fetchGroupInfo({
-      currentGroup: currentGroup.value
-    })
-  }
-}
-watch(currentGroup, reload)
+
+const groupInfo = ref<IGroupInfo | null>(null)
+
+watch([
+  () => state.groups, currentGroup
+], () => groupInfo.value = getters.getGroups(currentGroup.value))
 
 const { message, shareGroup, invitationLink } = useShareGroup()
 const share = () => groupInfo.value && shareGroup({
@@ -111,26 +107,32 @@ const sidebarOpened = ref(false)
         <alert :text="message" :observer="invitationLink" />
       </div>
 
-      <div v-show="sidebarOpened" class="sidebar-popup">
-        <groups-sidebar
-          :groupsIDs="groupsIDs"
-          :current-group="currentGroup"
-          @change-group="value => router.push({ path: `/groupID/${value}` })"
+      <transition name="sidebar-animation">
+        <div v-show="sidebarOpened" class="sidebar-popup">
+          <groups-sidebar
+            :groupsIDs="groupsIDs"
+            :current-group="currentGroup"
+            @change-group="value => router.push({ path: `/groupID/${value}` })"
+          />
+        </div>
+      </transition>
+
+      <transition name="backdrop-animation">
+        <!-- eslint-disable -->
+        <div
+          v-show="sidebarOpened"
+          class="sidebar-backdrop"
+          @click="sidebarOpened = !sidebarOpened"
         />
-      </div>
-      <!-- eslint-disable -->
-      <div
-        v-show="sidebarOpened"
-        class="sidebar-backdrop"
-        @click="sidebarOpened = !sidebarOpened"
-      />
-      <!-- eslint-disable -->
+        <!-- eslint-disable -->
+      </transition>
+
       <div class="attendance">
         <button @click="router.push({ path: `/new-report/${route.params.groupID}` })">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use href="@/assets/tabler-sprite.svg#tabler-file-description" />
           </svg>
-          <span>Составить отчет</span>
+          <span>Создать отчет посещаемости</span>
         </button>
       </div>
       <group-users
@@ -138,7 +140,6 @@ const sidebarOpened = ref(false)
         :headStudentID="groupInfo.headStudentID"
         :deputyHeadStudentID="groupInfo.deputyHeadStudentID"
         :groupID="groupInfo.groupID"
-        @update="reload"
       />
     </section>
   </main>
@@ -189,6 +190,7 @@ const sidebarOpened = ref(false)
 
 .desktop-sidebar {
   @include sticky;
+  z-index: 1;
   align-self: start;
   @include scrollbar;
   @include md {
@@ -287,5 +289,13 @@ const sidebarOpened = ref(false)
       color: var(--color-accent);
     }
   }
+}
+
+.sidebar-animation {
+  @include mobile-sidebar-animation('left');
+}
+
+.backdrop-animation {
+  @include mobile-backdrop-animation;
 }
 </style>

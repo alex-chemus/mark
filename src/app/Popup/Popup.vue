@@ -82,6 +82,7 @@ li {
   font-family: var(--ff-open-sans);
   font-size: var(--size-6);
   color: var(--text-color-1);
+  font-weight: var(--fw-medium);
   //transition: var(--fast);
   outline: none;
 
@@ -115,6 +116,7 @@ li {
   background-color: var(--text-color-2);
   font-family: var(--ff-open-sans);
   font-size: var(--size-6);
+  font-weight: var(--fw-medium);
   transition: var(--fast);
   cursor: pointer;
 

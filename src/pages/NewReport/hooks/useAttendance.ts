@@ -25,7 +25,6 @@ const useAttendance = ({ route }: IParams) => {
       store.dispatch('setError', error as IError)
     } else {
       attendance.value = response.students as IResponseAttendance[]
-      //console.log('fetched attendance', attendance.value.map(a => `${a.userID} ${a.isPresent}`))
     }
   }
 
@@ -37,7 +36,6 @@ const useAttendance = ({ route }: IParams) => {
       else
         return { ...user }
     })
-    //console.log('updated attendance: ', attendance.value.map(a => `${a.userID} ${a.isPresent}`))
   }
 
   return { attendance, fetchAttendance, updateAttendance }

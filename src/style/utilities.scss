@@ -163,7 +163,7 @@ $sm: 480px;
   }
 }
 
-@mixin popup($dir: 'left', $z: 2) {
+@mixin popup($dir: 'left', $z: 3) {
   width: 70vw;
   min-width: 250px;
   //min-height: 100vh;
@@ -189,7 +189,6 @@ $sm: 480px;
   z-index: $z;
   top: 0;
   left: 0;
-  z-index: 1;
   width: 100vw;
   height: 100vh;
   cursor: pointer;
@@ -208,6 +207,7 @@ $sm: 480px;
   cursor: pointer;
   font-family: var(--ff-open-sans);
   font-size: var(--size-6);
+  font-weight: var(--fw-medium);
   color: $tc;
   transition: var(--fast);
 
@@ -331,7 +331,7 @@ $sm: 480px;
   }
 }
 
-@mixin modal($z: 2) {
+@mixin modal($z: 4) {
   width: calc(100vw - 2rem);
   max-width: 500px;
   border-radius: 12px;
@@ -404,5 +404,41 @@ $sm: 480px;
 
   @include md {
     position: static;
+  }
+}
+
+@mixin mobile-sidebar-animation($dir: 'right') {
+  &-enter-active {
+    transition: transform .32s ease-out;
+  }
+
+  &-leave-active {
+    transition: transform .32s ease-out;
+  }
+
+  @if $dir == 'right' {
+    &-enter-from,
+    &-leave-to {
+      transform: translateX(100%);
+    }
+  } @else {
+    &-enter-from,
+    &-leave-to {
+      transform: translateX(-100%);
+    }
+  }
+}
+
+@mixin mobile-backdrop-animation {
+  &-enter-from,
+  &-leave-to,
+  &-enter-to,
+  &-leave-from {
+    background-color: rgb(0 0 0 / .3);
+  }
+  
+  &-enter-active,
+  &-leave-active {
+    transition: all .32s linear;
   }
 }

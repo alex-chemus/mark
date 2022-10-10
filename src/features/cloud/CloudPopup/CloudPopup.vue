@@ -2,24 +2,24 @@
 import {
   inject, ref, computed, onMounted, watch
 } from 'vue'
-import { Key } from '@/store'
+import { Key, IGroupInfo } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import useFetchGroupsList from '../hooks/useFetchGroupsList'
 
 const key = inject<Key>('key')
-const { state } = useStore(key)
+const { state, } = useStore(key)
 
 const route = useRoute()
 const router = useRouter()
 
 const opened = ref(false)
 
-const { groupsList, fetchGroupsList } = useFetchGroupsList()
+//const { groupsList, fetchGroupsList } = useFetchGroupsList()
 const updatePath = async () => {
-  await fetchGroupsList()
-  if (groupsList.value && !route.params.groupID) {
-    router.push({ path: `/cloud/groups/${groupsList.value[0].groupID}` })
+  //await fetchGroupsList()
+  if (state.groups && !route.params.groupID) {
+    router.push({ path: `/cloud/groups/${state.groups[0].groupID}` })
   }
 }
 onMounted(updatePath)
@@ -35,8 +35,8 @@ watch(
 )
 
 const currentGroupName = computed(() => {
-  if (!groupsList.value) return ''
-  return groupsList.value
+  if (!state.groups) return ''
+  return state.groups
     .find(group => group.groupID === groupID.value)
     ?.groupName
 })
@@ -48,7 +48,7 @@ const onclick = (id: number) => {
 </script>
 
 <template>
-  <div v-if="groupsList" class="popup-wrapper">
+  <div v-if="state.groups" class="popup-wrapper">
     <button class="popup-button desktop" @click="opened = !opened">
       <span>{{ currentGroupName }}</span>
       <svg
@@ -65,20 +65,24 @@ const onclick = (id: number) => {
       </svg>
     </button>
 
-    <ul class="popup" v-show="opened">
-      <li
-        v-for="group in groupsList" :key="group.groupID"
-        :class="group.groupID === groupID ? 'selected' : ''"
-      >
-        <!--<button @click="setCurrentGroup(group.groupID)">-->
-        <button @click="onclick(group.groupID)">
-          {{ group.groupName }}
-        </button>
-      </li>
-    </ul>
-    <!-- eslint-disable -->
-    <div v-show="opened" class="backdrop" @click="opened = !opened" />
-    <!-- eslint-enable -->
+    <transition name="popup-animation">
+      <ul class="popup" v-show="opened">
+        <li
+          v-for="group in state.groups" :key="group.groupID"
+          :class="group.groupID === groupID ? 'selected' : ''"
+        >
+          <!--<button @click="setCurrentGroup(group.groupID)">-->
+          <button @click="onclick(group.groupID)">
+            {{ group.groupName }}
+          </button>
+        </li>
+      </ul>
+    </transition>
+    <transition name="backdrop-animation">
+      <!-- eslint-disable -->
+      <div v-show="opened" class="backdrop" @click="opened = !opened" />
+      <!-- eslint-enable -->
+    </transition>
   </div>
 </template>
 
@@ -174,5 +178,17 @@ li button {
 
 .backdrop {
   @include backdrop;
+}
+
+.popup-animation {
+  @include md {
+    @include mobile-sidebar-animation;
+  }
+}
+
+.backdrop-animation {
+  @include md {
+    @include mobile-backdrop-animation;
+  }
 }
 </style>

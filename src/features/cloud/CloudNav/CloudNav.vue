@@ -22,7 +22,7 @@ onMounted(() => {
     currentNav.value = '/cloud/private'
 })
 
-const amogus = () => {
+const validate = () => {
   /*if (!state.userInfo?.additionalData.inGroups[0]) {
     router.push({ path: '/' })
   }*/
@@ -35,8 +35,8 @@ const amogus = () => {
     router.push({ path: `/cloud/groups/${state.userInfo.additionalData.inGroups[0]}` })
   }
 }
-onMounted(amogus)
-watch([() => state.userInfo, () => route.path], amogus)
+onMounted(validate)
+watch([() => state.userInfo, () => route.path], validate)
 
 const authorized = computed(() => {
   return getters.roles.includes('teacher')

@@ -5,7 +5,7 @@ import { User } from '@/shared'
 defineProps<{
   avatar: string,
   fullName: string,
-  uid?: number,
+  uid?: number | string,
   badgeText?: string,
   isPresent: boolean
 }>()
@@ -19,7 +19,7 @@ defineProps<{
     <svg v-else class="present" width="24" height="24" viewBox="0 0 24 24">
       <use href="@/assets/tabler-sprite.svg#tabler-circle-check" />
     </svg>
-    <user :avatar="avatar" :full-name="fullName" :uid="uid" :badge-text="badgeText" />
+    <user :avatar="avatar" :full-name="fullName" :badge-text="badgeText" />
   </div>
 </template>
 

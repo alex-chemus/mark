@@ -29,14 +29,6 @@ const useCreateReport = () => {
   const notSelectedCounter = ref(0)
 
   const createReport = async (groupID: number, usersIDs: number[] | undefined) => {
-    /*if ((!usersIDs || !usersIDs.length) && store.getters.roles.includes('teacher')) {
-      console.log('is teacher')
-      if (store.state.userInfo?.id)
-        usersIDs = [store.state.userInfo.id] // eslint-disable-line
-    } else if (!usersIDs || !usersIDs.length) {
-      notSelectedCounter.value += 1
-      return 'not selected'
-    }*/
     /* eslint-disable */
     if (store.getters.roles.includes('teacher')) {
       if (store.state.userInfo?.id)

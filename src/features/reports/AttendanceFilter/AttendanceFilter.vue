@@ -80,6 +80,7 @@ const selectFilter = (f: AttendanceFilter) => {
 
   button {
     @include button;
+    font-weight: normal;
     padding: var(--size-2);
 
     &:hover,

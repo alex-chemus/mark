@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits } from 'vue'
-import { IGroupButton } from '@/features/groups/types'
+import { IGroupInfo } from '@/store'
 
 const props = defineProps<{
-  groups: IGroupButton[],
+  groups: IGroupInfo[],
   currentGroup: number | null
 }>()
 

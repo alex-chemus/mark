@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import {
-  defineEmits, defineProps, computed, inject
+  defineEmits, defineProps, inject
 } from 'vue'
 import { Key } from '@/store'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { IAccountInfo } from '../types'
 
-const props = defineProps<{
+defineProps<{
   opened: boolean,
   accountInfo: IAccountInfo
 }>()
@@ -30,48 +30,47 @@ const route = useRoute()
 const selectRoutes = (...routes: string[]) => {
   return routes.includes(route.path) ? 'selected' : ''
 }
-
-const openClass = computed(() => {
-  return props.opened ? 'opened' : ''
-})
 </script>
 
 <template>
-  <section v-show="opened" class="mobile-popup" :class="openClass">
-    <div class="img-wrapper">
-      <img :src="accountInfo.avatar" alt="Avatar" class="img" />
-    </div>
+  <transition name="mobile-popup">
+    <section v-if="opened" class="mobile-popup">
+      <div class="img-wrapper">
+        <img :src="accountInfo.avatar" alt="Avatar" class="img" />
+      </div>
 
-    <h6 class="name">
-      {{ `${accountInfo.firstName} ${accountInfo.lastName} ${accountInfo.patronymic}` }}
-    </h6>
+      <h6 class="name">
+        {{ `${accountInfo.firstName} ${accountInfo.lastName} ${accountInfo.patronymic}` }}
+      </h6>
 
-    <div class="separator" />
+      <div class="separator" />
 
-    <ul>
-      <li :class="selectRoutes('/settings')">
-        <a href="https://id.findcreek.com?from=mark" target="_blank">
-          <svg width="19" height="19" viewBox="0 0 19 19">
-            <use href="@/assets/tabler-sprite.svg#tabler-settings" />
-          </svg>
-          <span>Настройки</span>
-        </a>
-      </li>
-    </ul>
-    <button class="logout-btn" @click="logout">
-      <svg width="19" height="19" viewBox="0 0 19 19">
-        <use href="@/assets/tabler-sprite.svg#tabler-logout" />
-      </svg>
-      <span>Выйти из аккаунта</span>
-    </button>
-  </section>
+      <ul>
+        <li :class="selectRoutes('/settings')">
+          <a href="https://id.findcreek.com?from=mark" target="_blank">
+            <svg width="19" height="19" viewBox="0 0 19 19">
+              <use href="@/assets/tabler-sprite.svg#tabler-settings" />
+            </svg>
+            <span>Настройки</span>
+          </a>
+        </li>
+      </ul>
+      <button class="logout-btn" @click="logout">
+        <svg width="19" height="19" viewBox="0 0 19 19">
+          <use href="@/assets/tabler-sprite.svg#tabler-logout" />
+        </svg>
+        <span>Выйти из аккаунта</span>
+      </button>
+    </section>
+  </transition>
   <!-- eslint-disable -->
-  <div 
-    v-show="opened"
-    class="backdrop" 
-    :class="openClass"
-    @click="emit('toggle')"
-  />
+  <transition name="mobile-backdrop">
+    <div 
+      v-if="opened"
+      class="backdrop" 
+      @click="emit('toggle')"
+    />
+  </transition>
   <!-- eslint-enable -->
 </template>
 
@@ -82,6 +81,11 @@ const openClass = computed(() => {
   @include popup('right');
   height: 100vh;
   @include flex(flex-start, flex-start, column);
+  @include mobile-sidebar-animation;
+}
+
+.mobile-backdrop {
+  @include mobile-backdrop-animation;
 }
 
 .img-wrapper {
@@ -93,6 +97,7 @@ const openClass = computed(() => {
   border-radius: 100vmax;
   border: 1px solid var(--element-color);
   width: var(--size-13);
+  object-fit: cover;
 }
 
 .name {
@@ -122,6 +127,7 @@ li {
   font-family: var(--ff-open-sans);
   font-size: var(--size-5);
   color: var(--text-color-1);
+  font-weight: var(--fw-medium);
   //transition: var(--fast);
   width: 100%;
 
@@ -162,7 +168,6 @@ li.selected {
 }
 
 .backdrop {
-
   @include backdrop('left');
 }
 
@@ -184,6 +189,7 @@ li.selected {
   background-color: var(--text-color-2);
   font-family: var(--ff-open-sans);
   font-size: var(--size-5);
+  font-weight: var(--fw-medium);
   transition: var(--fast);
   cursor: pointer;
 

@@ -222,6 +222,10 @@ header .container {
   }
 }
 
+svg {
+  transition: var(--fast);
+}
+
 svg.opened {
   transform: rotate(180deg);
 }

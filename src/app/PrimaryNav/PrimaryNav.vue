@@ -83,6 +83,7 @@ li {
     text-decoration: inherit;
     outline: none;
     padding: 0 var(--size-4);
+    font-weight: var(--fw-medium);
     @include flex(center, center);
 
     &:focus {

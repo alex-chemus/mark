@@ -1,29 +1,32 @@
 <script lang="ts" setup>
 import {
-  onMounted, watch, ref, inject
+  onMounted, watch, ref, inject, onBeforeMount
 } from 'vue'
-import { Key } from '@/store'
+import { Key, IGroupInfo } from '@/store'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { useFetch, IError, Alert } from '@/shared'
 import { ReportUsers, IResponseAttendance } from '@/features/reports'
-import useFetchGroupInfo from '@/features/groups/hooks/useFetchGroupInfo'
 import useReport from './hooks/useReport'
 
 const key = inject<Key>('key')
-const { dispatch } = useStore(key)
+const { dispatch, getters, state } = useStore(key)
 
 const route = useRoute()
 const router = useRouter()
 
 const { report, fetchReport } = useReport({ route })
-const { groupInfo, fetchGroupInfo } = useFetchGroupInfo()
 
 onMounted(fetchReport)
 watch(() => route.params.reportID, fetchReport)
 
-const attendance = ref<IResponseAttendance[] | null>(null)
+const groupInfo = ref<IGroupInfo | null>(null)
+watch([report, () => state.groups], () => {
+  if (!report.value) return
+  groupInfo.value = getters.getGroups(report.value.groupID)
+})
 
+const attendance = ref<IResponseAttendance[] | null>(null)
 watch(report, () => {
   if (report.value) {
     attendance.value = report.value.students.map(s => ({
@@ -34,7 +37,6 @@ watch(report, () => {
       isPresent: s.isPresent,
       status: s.status
     } as IResponseAttendance))
-    fetchGroupInfo({ currentGroup: report.value.groupID })
   }
 })
 
@@ -86,6 +88,8 @@ const editReport = async () => {
     messageCount.value += 1
   }
 }
+
+onBeforeMount(() => document.title = 'Редактировать отчет')
 </script>
 
 <template>

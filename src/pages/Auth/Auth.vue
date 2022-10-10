@@ -13,6 +13,7 @@ const { push } = useRouter()
 const route = useRoute()
 
 onBeforeMount(() => {
+  document.title = 'Авторизация'
   commit('setToken', location.search.split('=')[1])
   localStorage.setItem('token', location.search.split('=')[1])
   //push({ path: '/' })
