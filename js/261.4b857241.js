@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkmark"]=self["webpackChunkmark"]||[]).push([[261],{261:function(u,t,n){n.r(t),n.d(t,{default:function(){return c}});var r=n(252),a=n(201),e=(0,r.aZ)({__name:"Cloud",setup(u){const{push:t}=(0,a.tv)();return t({path:"/cloud/groups"}),()=>{}}});const s=e;var c=s}}]);
-//# sourceMappingURL=261.4b857241.js.map
