@@ -7,8 +7,11 @@ module.exports = defineConfig({
 const path = require('path')
 
 const publicPath = process.env.NODE_ENV === 'production'
-  ? 'https://mark.findcreek.com/'
+  //? 'https://mark.findcreek.com/'
+  ? '/mark/'
   : '/'
+
+//console.log('process env mode: ', process.env.NODE_ENV)
 
 module.exports = {
   configureWebpack: {
@@ -27,8 +30,17 @@ module.exports = {
     port: process.env.PORT
   },
 
+  publicPath,
+
   pwa: {
     workboxPluginMode: 'GenerateSW',
+    workboxOptions: {
+      navigateFallback: '/index.html',
+      //cleanupOutdatedCaches: true,
+      //importScripts: ['/inject-sw.js']
+      swDest: 'mark/service-worker.js',
+      //skipWaiting: true
+    },
     name: 'MARK',
     //manifestPath: '/manifest.json'
     themeColor: '#42A3FD',
@@ -36,32 +48,32 @@ module.exports = {
       display: 'standalone',
       icons: [
         {
-          src: "/icons/icon-512x512.png",
+          src: "/mark/icons/icon-512x512.png",
           sizes: "512x512",
           type: "image/png"
         },
         {
-          src: "/icons/icon-384x384.png",
+          src: "/mark/icons/icon-384x384.png",
           sizes: "384x384",
           type: "image/png"
         },
         {
-          src: "/icons/icon-256x256.png",
+          src: "/mark/icons/icon-256x256.png",
           sizes: "256x256",
           type: "image/png"
         },
         {
-          src: "/icons/icon-192x192.png",
+          src: "/mark/icons/icon-192x192.png",
           sizes: "192x192",
           type: "image/png"
         },
         {
-          src: "/icons/icon-144x144.png",
+          src: "/mark/icons/icon-144x144.png",
           sizes: "144x144",
           type: "image/png"
         },
         {
-          src: "/icons/icon-96x96.png",
+          src: "/mark/icons/icon-96x96.png",
           sizes: "96x96",
           type: "image/png"
         }
